@@ -5,11 +5,11 @@ namespace ScheduleService.Models;
 
 public partial class Feedback
 {
-    public string FeedbackId { get; set; } = null!;
+    public int FeedbackId { get; set; }
 
-    public string DoctorId { get; set; } = null!;
+    public int DoctorId { get; set; }
 
-    public string PatientId { get; set; } = null!;
+    public int PatientId { get; set; }
 
     public DateTime FeedbackDate { get; set; }
 

@@ -5,15 +5,15 @@ namespace ScheduleService.Models;
 
 public partial class Blog
 {
-    public string BlogId { get; set; } = null!;
+    public int BlogId { get; set; }
 
-    public string UserId { get; set; } = null!;
+    public int UserId { get; set; }
 
     public string Context { get; set; } = null!;
 
     public DateTime WritingDate { get; set; }
 
-    public DateTime PushlishedDate { get; set; }
+    public DateTime PublishedDate { get; set; }
 
     public bool IsDraft { get; set; }
 
