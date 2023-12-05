@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BlogService.Models;
+namespace UserService.Models;
 
 public partial class MedicalExaminationSchedule
 {
-    public string ScheduleId { get; set; } = null!;
+    public int ScheduleId { get; set; }
 
-    public string DoctorId { get; set; } = null!;
+    public int DoctorId { get; set; }
 
-    public string PatientId { get; set; } = null!;
+    public int PatientId { get; set; }
 
     public DateTime Date { get; set; }
 

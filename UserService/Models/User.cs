@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BlogService.Models;
+namespace UserService.Models;
 
 public partial class User
 {
-    public string UserId { get; set; } = null!;
+    public int UserId { get; set; }
 
-    public string RoleId { get; set; } = null!;
+    public int RoleId { get; set; }
 
     public string FirstName { get; set; } = null!;
 
@@ -39,7 +39,7 @@ public partial class User
 
     public string? StudentCode { get; set; }
 
-    public string? Univercity { get; set; }
+    public string? University { get; set; }
 
     public bool IsActive { get; set; }
 

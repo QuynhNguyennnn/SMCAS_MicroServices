@@ -5,13 +5,13 @@ namespace BlogService.Models;
 
 public partial class ChatHistory
 {
-    public string ChatHistoryId { get; set; } = null!;
+    public int ChatHistoryId { get; set; }
 
-    public string ChatId { get; set; } = null!;
+    public int ChatId { get; set; }
 
-    public string ReceiverId { get; set; } = null!;
+    public int ReceiverId { get; set; }
 
-    public string SenderId { get; set; } = null!;
+    public int SenderId { get; set; }
 
     public string Message { get; set; } = null!;
 

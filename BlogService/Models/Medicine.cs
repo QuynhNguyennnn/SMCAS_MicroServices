@@ -5,13 +5,13 @@ namespace BlogService.Models;
 
 public partial class Medicine
 {
-    public string MedicineId { get; set; } = null!;
+    public int MedicineId { get; set; }
 
-    public string UserId { get; set; } = null!;
+    public int UserId { get; set; }
 
-    public string UnitId { get; set; } = null!;
+    public int UnitId { get; set; }
 
-    public string CodeId { get; set; } = null!;
+    public int CodeId { get; set; }
 
     public string MedicineName { get; set; } = null!;
 
@@ -22,8 +22,6 @@ public partial class Medicine
     public bool IsActive { get; set; }
 
     public virtual MedicineCode Code { get; set; } = null!;
-
-    public virtual ICollection<MedicineExaminatedRecord> MedicineExaminatedRecords { get; set; } = new List<MedicineExaminatedRecord>();
 
     public virtual Unit Unit { get; set; } = null!;
 

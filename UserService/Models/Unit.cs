@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BlogService.Models;
+namespace UserService.Models;
 
 public partial class Unit
 {
-    public string UnitId { get; set; } = null!;
+    public int UnitId { get; set; }
 
     public string UnitName { get; set; } = null!;
 

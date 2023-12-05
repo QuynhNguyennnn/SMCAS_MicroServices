@@ -5,17 +5,13 @@ namespace BlogService.Models;
 
 public partial class MedicineExaminatedRecord
 {
-    public string Meid { get; set; } = null!;
+    public int Meid { get; set; }
 
-    public string RecordId { get; set; } = null!;
+    public int RecordId { get; set; }
 
-    public string MedicineId { get; set; } = null!;
+    public int MedicineId { get; set; }
 
     public int Quantity { get; set; }
 
     public bool IsActive { get; set; }
-
-    public virtual Medicine Medicine { get; set; } = null!;
-
-    public virtual ExaminatedRecord Record { get; set; } = null!;
 }

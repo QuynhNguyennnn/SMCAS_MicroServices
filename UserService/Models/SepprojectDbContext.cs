@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace BlogService.Models;
+namespace UserService.Models;
 
-public partial class CapstoneProjectDbContext : DbContext
+public partial class SepprojectDbContext : DbContext
 {
-    public CapstoneProjectDbContext()
+    public SepprojectDbContext()
     {
     }
 
-    public CapstoneProjectDbContext(DbContextOptions<CapstoneProjectDbContext> options)
+    public SepprojectDbContext(DbContextOptions<SepprojectDbContext> options)
         : base(options)
     {
     }
@@ -41,7 +41,7 @@ public partial class CapstoneProjectDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("server=LAPOFQUYNH; database = CapstoneProjectDB;uid=sa;pwd=123456;TrustServerCertificate=true;");
+        => optionsBuilder.UseSqlServer("server=LAPOFQUYNH; database = SEPProjectDB;uid=sa;pwd=123456;TrustServerCertificate=true;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -49,16 +49,8 @@ public partial class CapstoneProjectDbContext : DbContext
         {
             entity.ToTable("Blog");
 
-            entity.Property(e => e.BlogId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
             entity.Property(e => e.Context).IsUnicode(false);
-            entity.Property(e => e.IsActive).HasColumnName("isActive");
-            entity.Property(e => e.IsDraft).HasColumnName("isDraft");
-            entity.Property(e => e.PushlishedDate).HasColumnType("date");
-            entity.Property(e => e.UserId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.PublishedDate).HasColumnType("date");
             entity.Property(e => e.WritingDate).HasColumnType("date");
 
             entity.HasOne(d => d.User).WithMany(p => p.Blogs)
@@ -71,18 +63,8 @@ public partial class CapstoneProjectDbContext : DbContext
         {
             entity.ToTable("Chat");
 
-            entity.Property(e => e.ChatId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
             entity.Property(e => e.ChatDate).HasColumnType("date");
-            entity.Property(e => e.DoctorId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
             entity.Property(e => e.EndTime).HasColumnType("datetime");
-            entity.Property(e => e.IsActive).HasColumnName("isActive");
-            entity.Property(e => e.PatientId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
             entity.Property(e => e.StartTime).HasColumnType("datetime");
             entity.Property(e => e.TotalTime)
                 .HasMaxLength(50)
@@ -103,20 +85,7 @@ public partial class CapstoneProjectDbContext : DbContext
         {
             entity.ToTable("ChatHistory");
 
-            entity.Property(e => e.ChatHistoryId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.ChatId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.IsActive).HasColumnName("isActive");
             entity.Property(e => e.Message).IsUnicode(false);
-            entity.Property(e => e.ReceiverId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.SenderId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
             entity.Property(e => e.SendingTime).HasColumnType("datetime");
 
             entity.HasOne(d => d.Chat).WithMany(p => p.ChatHistories)
@@ -131,23 +100,10 @@ public partial class CapstoneProjectDbContext : DbContext
 
             entity.ToTable("ExaminatedRecord");
 
-            entity.Property(e => e.RecordId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
             entity.Property(e => e.BloodPressure).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.DoctorId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.IsActive).HasColumnName("isActive");
             entity.Property(e => e.Note).IsUnicode(false);
-            entity.Property(e => e.PatientId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
             entity.Property(e => e.RespirationRate).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.SpO2).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.StaffId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
             entity.Property(e => e.Temperature).HasColumnType("decimal(18, 1)");
 
             entity.HasOne(d => d.Doctor).WithMany(p => p.ExaminatedRecordDoctors)
@@ -169,18 +125,8 @@ public partial class CapstoneProjectDbContext : DbContext
         {
             entity.ToTable("Feedback");
 
-            entity.Property(e => e.FeedbackId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.DoctorId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
             entity.Property(e => e.FeedbackDate).HasColumnType("date");
-            entity.Property(e => e.IsActive).HasColumnName("isActive");
             entity.Property(e => e.Message).IsUnicode(false);
-            entity.Property(e => e.PatientId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
 
             entity.HasOne(d => d.Doctor).WithMany(p => p.FeedbackDoctors)
                 .HasForeignKey(d => d.DoctorId)
@@ -199,17 +145,7 @@ public partial class CapstoneProjectDbContext : DbContext
 
             entity.ToTable("MedicalExaminationSchedule");
 
-            entity.Property(e => e.ScheduleId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
             entity.Property(e => e.Date).HasColumnType("date");
-            entity.Property(e => e.DoctorId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.IsActive).HasColumnName("isActive");
-            entity.Property(e => e.PatientId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
 
             entity.HasOne(d => d.Doctor).WithMany(p => p.MedicalExaminationScheduleDoctors)
                 .HasForeignKey(d => d.DoctorId)
@@ -226,22 +162,10 @@ public partial class CapstoneProjectDbContext : DbContext
         {
             entity.ToTable("Medicine");
 
-            entity.Property(e => e.MedicineId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.CodeId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
             entity.Property(e => e.MedicineName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.PricePerUnit).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.UnitId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.UserId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
 
             entity.HasOne(d => d.Code).WithMany(p => p.Medicines)
                 .HasForeignKey(d => d.CodeId)
@@ -261,17 +185,13 @@ public partial class CapstoneProjectDbContext : DbContext
 
         modelBuilder.Entity<MedicineCode>(entity =>
         {
-            entity.HasKey(e => e.CodeId).HasName("PK_Table_1");
+            entity.HasKey(e => e.CodeId);
 
             entity.ToTable("MedicineCode");
 
-            entity.Property(e => e.CodeId)
+            entity.Property(e => e.CodeName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.CodeName)
-                .HasMaxLength(250)
-                .IsUnicode(false);
-            entity.Property(e => e.IsActive).HasColumnName("isActive");
         });
 
         modelBuilder.Entity<MedicineExaminatedRecord>(entity =>
@@ -280,39 +200,15 @@ public partial class CapstoneProjectDbContext : DbContext
 
             entity.ToTable("MedicineExaminatedRecord");
 
-            entity.Property(e => e.Meid)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("MEId");
-            entity.Property(e => e.IsActive).HasColumnName("isActive");
-            entity.Property(e => e.MedicineId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.RecordId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-
-            entity.HasOne(d => d.Medicine).WithMany(p => p.MedicineExaminatedRecords)
-                .HasForeignKey(d => d.MedicineId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_MedicineExaminatedRecord_Medicine");
-
-            entity.HasOne(d => d.Record).WithMany(p => p.MedicineExaminatedRecords)
-                .HasForeignKey(d => d.RecordId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_MedicineExaminatedRecord_ExaminatedRecord");
+            entity.Property(e => e.Meid).HasColumnName("MEId");
         });
 
         modelBuilder.Entity<Role>(entity =>
         {
             entity.ToTable("Role");
 
-            entity.Property(e => e.RoleId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.IsActive).HasColumnName("isActive");
             entity.Property(e => e.RoleName)
-                .HasMaxLength(250)
+                .HasMaxLength(50)
                 .IsUnicode(false);
         });
 
@@ -320,12 +216,8 @@ public partial class CapstoneProjectDbContext : DbContext
         {
             entity.ToTable("Unit");
 
-            entity.Property(e => e.UnitId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.IsActive).HasColumnName("isActive");
             entity.Property(e => e.UnitName)
-                .HasMaxLength(250)
+                .HasMaxLength(50)
                 .IsUnicode(false);
         });
 
@@ -333,9 +225,6 @@ public partial class CapstoneProjectDbContext : DbContext
         {
             entity.ToTable("User");
 
-            entity.Property(e => e.UserId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
             entity.Property(e => e.Address)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -344,20 +233,19 @@ public partial class CapstoneProjectDbContext : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false);
             entity.Property(e => e.EmergencyContact)
-                .HasMaxLength(11)
+                .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Experience)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.FirstName)
-                .HasMaxLength(250)
+                .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Gender)
                 .HasMaxLength(10)
                 .IsUnicode(false);
-            entity.Property(e => e.IsActive).HasColumnName("isActive");
             entity.Property(e => e.LastName)
-                .HasMaxLength(250)
+                .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Major)
                 .HasMaxLength(50)
@@ -371,13 +259,10 @@ public partial class CapstoneProjectDbContext : DbContext
             entity.Property(e => e.Qualification)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.RoleId)
-                .HasMaxLength(50)
-                .IsUnicode(false);
             entity.Property(e => e.StudentCode)
                 .HasMaxLength(20)
                 .IsUnicode(false);
-            entity.Property(e => e.Univercity)
+            entity.Property(e => e.University)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Username)

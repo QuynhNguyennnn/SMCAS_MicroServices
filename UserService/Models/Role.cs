@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BlogService.Models;
+namespace UserService.Models;
 
 public partial class Role
 {
-    public string RoleId { get; set; } = null!;
+    public int RoleId { get; set; }
 
     public string RoleName { get; set; } = null!;
 
