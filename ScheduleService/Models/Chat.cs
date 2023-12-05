@@ -5,11 +5,11 @@ namespace ScheduleService.Models;
 
 public partial class Chat
 {
-    public string ChatId { get; set; } = null!;
+    public int ChatId { get; set; }
 
-    public string DoctorId { get; set; } = null!;
+    public int DoctorId { get; set; }
 
-    public string PatientId { get; set; } = null!;
+    public int PatientId { get; set; }
 
     public DateTime ChatDate { get; set; }
 

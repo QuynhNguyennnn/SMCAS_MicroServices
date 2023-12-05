@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BlogService.Models;
+namespace UserService.Models;
 
 public partial class MedicineCode
 {
-    public string CodeId { get; set; } = null!;
+    public int CodeId { get; set; }
 
     public string CodeName { get; set; } = null!;
 

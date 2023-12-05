@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BlogService.Models;
+namespace UserService.Models;
 
 public partial class ExaminatedRecord
 {
-    public string RecordId { get; set; } = null!;
+    public int RecordId { get; set; }
 
-    public string DoctorId { get; set; } = null!;
+    public int DoctorId { get; set; }
 
-    public string PatientId { get; set; } = null!;
+    public int PatientId { get; set; }
 
-    public string? StaffId { get; set; }
+    public int? StaffId { get; set; }
 
     public decimal RespirationRate { get; set; }
 
@@ -26,8 +26,6 @@ public partial class ExaminatedRecord
     public bool IsActive { get; set; }
 
     public virtual User Doctor { get; set; } = null!;
-
-    public virtual ICollection<MedicineExaminatedRecord> MedicineExaminatedRecords { get; set; } = new List<MedicineExaminatedRecord>();
 
     public virtual User Patient { get; set; } = null!;
 
