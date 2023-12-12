@@ -265,7 +265,7 @@ namespace UserService.Controllers
         public ActionResult<ServiceResponse<UserResponse>> UpdateUser(UpdateUserRequest updateRequest)
         {
             var response = new ServiceResponse<UserResponse>();
-            var userValidation = userService.GetUserById(id);
+            var userValidation = userService.GetUserById(updateRequest.UserId);
             if (userValidation == null)
             {
                 response.Status = 404;
