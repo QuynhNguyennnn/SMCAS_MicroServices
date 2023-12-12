@@ -11,7 +11,8 @@ public partial class Blog
 
     public string Title { get; set; } = null!;
 
-    public string Context { get; set; } = null!;
+
+    public string Context { get; set; }
 
     public DateTime WritingDate { get; set; }
 
@@ -21,5 +22,5 @@ public partial class Blog
 
     public bool IsActive { get; set; }
 
-    public virtual User User { get; set; } = null!;
+    public virtual User User { get; set; }
 }

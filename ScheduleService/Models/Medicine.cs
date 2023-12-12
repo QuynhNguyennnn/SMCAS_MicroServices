@@ -13,7 +13,7 @@ public partial class Medicine
 
     public int CodeId { get; set; }
 
-    public string MedicineName { get; set; } = null!;
+    public string MedicineName { get; set; }
 
     public int Quantity { get; set; }
 
@@ -21,7 +21,9 @@ public partial class Medicine
 
     public bool IsActive { get; set; }
 
-    public virtual MedicineCode Code { get; set; } = null!;
+    public virtual MedicineCode Code { get; set; }
+
+    public virtual ICollection<MedicineExaminatedRecord> MedicineExaminatedRecords { get; set; } = new List<MedicineExaminatedRecord>();
 
     public virtual ICollection<MedicineExaminatedRecord> MedicineExaminatedRecords { get; set; } = new List<MedicineExaminatedRecord>();
 
