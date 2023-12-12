@@ -9,7 +9,7 @@ namespace BlogService.DAOs
             List<Blog> blogs = new List<Blog>();
             try
             {
-                using (var context = new SepprojectDbContext())
+                using (var context = new SepprojectDbV2Context())
                 {
                     var blogList = context.Blogs.ToList();
                     foreach (var movie in blogList)
@@ -34,7 +34,7 @@ namespace BlogService.DAOs
             Blog blog = new Blog();
             try
             {
-                using (var context = new SepprojectDbContext())
+                using (var context = new SepprojectDbV2Context())
                 {
                     blog = context.Blogs.SingleOrDefault(b => (b.BlogId == id) && b.IsActive);
                 }
@@ -50,7 +50,7 @@ namespace BlogService.DAOs
         {
             try
             {
-                using (var context = new SepprojectDbContext())
+                using (var context = new SepprojectDbV2Context())
                 {
                     blog.IsActive = true;
 
@@ -70,7 +70,7 @@ namespace BlogService.DAOs
         {
             try
             {
-                using (var context = new SepprojectDbContext())
+                using (var context = new SepprojectDbV2Context())
                 {
                     var _blog = GetBlogById(blog.BlogId);
                     if (_blog != null)
@@ -102,7 +102,7 @@ namespace BlogService.DAOs
         {
             try
             {
-                using (var context = new SepprojectDbContext())
+                using (var context = new SepprojectDbV2Context())
                 {
                     var _blog = context.Blogs.SingleOrDefault(b => b.BlogId == id && b.IsActive);
                     if (_blog != null)

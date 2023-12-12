@@ -9,7 +9,7 @@ namespace MedicineService.DAOs
             List<Unit> units = new List<Unit>();
             try
             {
-                using (var context = new SepprojectDbContext())
+                using (var context = new SepprojectDbV2Context())
                 {
                     var unitList = context.Units.ToList();
                     foreach (var unit in unitList)
@@ -30,7 +30,7 @@ namespace MedicineService.DAOs
             var unit = new Unit();
             try
             {
-                using (var context = new SepprojectDbContext())
+                using (var context = new SepprojectDbV2Context())
                 {
                     unit = context.Units.FirstOrDefault(u => u.UnitId == id);
                 }
@@ -47,7 +47,7 @@ namespace MedicineService.DAOs
             var createdUnit = new Unit();
             try
             {
-                using (var context = new SepprojectDbContext())
+                using (var context = new SepprojectDbV2Context())
                 {
                     var unitCheck = context.Units.FirstOrDefault(u => u.UnitName == unit.UnitName);
                     if (unitCheck != null)
@@ -75,7 +75,7 @@ namespace MedicineService.DAOs
             var updatedUnit = new Unit();
             try
             {
-                using (var context = new SepprojectDbContext())
+                using (var context = new SepprojectDbV2Context())
                 {
                     var unitCheck = context.Units.FirstOrDefault(u => u.UnitId == unit.UnitId);
                     if (unitCheck != null)
@@ -101,7 +101,7 @@ namespace MedicineService.DAOs
             var deletedUnit = new Unit();
             try
             {
-                using (var context = new SepprojectDbContext())
+                using (var context = new SepprojectDbV2Context())
                 {
                     var unitCheck = context.Units.FirstOrDefault(u => u.UnitId == id);
                     if (unitCheck != null)

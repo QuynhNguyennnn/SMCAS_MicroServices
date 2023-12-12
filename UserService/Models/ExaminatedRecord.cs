@@ -27,6 +27,8 @@ public partial class ExaminatedRecord
 
     public virtual User Doctor { get; set; } = null!;
 
+    public virtual ICollection<MedicineExaminatedRecord> MedicineExaminatedRecords { get; set; } = new List<MedicineExaminatedRecord>();
+
     public virtual User Patient { get; set; } = null!;
 
     public virtual User? Staff { get; set; }

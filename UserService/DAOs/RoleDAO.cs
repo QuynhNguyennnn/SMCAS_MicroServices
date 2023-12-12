@@ -9,7 +9,7 @@ namespace UserService.DAOs
             Role role = new Role();
             try
             {
-                using (var context = new SepprojectDbContext())
+                using (var context = new SepprojectDbV2Context())
                 {
                     role = context.Roles.FirstOrDefault(r => r.RoleId == id);
                     if (role != null)
@@ -31,7 +31,7 @@ namespace UserService.DAOs
             Role newRole = new Role();
             try
             {
-                using (var context = new SepprojectDbContext())
+                using (var context = new SepprojectDbV2Context())
                 {
                     var roleCheck = context.Roles.FirstOrDefault(r => r.RoleName.ToLower() == role.RoleName.ToLower());
                     if (roleCheck != null)
@@ -57,7 +57,7 @@ namespace UserService.DAOs
             List<Role> roles = new List<Role>();
             try
             {
-                using (var context = new SepprojectDbContext())
+                using (var context = new SepprojectDbV2Context())
                 {
                     var roleList = context.Roles.ToList();
                     foreach (var movie in roleList)
@@ -80,7 +80,7 @@ namespace UserService.DAOs
             Role updatedRole = new Role();
             try
             {
-                using (var context = new SepprojectDbContext())
+                using (var context = new SepprojectDbV2Context())
                 {
                     var roleCheck = context.Roles.FirstOrDefault(r => r.RoleId == role.RoleId && r.IsActive);
                     if (roleCheck != null)
@@ -107,7 +107,7 @@ namespace UserService.DAOs
         {
             try
             {
-                using (var context = new SepprojectDbContext())
+                using (var context = new SepprojectDbV2Context())
                 {
                     var role = context.Roles.FirstOrDefault(r => r.RoleId == roleId);
                     if (role == null)
