@@ -19,15 +19,17 @@ public partial class ExaminatedRecord
 
     public decimal BloodPressure { get; set; }
 
-    public string Note { get; set; } = null!;
+    public string Note { get; set; }
 
     public decimal SpO2 { get; set; }
 
     public bool IsActive { get; set; }
 
-    public virtual User Doctor { get; set; } = null!;
+    public virtual User Doctor { get; set; }
 
-    public virtual User Patient { get; set; } = null!;
+    public virtual ICollection<MedicineExaminatedRecord> MedicineExaminatedRecords { get; set; } = new List<MedicineExaminatedRecord>();
 
-    public virtual User? Staff { get; set; }
+    public virtual User Patient { get; set; }
+
+    public virtual User Staff { get; set; }
 }

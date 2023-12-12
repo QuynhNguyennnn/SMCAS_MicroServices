@@ -13,11 +13,11 @@ public partial class ChatHistory
 
     public int SenderId { get; set; }
 
-    public string Message { get; set; } = null!;
+    public string Message { get; set; }
 
     public DateTime SendingTime { get; set; }
 
     public bool IsActive { get; set; }
 
-    public virtual Chat Chat { get; set; } = null!;
+    public virtual Chat Chat { get; set; }
 }
