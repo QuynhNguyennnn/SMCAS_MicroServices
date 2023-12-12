@@ -9,7 +9,6 @@ using BlogService.Models;
 using BlogService.Services;
 using AutoMapper;
 using BlogService.DTOs;
-using BlogService.DTOs.Response;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 

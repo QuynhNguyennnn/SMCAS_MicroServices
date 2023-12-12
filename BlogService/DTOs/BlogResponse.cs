@@ -1,10 +1,12 @@
-﻿namespace BlogService.DTOs.Response
-{
-    public class AddBlogRequest
-    {
-        public int UserId { get; set; }
+﻿using BlogService.Models;
 
-        public string Title { get; set; }
+namespace BlogService.DTOs
+{
+    public class BlogResponse
+    {
+        public int BlogId { get; set; }
+
+        public int UserId { get; set; }
 
         public string Context { get; set; } = null!;
 
@@ -13,5 +15,7 @@
         public DateTime PublishedDate { get; set; }
 
         public bool IsDraft { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }
