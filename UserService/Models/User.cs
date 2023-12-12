@@ -23,8 +23,6 @@ public partial class User
 
     public string Username { get; set; } = null!;
 
-    public string Password { get; set; } = null!;
-
     public string? Major { get; set; }
 
     public string? Experience { get; set; }
@@ -42,6 +40,8 @@ public partial class User
     public string? University { get; set; }
 
     public bool IsActive { get; set; }
+
+    public string? Password { get; set; }
 
     public virtual ICollection<Blog> Blogs { get; set; } = new List<Blog>();
 
