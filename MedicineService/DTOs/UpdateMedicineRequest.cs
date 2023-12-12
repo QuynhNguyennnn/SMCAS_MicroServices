@@ -2,6 +2,8 @@
 {
     public class UpdateMedicineRequest
     {
+        public int MedicineId { get; set; }
+
         public int UnitId { get; set; }
 
         public int CodeId { get; set; }

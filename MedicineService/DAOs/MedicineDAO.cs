@@ -81,6 +81,8 @@ namespace MedicineService.DAOs
                     if (medicineCheck != null)
                     {
                         updatedMedicine = medicine;
+                        updatedMedicine.IsActive = medicineCheck.IsActive;
+                        updatedMedicine.UserId = medicineCheck.UserId;
                         context.Entry(medicineCheck).CurrentValues.SetValues(updatedMedicine);
                         context.SaveChanges();
                     }
