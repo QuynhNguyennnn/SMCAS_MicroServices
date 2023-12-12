@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace UserService.Models;
 
-public partial class SepprojectDbV2V2Context : DbContext
+public partial class SepprojectDbV2Context : DbContext
 {
-    public SepprojectDbV2V2Context()
+    public SepprojectDbV2Context()
     {
     }
 
