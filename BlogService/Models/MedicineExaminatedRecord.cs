@@ -15,7 +15,7 @@ public partial class MedicineExaminatedRecord
 
     public bool IsActive { get; set; }
 
-    public virtual Medicine Medicine { get; set; }
+    public virtual Medicine Medicine { get; set; } = null!;
 
-    public virtual ExaminatedRecord Record { get; set; }
+    public virtual ExaminatedRecord Record { get; set; } = null!;
 }

@@ -9,7 +9,7 @@ public partial class Blog
 
     public int UserId { get; set; }
 
-    public string Title { get; set; }
+    public string Title { get; set; } = null!;
 
     public string Context { get; set; }
 

@@ -9,9 +9,9 @@ public partial class Blog
 
     public int UserId { get; set; }
 
-    public string Title { get; set; }
+    public string Title { get; set; } = null!;
 
-    public string Context { get; set; }
+    public string Context { get; set; } = null!;
 
     public DateTime WritingDate { get; set; }
 

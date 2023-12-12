@@ -25,7 +25,7 @@ public partial class ExaminatedRecord
 
     public bool IsActive { get; set; }
 
-    public virtual User Doctor { get; set; }
+    public virtual User Doctor { get; set; } = null!;
 
     public virtual ICollection<MedicineExaminatedRecord> MedicineExaminatedRecords { get; set; } = new List<MedicineExaminatedRecord>();
 
