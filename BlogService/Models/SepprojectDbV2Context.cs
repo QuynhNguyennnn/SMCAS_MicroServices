@@ -173,15 +173,15 @@ public partial class SepprojectDbV2Context : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Medicine_MedicineCode");
 
+            entity.HasOne(d => d.Unit).WithMany(p => p.Medicines)
+                .HasForeignKey(d => d.UnitId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Medicine_Unit1");
+
             entity.HasOne(d => d.User).WithMany(p => p.Medicines)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Medicine_Unit");
-
-            entity.HasOne(d => d.UserNavigation).WithMany(p => p.Medicines)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Medicine_User");
+                .HasConstraintName("FK_Medicine_User1");
         });
 
         modelBuilder.Entity<MedicineCode>(entity =>
