@@ -29,7 +29,7 @@ namespace BlogService.Controllers
         }
 
         [HttpGet]
-        public ActionResult<ServiceResponse<List<BlogResponse>>> GetMovieList()
+        public ActionResult<ServiceResponse<List<BlogResponse>>> GetBlogList()
         {
             var response = new ServiceResponse<List<BlogResponse>>();
             var blogResponseList = new List<BlogResponse>();
@@ -100,6 +100,25 @@ namespace BlogService.Controllers
             response.Data = blogResponse;
             response.Message = "Delete Blog";
             response.Status = 200;
+            return response;
+        }
+
+        [HttpGet("Search")]
+        public ActionResult<ServiceResponse<List<BlogResponse>>> SearchBlogByTitle(string title)
+        {
+            var response = new ServiceResponse<List<BlogResponse>>();
+            var blogResponseList = new List<BlogResponse>();
+            var blogList = service.GetBlogsByTitle(title);
+            foreach (var movie in blogList)
+            {
+                BlogResponse blogResponse = _mapper.Map<BlogResponse>(movie);
+                blogResponseList.Add(blogResponse);
+            }
+
+            response.Data = blogResponseList;
+            response.Message = "Search Blog By Title";
+            response.Status = 200;
+            response.TotalDataList = blogResponseList.Count;
             return response;
         }
     }
