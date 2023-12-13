@@ -222,5 +222,33 @@ namespace UserService.DAOs
                 throw new Exception(e.Message);
             }
         }
+
+        public static List<User> SearchUserByName(string name)
+        {
+            var userList = new List<User>();
+            try
+            {
+                using (var context = new SepprojectDbV2Context())
+                {
+                    var userCheck = context.Users.Where(u => (u.FirstName.ToLower().Contains(name.ToLower()) 
+                                                                || u.LastName.ToLower().Contains(name.ToLower()))
+                                                                && u.IsActive).ToList();
+                    if (userCheck != null)
+                    {
+                        foreach (var item in userCheck)
+                        {
+                            userList.Add(item);
+                        }
+                        return userList;
+                    } else
+                    {
+                        return null;
+                    }
+                }
+            } catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

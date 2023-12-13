@@ -17,6 +17,8 @@ namespace UserService.Services
 
         public User Register(User user) => UserDAO.Register(user);
 
+        public List<User> SearchUserByName(string name) => UserDAO.SearchUserByName(name);
+
         public User UpdateUser(User user) => UserDAO.UpdateUser(user);
     }
 }

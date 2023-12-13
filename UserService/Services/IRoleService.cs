@@ -9,5 +9,6 @@ namespace UserService.Services
         Role CreateRole(Role role);
         Role UpdateRole(Role role);
         Role DeleteRole(int roleId);
+        List<Role> SearchRoleByName(string name);
     }
 }

@@ -13,6 +13,8 @@ namespace MedicineService.Services
 
         public List<Unit> GetUnits() => UnitDAO.GetUnits();
 
+        public List<Unit> SearchUnitByName(string name) => UnitDAO.SearchUnitByName(name);
+
         public Unit UpdateUnit(Unit unit) => UnitDAO.UpdateUnit(unit);
     }
 }
