@@ -68,28 +68,25 @@ namespace BlogService.DAOs
 
         public static Blog UpdateBlog(Blog blog)
         {
+            Blog updateBlog = new Blog();
             try
             {
                 using (var context = new SepprojectDbV2Context())
                 {
-                    var _blog = GetBlogById(blog.BlogId);
-                    if (_blog != null)
+                    var blogCheck = context.Blogs.FirstOrDefault(r => r.BlogId == blog.BlogId && r.IsActive);
+                    if (blogCheck != null)
                     {
-                        blog.IsActive = _blog.IsActive;
-                        blog.WritingDate = _blog.WritingDate;
-                        blog.PublishedDate = _blog.PublishedDate;
-                        blog.UserId = _blog.UserId;
-
-                        // Sử dụng SetValues để cập nhật giá trị từ movie vào _movie
-                        context.Entry(_blog).CurrentValues.SetValues(blog);
+                        updateBlog = blog;
+                        updateBlog.UserId = blogCheck.UserId;
+                        updateBlog.IsActive = blogCheck.IsActive;
+                        context.Entry(blogCheck).CurrentValues.SetValues(updateBlog);
                         context.SaveChanges();
-
-                        return _blog; // Trả về _movie sau khi cập nhật
                     }
                     else
                     {
-                        throw new Exception("Blog does not exist");
+                        return null;
                     }
+                    return updateBlog;
                 }
             }
             catch (Exception ex)

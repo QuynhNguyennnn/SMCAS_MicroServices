@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BlogService.DTOs.Response;
+using BlogService.DTOs;
 using BlogService.Models;
 
 namespace BlogService

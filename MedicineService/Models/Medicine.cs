@@ -25,7 +25,7 @@ public partial class Medicine
 
     public virtual ICollection<MedicineExaminatedRecord> MedicineExaminatedRecords { get; set; } = new List<MedicineExaminatedRecord>();
 
-    public virtual Unit User { get; set; } = null!;
+    public virtual Unit Unit { get; set; } = null!;
 
-    public virtual User UserNavigation { get; set; } = null!;
+    public virtual User User { get; set; } = null!;
 }

@@ -1,8 +1,10 @@
-﻿namespace BlogService.DTOs.Response
+﻿namespace BlogService.DTOs
 {
     public class UpdateBlogResquest
     {
         public int BlogId { get; set; }
+
+        public string Title { get; set; }
 
         public string Context { get; set; } = null!;
 
