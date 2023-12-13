@@ -49,9 +49,7 @@ public partial class SepprojectDbV2Context : DbContext
         {
             entity.ToTable("Blog");
 
-            entity.Property(e => e.Context)
-                .IsRequired()
-                .IsUnicode(false);
+            entity.Property(e => e.Context).IsUnicode(false);
             entity.Property(e => e.PublishedDate).HasColumnType("date");
             entity.Property(e => e.Title).IsUnicode(false);
             entity.Property(e => e.WritingDate).HasColumnType("date");
@@ -70,7 +68,6 @@ public partial class SepprojectDbV2Context : DbContext
             entity.Property(e => e.EndTime).HasColumnType("datetime");
             entity.Property(e => e.StartTime).HasColumnType("datetime");
             entity.Property(e => e.TotalTime)
-                .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false);
 
@@ -89,9 +86,7 @@ public partial class SepprojectDbV2Context : DbContext
         {
             entity.ToTable("ChatHistory");
 
-            entity.Property(e => e.Message)
-                .IsRequired()
-                .IsUnicode(false);
+            entity.Property(e => e.Message).IsUnicode(false);
             entity.Property(e => e.SendingTime).HasColumnType("datetime");
 
             entity.HasOne(d => d.Chat).WithMany(p => p.ChatHistories)
@@ -107,9 +102,7 @@ public partial class SepprojectDbV2Context : DbContext
             entity.ToTable("ExaminatedRecord");
 
             entity.Property(e => e.BloodPressure).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.Note)
-                .IsRequired()
-                .IsUnicode(false);
+            entity.Property(e => e.Note).IsUnicode(false);
             entity.Property(e => e.RespirationRate).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.SpO2).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.Temperature).HasColumnType("decimal(18, 1)");
@@ -134,9 +127,7 @@ public partial class SepprojectDbV2Context : DbContext
             entity.ToTable("Feedback");
 
             entity.Property(e => e.FeedbackDate).HasColumnType("date");
-            entity.Property(e => e.Message)
-                .IsRequired()
-                .IsUnicode(false);
+            entity.Property(e => e.Message).IsUnicode(false);
 
             entity.HasOne(d => d.Doctor).WithMany(p => p.FeedbackDoctors)
                 .HasForeignKey(d => d.DoctorId)
@@ -173,7 +164,6 @@ public partial class SepprojectDbV2Context : DbContext
             entity.ToTable("Medicine");
 
             entity.Property(e => e.MedicineName)
-                .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.PricePerUnit).HasColumnType("decimal(18, 2)");
@@ -183,15 +173,15 @@ public partial class SepprojectDbV2Context : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Medicine_MedicineCode");
 
+            entity.HasOne(d => d.Unit).WithMany(p => p.Medicines)
+                .HasForeignKey(d => d.UnitId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Medicine_Unit1");
+
             entity.HasOne(d => d.User).WithMany(p => p.Medicines)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Medicine_Unit");
-
-            entity.HasOne(d => d.UserNavigation).WithMany(p => p.Medicines)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Medicine_User");
+                .HasConstraintName("FK_Medicine_User1");
         });
 
         modelBuilder.Entity<MedicineCode>(entity =>
@@ -201,7 +191,6 @@ public partial class SepprojectDbV2Context : DbContext
             entity.ToTable("MedicineCode");
 
             entity.Property(e => e.CodeName)
-                .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false);
         });
@@ -230,7 +219,6 @@ public partial class SepprojectDbV2Context : DbContext
             entity.ToTable("Role");
 
             entity.Property(e => e.RoleName)
-                .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false);
         });
@@ -240,7 +228,6 @@ public partial class SepprojectDbV2Context : DbContext
             entity.ToTable("Unit");
 
             entity.Property(e => e.UnitName)
-                .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false);
         });
@@ -263,14 +250,12 @@ public partial class SepprojectDbV2Context : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.FirstName)
-                .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Gender)
                 .HasMaxLength(10)
                 .IsUnicode(false);
             entity.Property(e => e.LastName)
-                .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Major)
@@ -278,7 +263,6 @@ public partial class SepprojectDbV2Context : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.Password).IsUnicode(false);
             entity.Property(e => e.PhoneNumber)
-                .IsRequired()
                 .HasMaxLength(11)
                 .IsUnicode(false);
             entity.Property(e => e.Qualification)
@@ -291,7 +275,6 @@ public partial class SepprojectDbV2Context : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Username)
-                .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.WorkPlace)

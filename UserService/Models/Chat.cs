@@ -17,13 +17,13 @@ public partial class Chat
 
     public DateTime EndTime { get; set; }
 
-    public string TotalTime { get; set; }
+    public string TotalTime { get; set; } = null!;
 
     public bool IsActive { get; set; }
 
     public virtual ICollection<ChatHistory> ChatHistories { get; set; } = new List<ChatHistory>();
 
-    public virtual User Doctor { get; set; }
+    public virtual User Doctor { get; set; } = null!;
 
-    public virtual User Patient { get; set; }
+    public virtual User Patient { get; set; } = null!;
 }

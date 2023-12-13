@@ -19,7 +19,7 @@ public partial class MedicalExaminationSchedule
 
     public bool IsActive { get; set; }
 
-    public virtual User Doctor { get; set; }
+    public virtual User Doctor { get; set; } = null!;
 
-    public virtual User Patient { get; set; }
+    public virtual User Patient { get; set; } = null!;
 }

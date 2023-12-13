@@ -13,13 +13,13 @@ public partial class Feedback
 
     public DateTime FeedbackDate { get; set; }
 
-    public string Message { get; set; }
+    public string Message { get; set; } = null!;
 
     public int Rating { get; set; }
 
     public bool IsActive { get; set; }
 
-    public virtual User Doctor { get; set; }
+    public virtual User Doctor { get; set; } = null!;
 
-    public virtual User Patient { get; set; }
+    public virtual User Patient { get; set; } = null!;
 }

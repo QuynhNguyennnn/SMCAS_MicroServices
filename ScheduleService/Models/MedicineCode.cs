@@ -7,7 +7,7 @@ public partial class MedicineCode
 {
     public int CodeId { get; set; }
 
-    public string CodeName { get; set; }
+    public string CodeName { get; set; } = null!;
 
     public bool IsActive { get; set; }
 
