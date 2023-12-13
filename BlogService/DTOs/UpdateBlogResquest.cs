@@ -1,4 +1,4 @@
-﻿namespace BlogService.DTOs.Response
+﻿namespace BlogService.DTOs
 {
     public class UpdateBlogResquest
     {
