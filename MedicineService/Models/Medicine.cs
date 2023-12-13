@@ -23,6 +23,8 @@ public partial class Medicine
 
     public virtual MedicineCode Code { get; set; } = null!;
 
+    public virtual ICollection<MedicineExaminatedRecord> MedicineExaminatedRecords { get; set; } = new List<MedicineExaminatedRecord>();
+
     public virtual Unit Unit { get; set; } = null!;
 
     public virtual User User { get; set; } = null!;

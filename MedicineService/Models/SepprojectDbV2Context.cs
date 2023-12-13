@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace ScheduleService.Models;
+namespace MedicineService.Models;
 
-public partial class SepprojectDbContext : DbContext
+public partial class SepprojectDbV2Context : DbContext
 {
-    public SepprojectDbContext()
+    public SepprojectDbV2Context()
     {
     }
 
-    public SepprojectDbContext(DbContextOptions<SepprojectDbContext> options)
+    public SepprojectDbV2Context(DbContextOptions<SepprojectDbV2Context> options)
         : base(options)
     {
     }
@@ -41,7 +41,7 @@ public partial class SepprojectDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("server=LAPOFQUYNH; database = SEPProjectDB;uid=sa;pwd=123456;TrustServerCertificate=true;");
+        => optionsBuilder.UseSqlServer("server=LAPOFQUYNH; database = SEPProjectDB_v2;uid=sa;pwd=123456;TrustServerCertificate=true;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -51,6 +51,7 @@ public partial class SepprojectDbContext : DbContext
 
             entity.Property(e => e.Context).IsUnicode(false);
             entity.Property(e => e.PublishedDate).HasColumnType("date");
+            entity.Property(e => e.Title).IsUnicode(false);
             entity.Property(e => e.WritingDate).HasColumnType("date");
 
             entity.HasOne(d => d.User).WithMany(p => p.Blogs)
@@ -175,12 +176,12 @@ public partial class SepprojectDbContext : DbContext
             entity.HasOne(d => d.Unit).WithMany(p => p.Medicines)
                 .HasForeignKey(d => d.UnitId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Medicine_Unit");
+                .HasConstraintName("FK_Medicine_Unit1");
 
             entity.HasOne(d => d.User).WithMany(p => p.Medicines)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Medicine_User");
+                .HasConstraintName("FK_Medicine_User1");
         });
 
         modelBuilder.Entity<MedicineCode>(entity =>
@@ -201,6 +202,16 @@ public partial class SepprojectDbContext : DbContext
             entity.ToTable("MedicineExaminatedRecord");
 
             entity.Property(e => e.Meid).HasColumnName("MEId");
+
+            entity.HasOne(d => d.Medicine).WithMany(p => p.MedicineExaminatedRecords)
+                .HasForeignKey(d => d.MedicineId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_MedicineExaminatedRecord_Medicine");
+
+            entity.HasOne(d => d.Record).WithMany(p => p.MedicineExaminatedRecords)
+                .HasForeignKey(d => d.RecordId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_MedicineExaminatedRecord_ExaminatedRecord");
         });
 
         modelBuilder.Entity<Role>(entity =>
@@ -250,9 +261,7 @@ public partial class SepprojectDbContext : DbContext
             entity.Property(e => e.Major)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.Password)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.Password).IsUnicode(false);
             entity.Property(e => e.PhoneNumber)
                 .HasMaxLength(11)
                 .IsUnicode(false);
