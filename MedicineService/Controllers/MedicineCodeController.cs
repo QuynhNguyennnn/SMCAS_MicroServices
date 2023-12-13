@@ -2,6 +2,7 @@
 using MedicineService.DTOs;
 using MedicineService.Models;
 using MedicineService.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MedicineService.Controllers
@@ -64,6 +65,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpPost("Create")]
+        [Authorize(Roles = "Admin, Doctor")]
         public ActionResult<ServiceResponse<MedicineCodeResponse>> CreateMedicineCode(CreateMedicineCodeRequest request)
         {
             var response = new ServiceResponse<MedicineCodeResponse>();
@@ -89,6 +91,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpPut("Update")]
+        [Authorize(Roles = "Admin, Doctor")]
         public ActionResult<ServiceResponse<MedicineCodeResponse>> UpdateMedicineCode(UpdateMedicineCodeRequest request)
         {
             var response = new ServiceResponse<MedicineCodeResponse>();
@@ -111,6 +114,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpPut("Delete")]
+        [Authorize(Roles = "Admin, Doctor")]
         public ActionResult<ServiceResponse<MedicineCodeResponse>> DeleteMedicineCode(int id)
         {
             var response = new ServiceResponse<MedicineCodeResponse>();

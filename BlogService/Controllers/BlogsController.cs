@@ -62,6 +62,7 @@ namespace BlogService.Controllers
         }
 
         [HttpPost("Create")]
+        [Authorize(Roles = "Medical Staff, Admin")]
         public ActionResult<ServiceResponse<BlogResponse>> CreateBlog(AddBlogRequest addBlog)
         {
             Blog blog = _mapper.Map<Blog>(addBlog);
@@ -75,6 +76,7 @@ namespace BlogService.Controllers
         }
 
         [HttpPut("Update")]
+        [Authorize(Roles = "Medical Staff, Admin")]
         public ActionResult<ServiceResponse<BlogResponse>> UpdateBlog(UpdateBlogResquest updateBlog)
         {
             Blog blog = _mapper.Map<Blog>(updateBlog);
@@ -89,6 +91,7 @@ namespace BlogService.Controllers
         }
 
         [HttpPut("Delete")]
+        [Authorize(Roles = "Medical Staff, Admin")]
         public ActionResult<ServiceResponse<BlogResponse>> DeleteBlog(int id)
         {
             Blog blog = service.DeleteBlog(id);
