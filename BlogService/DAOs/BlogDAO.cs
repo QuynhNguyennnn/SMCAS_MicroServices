@@ -133,7 +133,10 @@ namespace BlogService.DAOs
                 using (var context = new SepprojectDbV2Context())
                 {
                     blogs = context.Blogs
-                        .Where(blog => blog.IsActive && EF.Functions.Like(blog.Title, $"%{title}%"))
+                        .Where(blog =>
+                            blog.IsActive &&
+                            (blog.Title.Contains(title)
+                            ))
                         .ToList();
                 }
             }

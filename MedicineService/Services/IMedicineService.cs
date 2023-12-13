@@ -9,5 +9,6 @@ namespace MedicineService.Services
         Medicine CreateMedicine(Medicine medicine);
         Medicine UpdateMedicine(Medicine medicine);
         Medicine DeleteMedicine(int id);
+        List<Medicine> GetMedicinesByname(string name);
     }
 }

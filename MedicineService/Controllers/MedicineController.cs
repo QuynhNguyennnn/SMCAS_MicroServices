@@ -135,5 +135,24 @@ namespace MedicineService.Controllers
             response.TotalDataList = 1;
             return Ok(response);
         }
+
+        [HttpGet("Search/name")]
+        public ActionResult<ServiceResponse<List<MedicineResponse>>> SearchMedicinesByName(string name)
+        {
+            var response = new ServiceResponse<List<MedicineResponse>>();
+            var medicineResponseList = new List<MedicineResponse>();
+            var medicineList = medicineService.GetMedicinesByname(name);
+            foreach (var medicine in medicineList)
+            {
+                MedicineResponse blogResponse = _mapper.Map<MedicineResponse>(medicine);
+                medicineResponseList.Add(blogResponse);
+            }
+
+            response.Data = medicineResponseList;
+            response.Message = "Search Medicine By Name";
+            response.Status = 200;
+            response.TotalDataList = medicineResponseList.Count;
+            return response;
+        }
     }
 }
