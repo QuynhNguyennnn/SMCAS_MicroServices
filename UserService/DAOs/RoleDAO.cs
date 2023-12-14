@@ -126,5 +126,32 @@ namespace UserService.DAOs
                 throw new Exception(ex.Message);
             }
         }
+
+        public static List<Role> SearchRoleByName(string roleName)
+        {
+            var roleList = new List<Role>();
+            try
+            {
+                using (var context = new SepprojectDbV2Context())
+                {
+                    var roleCheck = context.Roles.Where(r => r.RoleName.ToLower().Contains(roleName.ToLower()) && r.IsActive).ToList();
+                    if (roleCheck != null)
+                    {
+                        foreach (var item in roleCheck)
+                        {
+                            roleList.Add(item);
+                        }
+                        return roleList;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            } catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

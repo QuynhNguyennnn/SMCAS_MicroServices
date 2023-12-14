@@ -9,5 +9,6 @@ namespace MedicineService.Services
         Unit CreateUnit(Unit unit);
         Unit UpdateUnit(Unit unit);
         Unit DeleteUnit(int id);
+        List<Unit> SearchUnitByName(string name);
     }
 }

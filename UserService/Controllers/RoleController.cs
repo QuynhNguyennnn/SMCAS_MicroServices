@@ -44,7 +44,7 @@ namespace UserService.Controllers
 
         [HttpGet("id")]
         [Authorize(Roles = "Admin")]
-        public ActionResult<ServiceResponse<RoleResponse>> GetRoleById (int id)
+        public ActionResult<ServiceResponse<RoleResponse>> GetRoleById(int id)
         {
             var response = new ServiceResponse<RoleResponse>();
             var role = roleService.GetRoleById(id);
@@ -76,7 +76,8 @@ namespace UserService.Controllers
                 response.Status = 400;
                 response.Message = "Role name has already exists.";
                 response.TotalDataList = 0;
-            } else
+            }
+            else
             {
                 var roleResponse = _mapper.Map<RoleResponse>(role);
                 response.Data = roleResponse;
@@ -100,7 +101,8 @@ namespace UserService.Controllers
                 response.Status = 404;
                 response.Message = "Role name does not exists.";
                 response.TotalDataList = 0;
-            } else
+            }
+            else
             {
                 var roleResponse = _mapper.Map<RoleResponse>(role);
                 response.Data = roleResponse;
@@ -123,7 +125,8 @@ namespace UserService.Controllers
                 response.Status = 404;
                 response.Message = "Role name does not exists.";
                 response.TotalDataList = 0;
-            } else
+            }
+            else
             {
                 var role = roleService.GetRoleById(id);
                 var roleResponse = _mapper.Map<RoleResponse>(role);
@@ -131,6 +134,32 @@ namespace UserService.Controllers
                 response.Status = 200;
                 response.Message = "Role has been deleted.";
                 response.TotalDataList = 1;
+            }
+            return response;
+        }
+
+        [HttpGet("Search/name")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<List<RoleResponse>>> SearchRoleByName(string name)
+        {
+            var response = new ServiceResponse<List<RoleResponse>>();
+            var roles = new List<RoleResponse>();
+            var roleList = roleService.SearchRoleByName(name);
+            foreach (var role in roleList)
+            {
+                RoleResponse roleResponse = _mapper.Map<RoleResponse>(role);
+                roles.Add(roleResponse);
+            }
+            response.Data = roles;
+            response.Status = 200;
+            response.Message = "List role have name contain: " + name;
+            response.TotalDataList = roles.Count;
+            if (roles.Count == 0)
+            {
+                response.Data = roles;
+                response.Status = 404;
+                response.Message = "There is no role name: " + name;
+                response.TotalDataList = roles.Count;
             }
             return response;
         }
