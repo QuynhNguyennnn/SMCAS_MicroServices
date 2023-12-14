@@ -14,5 +14,7 @@ namespace MedicineService.Services
         public List<MedicineCode> GetMedicineCodes() => MedicineCodeDAO.GetCodes();
 
         public MedicineCode UpdateMedicineCode(MedicineCode medicineCode) => MedicineCodeDAO.UpdateMedicineCode(medicineCode);
+
+        public List<MedicineCode> GetMedicineCodesByName(string name) => MedicineCodeDAO.SearchMedicineCodeByName(name);
     }
 }
