@@ -138,5 +138,31 @@ namespace MedicineService.Controllers
             response.TotalDataList = 1;
             return Ok(response);
         }
+
+        [HttpGet("Search/name")]
+        //[Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<List<UnitResponse>>> SearchUnitByName(string name)
+        {
+            var response = new ServiceResponse<List<UnitResponse>>();
+            var unitList = new List<UnitResponse>();
+            var units = unitService.SearchUnitByName(name);
+            foreach (var unit in units)
+            {
+                UnitResponse unitResponse = _mapper.Map<UnitResponse>(unit);
+                unitList.Add(unitResponse);
+            }
+            response.Data = unitList;
+            response.Status = 200;
+            response.Message = "Search unit by name contain: " + name;
+            response.TotalDataList = unitList.Count;
+            if (unitList.Count == 0)
+            {
+                response.Data = unitList;
+                response.Status = 404;
+                response.Message = "There is no unit contains: " + name;
+                response.TotalDataList = unitList.Count;
+            }
+            return response;
+        }
     }
 }

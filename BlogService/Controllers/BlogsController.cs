@@ -104,7 +104,7 @@ namespace BlogService.Controllers
         }
 
         [HttpGet("Search/title")]
-        public ActionResult<ServiceResponse<List<BlogResponse>>> SearchBlogByTitle(string title)
+        public ActionResult<ServiceResponse<List<BlogResponse>>> SearchBlogByTitle(string? title)
         {
             var response = new ServiceResponse<List<BlogResponse>>();
             var blogResponseList = new List<BlogResponse>();

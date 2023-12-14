@@ -122,5 +122,31 @@ namespace MedicineService.DAOs
                 throw new Exception(ex.Message);
             }
         }
+
+        public static List<Unit> SearchUnitByName(string name)
+        {
+            var unitList = new List<Unit>();
+            try
+            {
+                using (var context = new SepprojectDbV2Context())
+                {
+                    var unitCheck = context.Units.Where(u => u.UnitName.ToLower().Contains(name.ToLower()) && u.IsActive).ToList();
+                    if (unitCheck != null)
+                    {
+                        foreach (var item in unitCheck)
+                        {
+                            unitList.Add(item);
+                        }
+                        return unitList;
+                    } else
+                    {
+                        return null;
+                    }
+                }
+            } catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
