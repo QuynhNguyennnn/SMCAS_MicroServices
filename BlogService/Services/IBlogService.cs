@@ -9,5 +9,6 @@ namespace BlogService.Services
         Blog CreateBlog(Blog blog);
         Blog UpdateBlog(Blog blog);
         Blog DeleteBlog(int id);
+        List<Blog> GetBlogsByTitle(string title);
     }
 }

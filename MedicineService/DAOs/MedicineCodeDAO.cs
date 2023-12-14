@@ -1,4 +1,5 @@
 ﻿using MedicineService.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace MedicineService.DAOs
 {
@@ -124,6 +125,25 @@ namespace MedicineService.DAOs
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public static List<MedicineCode> SearchMedicineCodeByName(string name)
+        {
+            List<MedicineCode> medicineCodes = new List<MedicineCode>();
+            try
+            {
+                using (var context = new SepprojectDbV2Context())
+                {
+                    medicineCodes = context.MedicineCodes
+                        .Where(m => m.IsActive && (m.CodeName.Contains(name)))
+                        .ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return medicineCodes;
         }
     }
 }
