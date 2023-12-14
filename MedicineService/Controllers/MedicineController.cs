@@ -2,6 +2,7 @@
 using MedicineService.DTOs;
 using MedicineService.Models;
 using MedicineService.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -65,6 +66,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpPost("Create")]
+        [Authorize(Roles = "Admin, Doctor")]
         public ActionResult<ServiceResponse<MedicineResponse>> CreateMedicine(CreateMedicineRequest request)
         {
             var response = new ServiceResponse<MedicineResponse>();
@@ -90,6 +92,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpPut("Update")]
+        [Authorize(Roles = "Admin, Doctor")]
         public ActionResult<ServiceResponse<MedicineResponse>> UpdateMedicine(UpdateMedicineRequest request)
         {
             var response = new ServiceResponse<MedicineResponse>();
@@ -112,6 +115,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpPut("Delete")]
+        [Authorize(Roles = "Admin, Doctor")]
         public ActionResult<ServiceResponse<MedicineResponse>> DeleteMedicine(int id)
         {
             var response = new ServiceResponse<MedicineResponse>();
@@ -130,6 +134,25 @@ namespace MedicineService.Controllers
             response.Message = "Medicine deleted successful.";
             response.TotalDataList = 1;
             return Ok(response);
+        }
+
+        [HttpGet("Search/name")]
+        public ActionResult<ServiceResponse<List<MedicineResponse>>> SearchMedicinesByName(string name)
+        {
+            var response = new ServiceResponse<List<MedicineResponse>>();
+            var medicineResponseList = new List<MedicineResponse>();
+            var medicineList = medicineService.GetMedicinesByname(name);
+            foreach (var medicine in medicineList)
+            {
+                MedicineResponse blogResponse = _mapper.Map<MedicineResponse>(medicine);
+                medicineResponseList.Add(blogResponse);
+            }
+
+            response.Data = medicineResponseList;
+            response.Message = "Search Medicine By Name";
+            response.Status = 200;
+            response.TotalDataList = medicineResponseList.Count;
+            return response;
         }
     }
 }

@@ -29,7 +29,7 @@ namespace BlogService.Controllers
         }
 
         [HttpGet]
-        public ActionResult<ServiceResponse<List<BlogResponse>>> GetMovieList()
+        public ActionResult<ServiceResponse<List<BlogResponse>>> GetBlogList()
         {
             var response = new ServiceResponse<List<BlogResponse>>();
             var blogResponseList = new List<BlogResponse>();
@@ -62,6 +62,7 @@ namespace BlogService.Controllers
         }
 
         [HttpPost("Create")]
+        [Authorize(Roles = "Medical Staff, Admin")]
         public ActionResult<ServiceResponse<BlogResponse>> CreateBlog(AddBlogRequest addBlog)
         {
             Blog blog = _mapper.Map<Blog>(addBlog);
@@ -75,6 +76,7 @@ namespace BlogService.Controllers
         }
 
         [HttpPut("Update")]
+        [Authorize(Roles = "Medical Staff, Admin")]
         public ActionResult<ServiceResponse<BlogResponse>> UpdateBlog(UpdateBlogResquest updateBlog)
         {
             Blog blog = _mapper.Map<Blog>(updateBlog);
@@ -89,6 +91,7 @@ namespace BlogService.Controllers
         }
 
         [HttpPut("Delete")]
+        [Authorize(Roles = "Medical Staff, Admin")]
         public ActionResult<ServiceResponse<BlogResponse>> DeleteBlog(int id)
         {
             Blog blog = service.DeleteBlog(id);
@@ -97,6 +100,25 @@ namespace BlogService.Controllers
             response.Data = blogResponse;
             response.Message = "Delete Blog";
             response.Status = 200;
+            return response;
+        }
+
+        [HttpGet("Search/title")]
+        public ActionResult<ServiceResponse<List<BlogResponse>>> SearchBlogByTitle(string? title)
+        {
+            var response = new ServiceResponse<List<BlogResponse>>();
+            var blogResponseList = new List<BlogResponse>();
+            var blogList = service.GetBlogsByTitle(title);
+            foreach (var blog in blogList)
+            {
+                BlogResponse blogResponse = _mapper.Map<BlogResponse>(blog);
+                blogResponseList.Add(blogResponse);
+            }
+
+            response.Data = blogResponseList;
+            response.Message = "Search Blog By Title";
+            response.Status = 200;
+            response.TotalDataList = blogResponseList.Count;
             return response;
         }
     }

@@ -10,5 +10,6 @@ namespace BlogService.Services
         public Blog CreateBlog(Blog blog) => BlogDAO.CreateBlog(blog);
         public Blog UpdateBlog(Blog blog) => BlogDAO.UpdateBlog(blog);
         public Blog DeleteBlog(int id) => BlogDAO.DeleteBlog(id);
+        public List<Blog> GetBlogsByTitle(string name) => BlogDAO.SearchBlogByTitle(name);
     }
 }

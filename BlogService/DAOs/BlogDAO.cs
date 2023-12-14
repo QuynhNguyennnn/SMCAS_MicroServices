@@ -1,4 +1,5 @@
 ﻿using BlogService.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogService.DAOs
 {
@@ -122,6 +123,28 @@ namespace BlogService.DAOs
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public static List<Blog> SearchBlogByTitle(string title)
+        {
+            List<Blog> blogs = new List<Blog>();
+            try
+            {
+                using (var context = new SepprojectDbV2Context())
+                {
+                    blogs = context.Blogs
+                        .Where(blog =>
+                            blog.IsActive &&
+                            (blog.Title.Contains(title)
+                            ))
+                        .ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return blogs;
         }
     }
 }
