@@ -113,7 +113,7 @@ namespace UserService.Controllers
             return response;
         }
 
-        [HttpDelete("id")]
+        [HttpPut("Delete/id")]
         [Authorize(Roles = "Admin")]
         public ActionResult<ServiceResponse<RoleResponse>> DeleteRole(int id)
         {

@@ -11,7 +11,7 @@ namespace UserService.DAOs
             User user = new User();
             try
             {
-                using (var context = new SepprojectDbV2Context())
+                using (var context = new SepprojectDbV3Context())
                 {
                     user = context.Users.FirstOrDefault(user => (user.Username == username) && user.IsActive);
                     if (user != null)
@@ -42,7 +42,7 @@ namespace UserService.DAOs
             User member = new User();
             try
             {
-                using (var context = new SepprojectDbV2Context())
+                using (var context = new SepprojectDbV3Context())
                 {
                     member = context.Users.FirstOrDefault(user => (user.Username == username) && user.IsActive);
                     if (member != null)
@@ -66,7 +66,7 @@ namespace UserService.DAOs
             User userNew = new User();
             try
             {
-                using (var context = new SepprojectDbV2Context())
+                using (var context = new SepprojectDbV3Context())
                 {
                     var userValidate = context.Users.FirstOrDefault(userCheck => userCheck.Username == user.Username);
                     if (userValidate != null)
@@ -104,7 +104,7 @@ namespace UserService.DAOs
             var users = new List<User>();
             try
             {
-                using (var context = new SepprojectDbV2Context())
+                using (var context = new SepprojectDbV3Context())
                 {
                     var userList = context.Users.ToList();
                     foreach (var user in userList)
@@ -128,7 +128,7 @@ namespace UserService.DAOs
             var user = new User();
             try
             {
-                using (var context = new SepprojectDbV2Context())
+                using (var context = new SepprojectDbV3Context())
                 {
                     user = context.Users.FirstOrDefault(user => (user.UserId == id) && user.IsActive);
                     if (user != null)
@@ -153,7 +153,7 @@ namespace UserService.DAOs
             var userUnActive = new User();
             try
             {
-                using (var context = new SepprojectDbV2Context())
+                using (var context = new SepprojectDbV3Context())
                 {
                     userActive = context.Users.FirstOrDefault(user => (user.UserId == id) && user.IsActive);
                     userUnActive = context.Users.FirstOrDefault(user => (user.UserId == id) && !user.IsActive);
@@ -185,7 +185,7 @@ namespace UserService.DAOs
             var userUpdate = new User();
             try
             {
-                using (var context = new SepprojectDbV2Context())
+                using (var context = new SepprojectDbV3Context())
                 {
                     userUpdate = context.Users.FirstOrDefault(u => u.UserId == user.UserId);
                     if (userUpdate == null)
@@ -228,7 +228,7 @@ namespace UserService.DAOs
             var userList = new List<User>();
             try
             {
-                using (var context = new SepprojectDbV2Context())
+                using (var context = new SepprojectDbV3Context())
                 {
                     var userCheck = context.Users.Where(u => (u.FirstName.ToLower().Contains(name.ToLower()) 
                                                                 || u.LastName.ToLower().Contains(name.ToLower()))

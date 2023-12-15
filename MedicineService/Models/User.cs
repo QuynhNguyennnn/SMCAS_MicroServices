@@ -53,8 +53,6 @@ public partial class User
 
     public virtual ICollection<ExaminatedRecord> ExaminatedRecordPatients { get; set; } = new List<ExaminatedRecord>();
 
-    public virtual ICollection<ExaminatedRecord> ExaminatedRecordStaffs { get; set; } = new List<ExaminatedRecord>();
-
     public virtual ICollection<Feedback> FeedbackDoctors { get; set; } = new List<Feedback>();
 
     public virtual ICollection<Feedback> FeedbackPatients { get; set; } = new List<Feedback>();
