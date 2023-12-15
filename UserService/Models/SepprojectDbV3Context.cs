@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace UserService.Models;
 
-public partial class SepprojectDbV2Context : DbContext
+public partial class SepprojectDbV3Context : DbContext
 {
-    public SepprojectDbV2Context()
+    public SepprojectDbV3Context()
     {
     }
 
-    public SepprojectDbV2Context(DbContextOptions<SepprojectDbV2Context> options)
+    public SepprojectDbV3Context(DbContextOptions<SepprojectDbV3Context> options)
         : base(options)
     {
     }
@@ -41,7 +41,7 @@ public partial class SepprojectDbV2Context : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("server=LAPOFQUYNH; database = SEPProjectDB_v2;uid=sa;pwd=123456;TrustServerCertificate=true;");
+        => optionsBuilder.UseSqlServer("server=LAPOFQUYNH; database = SEPProjectDB_v3;uid=sa;pwd=123456;TrustServerCertificate=true;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -116,10 +116,6 @@ public partial class SepprojectDbV2Context : DbContext
                 .HasForeignKey(d => d.PatientId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_ExaminatedRecord_User1");
-
-            entity.HasOne(d => d.Staff).WithMany(p => p.ExaminatedRecordStaffs)
-                .HasForeignKey(d => d.StaffId)
-                .HasConstraintName("FK_ExaminatedRecord_User2");
         });
 
         modelBuilder.Entity<Feedback>(entity =>
@@ -155,7 +151,6 @@ public partial class SepprojectDbV2Context : DbContext
 
             entity.HasOne(d => d.Patient).WithMany(p => p.MedicalExaminationSchedulePatients)
                 .HasForeignKey(d => d.PatientId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_MedicalExaminationSchedule_User1");
         });
 

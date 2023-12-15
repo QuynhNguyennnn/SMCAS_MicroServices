@@ -9,7 +9,7 @@ public partial class MedicalExaminationSchedule
 
     public int DoctorId { get; set; }
 
-    public int PatientId { get; set; }
+    public int? PatientId { get; set; }
 
     public DateTime Date { get; set; }
 
@@ -17,9 +17,11 @@ public partial class MedicalExaminationSchedule
 
     public TimeSpan EndShift { get; set; }
 
+    public bool IsAccepted { get; set; }
+
     public bool IsActive { get; set; }
 
     public virtual User Doctor { get; set; } = null!;
 
-    public virtual User Patient { get; set; } = null!;
+    public virtual User? Patient { get; set; }
 }
