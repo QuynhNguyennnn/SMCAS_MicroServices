@@ -11,17 +11,15 @@ public partial class ExaminatedRecord
 
     public int PatientId { get; set; }
 
-    public int? StaffId { get; set; }
+    public decimal? RespirationRate { get; set; }
 
-    public decimal RespirationRate { get; set; }
+    public decimal? Temperature { get; set; }
 
-    public decimal Temperature { get; set; }
+    public decimal? BloodPressure { get; set; }
 
-    public decimal BloodPressure { get; set; }
+    public decimal? SpO2 { get; set; }
 
-    public string Note { get; set; } = null!;
-
-    public decimal SpO2 { get; set; }
+    public string? Note { get; set; }
 
     public bool IsActive { get; set; }
 
@@ -30,6 +28,4 @@ public partial class ExaminatedRecord
     public virtual ICollection<MedicineExaminatedRecord> MedicineExaminatedRecords { get; set; } = new List<MedicineExaminatedRecord>();
 
     public virtual User Patient { get; set; } = null!;
-
-    public virtual User? Staff { get; set; }
 }
