@@ -10,7 +10,7 @@ namespace MedicineService.DAOs
             List<Medicine> medicines = new List<Medicine>();
             try
             {
-                using (var context = new SepprojectDbV3Context())
+                using (var context = new SepprojectDbV4Context())
                 {
                     var medicineList = context.Medicines.ToList();
                     foreach (var medicine in medicineList)
@@ -31,7 +31,7 @@ namespace MedicineService.DAOs
             var medicine = new Medicine();
             try
             {
-                using (var context = new SepprojectDbV3Context())
+                using (var context = new SepprojectDbV4Context())
                 {
                     medicine = context.Medicines.FirstOrDefault(m => m.MedicineId == id);
                 }
@@ -48,7 +48,7 @@ namespace MedicineService.DAOs
             var createMedicine = new Medicine();
             try
             {
-                using (var context = new SepprojectDbV3Context())
+                using (var context = new SepprojectDbV4Context())
                 {
                     var medicineCheck = context.Medicines.FirstOrDefault(m => m.MedicineName == medicine.MedicineName);
                     if (medicineCheck != null)
@@ -76,7 +76,7 @@ namespace MedicineService.DAOs
             var updatedMedicine = new Medicine();
             try
             {
-                using (var context = new SepprojectDbV3Context())
+                using (var context = new SepprojectDbV4Context())
                 {
                     var medicineCheck = context.Medicines.FirstOrDefault(m => m.MedicineId == medicine.MedicineId);
                     if (medicineCheck != null)
@@ -105,7 +105,7 @@ namespace MedicineService.DAOs
             var deletedMedicine = new Medicine();
             try
             {
-                using (var context = new SepprojectDbV3Context())
+                using (var context = new SepprojectDbV4Context())
                 {
                     var medicineCheck = context.Medicines.FirstOrDefault(m => m.MedicineId == id);
                     if (medicineCheck != null)
@@ -133,7 +133,7 @@ namespace MedicineService.DAOs
             List<Medicine> medicines = new List<Medicine>();
             try
             {
-                using (var context = new SepprojectDbV3Context())
+                using (var context = new SepprojectDbV4Context())
                 {
                     medicines = context.Medicines
                         .Where(m =>
