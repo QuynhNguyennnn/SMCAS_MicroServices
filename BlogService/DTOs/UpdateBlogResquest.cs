@@ -6,7 +6,7 @@
 
         public string Title { get; set; }
 
-        public string Context { get; set; } = null!;
+        public string Content { get; set; } = null!;
 
         public bool IsDraft { get; set; }
     }
