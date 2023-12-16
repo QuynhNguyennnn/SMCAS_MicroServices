@@ -11,7 +11,7 @@ public partial class Blog
 
     public string Title { get; set; } = null!;
 
-    public string Context { get; set; } = null!;
+    public string Content { get; set; } = null!;
 
     public DateTime WritingDate { get; set; }
 
