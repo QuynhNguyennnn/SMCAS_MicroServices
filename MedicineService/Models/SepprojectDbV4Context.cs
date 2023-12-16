@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace BlogService.Models;
+namespace MedicineService.Models;
 
-public partial class SepprojectDbV3Context : DbContext
+public partial class SepprojectDbV4Context : DbContext
 {
-    public SepprojectDbV3Context()
+    public SepprojectDbV4Context()
     {
     }
 
-    public SepprojectDbV3Context(DbContextOptions<SepprojectDbV3Context> options)
+    public SepprojectDbV4Context(DbContextOptions<SepprojectDbV4Context> options)
         : base(options)
     {
     }
@@ -41,7 +41,7 @@ public partial class SepprojectDbV3Context : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("server=LAPOFQUYNH; database = SEPProjectDB_v3;uid=sa;pwd=123456;TrustServerCertificate=true;");
+        => optionsBuilder.UseSqlServer("server=LAPOFQUYNH; database = SEPProjectDB_v4;uid=sa;pwd=123456;TrustServerCertificate=true;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -49,9 +49,7 @@ public partial class SepprojectDbV3Context : DbContext
         {
             entity.ToTable("Blog");
 
-            entity.Property(e => e.Context).IsUnicode(false);
             entity.Property(e => e.PublishedDate).HasColumnType("date");
-            entity.Property(e => e.Title).IsUnicode(false);
             entity.Property(e => e.WritingDate).HasColumnType("date");
 
             entity.HasOne(d => d.User).WithMany(p => p.Blogs)
@@ -86,7 +84,6 @@ public partial class SepprojectDbV3Context : DbContext
         {
             entity.ToTable("ChatHistory");
 
-            entity.Property(e => e.Message).IsUnicode(false);
             entity.Property(e => e.SendingTime).HasColumnType("datetime");
 
             entity.HasOne(d => d.Chat).WithMany(p => p.ChatHistories)
@@ -102,7 +99,6 @@ public partial class SepprojectDbV3Context : DbContext
             entity.ToTable("ExaminatedRecord");
 
             entity.Property(e => e.BloodPressure).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.Note).IsUnicode(false);
             entity.Property(e => e.RespirationRate).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.SpO2).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.Temperature).HasColumnType("decimal(18, 1)");
@@ -158,9 +154,7 @@ public partial class SepprojectDbV3Context : DbContext
         {
             entity.ToTable("Medicine");
 
-            entity.Property(e => e.MedicineName)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.MedicineName).HasMaxLength(50);
             entity.Property(e => e.PricePerUnit).HasColumnType("decimal(18, 2)");
 
             entity.HasOne(d => d.Code).WithMany(p => p.Medicines)
@@ -185,9 +179,7 @@ public partial class SepprojectDbV3Context : DbContext
 
             entity.ToTable("MedicineCode");
 
-            entity.Property(e => e.CodeName)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.CodeName).HasMaxLength(50);
         });
 
         modelBuilder.Entity<MedicineExaminatedRecord>(entity =>
@@ -213,68 +205,44 @@ public partial class SepprojectDbV3Context : DbContext
         {
             entity.ToTable("Role");
 
-            entity.Property(e => e.RoleName)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.RoleName).HasMaxLength(50);
         });
 
         modelBuilder.Entity<Unit>(entity =>
         {
             entity.ToTable("Unit");
 
-            entity.Property(e => e.UnitName)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.UnitName).HasMaxLength(50);
         });
 
         modelBuilder.Entity<User>(entity =>
         {
             entity.ToTable("User");
 
-            entity.Property(e => e.Address)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.Address).HasMaxLength(50);
             entity.Property(e => e.Birthday).HasColumnType("date");
-            entity.Property(e => e.Course)
-                .HasMaxLength(20)
-                .IsUnicode(false);
+            entity.Property(e => e.Course).HasMaxLength(50);
             entity.Property(e => e.EmergencyContact)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.Experience)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.FirstName)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.Gender)
-                .HasMaxLength(10)
-                .IsUnicode(false);
-            entity.Property(e => e.LastName)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.Major)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.Experience).HasMaxLength(50);
+            entity.Property(e => e.FirstName).HasMaxLength(50);
+            entity.Property(e => e.Gender).HasMaxLength(50);
+            entity.Property(e => e.LastName).HasMaxLength(50);
+            entity.Property(e => e.Major).HasMaxLength(50);
             entity.Property(e => e.Password).IsUnicode(false);
             entity.Property(e => e.PhoneNumber)
                 .HasMaxLength(11)
                 .IsUnicode(false);
-            entity.Property(e => e.Qualification)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.Qualification).HasMaxLength(50);
             entity.Property(e => e.StudentCode)
                 .HasMaxLength(20)
                 .IsUnicode(false);
-            entity.Property(e => e.University)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.University).HasMaxLength(50);
             entity.Property(e => e.Username)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.WorkPlace)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.WorkPlace).HasMaxLength(50);
 
             entity.HasOne(d => d.Role).WithMany(p => p.Users)
                 .HasForeignKey(d => d.RoleId)
