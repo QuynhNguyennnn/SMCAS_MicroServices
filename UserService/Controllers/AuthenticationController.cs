@@ -71,28 +71,20 @@ namespace UserService.Controllers
         {
             var serviceResponse = new ServiceResponse<AuthResponse>();
             var user = userService.GetUserByUsername(loginDto.Username);
-            var hash = BCrypt.Net.BCrypt.Verify(loginDto.Password, user.Password);
             if (user == null)
             {
                 serviceResponse.Message = "Username not found.";
                 return NotFound(serviceResponse);
-            } 
-            else if (!hash)
+            } else
             {
-                serviceResponse.Message = "Password not correct.";
-                return NotFound(serviceResponse);
-            }
-            else
-            {
-                /*
-                var userValidate = userService.Login(loginDto.Username, loginDto.Password);
-                if (userValidate == false)
+                var hash = BCrypt.Net.BCrypt.Verify(loginDto.Password, user.Password);
+                if (!hash)
                 {
-                    serviceResponse.Message = "Wrong password";
-                    return BadRequest(serviceResponse);
+                    serviceResponse.Message = "Password not correct.";
+                    return NotFound(serviceResponse);
                 }
                 else
-                {*/
+                {
                     var token = GeneratAccessToken(loginDto.Username);
                     authResponse.AccessToken = token;
                     var refreshToken = GenerateRefreshToken(loginDto.Username);
@@ -104,7 +96,7 @@ namespace UserService.Controllers
                     serviceResponse.Status = 200;
                     serviceResponse.TotalDataList = 1;
                     return Ok(serviceResponse);
-                
+                }
             }
         }
 
