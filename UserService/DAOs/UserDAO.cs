@@ -83,7 +83,7 @@ namespace UserService.DAOs
                         userNew.Password = user.Password;
                         userNew.Birthday = datetime;
                         userNew.Address = "Unidentified";
-                        userNew.Gender = "Unno";
+                        userNew.Gender = "Unknown";
                         userNew.RoleId = 2;
                         userNew.IsActive = true;
                         context.ChangeTracker.QueryTrackingBehavior = Microsoft.EntityFrameworkCore.QueryTrackingBehavior.NoTracking;
