@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MedicineService.DTOs;
 using MedicineService.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace MedicineService
 {
@@ -27,6 +28,13 @@ namespace MedicineService
             CreateMap<CreateMedicineRequest, Medicine>();
             CreateMap<Medicine, UpdateMedicineRequest>();
             CreateMap<UpdateMedicineRequest, Medicine>();
+
+            CreateMap<ExaminatedRecord, ExaminatedRecordResponse>();
+            CreateMap<ExaminatedRecordResponse, ExaminatedRecord>();
+            CreateMap<CreateExaminatedRecordRequest, ExaminatedRecord>();
+            CreateMap<ExaminatedRecord, CreateExaminatedRecordRequest>();
+            CreateMap<UpdateExaminatedRecordRequest, ExaminatedRecord>();
+            CreateMap<ExaminatedRecord, UpdateExaminatedRecordRequest>();
         }
     }
 }

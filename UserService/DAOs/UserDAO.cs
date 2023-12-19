@@ -206,7 +206,7 @@ namespace UserService.DAOs
                         userUpdate.Major = user.Major;
                         userUpdate.Experience = user.Experience;
                         userUpdate.WorkPlace = user.WorkPlace;
-                        userUpdate.Qualification = user.Qualification;  
+                        userUpdate.Qualification = user.Qualification;
                         userUpdate.EmergencyContact = user.EmergencyContact;
                         userUpdate.Course = user.Course;
                         userUpdate.StudentCode = user.StudentCode;
@@ -217,7 +217,8 @@ namespace UserService.DAOs
                     }
                     return userUpdate;
                 }
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 throw new Exception(e.Message);
             }
@@ -230,7 +231,7 @@ namespace UserService.DAOs
             {
                 using (var context = new SepprojectDbV4Context())
                 {
-                    var userCheck = context.Users.Where(u => (u.FirstName.ToLower().Contains(name.ToLower()) 
+                    var userCheck = context.Users.Where(u => (u.FirstName.ToLower().Contains(name.ToLower())
                                                                 || u.LastName.ToLower().Contains(name.ToLower()))
                                                                 && u.IsActive).ToList();
                     if (userCheck != null)
@@ -240,14 +241,36 @@ namespace UserService.DAOs
                             userList.Add(item);
                         }
                         return userList;
-                    } else
+                    }
+                    else
                     {
                         return null;
                     }
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
+            }
+        }
+
+        public static List<User> GetDoctors()
+        {
+            List<User> users = new List<User>();
+            try
+            {
+                using (var context = new SepprojectDbV4Context())
+                {
+                    var doctorList = context.Users.Where(u => u.RoleId == 1 && u.IsActive);
+                    foreach (var doctor in doctorList)
+                    {
+                        users.Add(doctor);
+                    }
+                }
+                return users;
+            }
+            catch (Exception ex) { 
+                throw new Exception(ex.Message); 
             }
         }
     }
