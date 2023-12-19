@@ -307,5 +307,23 @@ namespace UserService.Controllers
             }
             return response;
         }
+
+        [HttpGet("Doctors")]
+        //[Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<List<DoctorResponse>>> GetDoctors()
+        {
+            var response = new ServiceResponse<List<DoctorResponse>>();
+            var userResponseList = new List<DoctorResponse>();
+            var userList = userService.GetDoctors();
+            foreach (var user in userList)
+            {
+                userResponseList.Add(_mapper.Map<DoctorResponse>(user));
+            }
+            response.Data = userResponseList;
+            response.Message = "Get User List";
+            response.Status = 200;
+            response.TotalDataList = userResponseList.Count;
+            return response;
+        }
     }
 }
