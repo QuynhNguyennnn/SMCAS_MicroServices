@@ -7,5 +7,7 @@ namespace MedicineService.Services.ExaminatedRecordFolder
         List<ExaminatedRecord> GetAll();
         ExaminatedRecord GetRecordById(int id);
         ExaminatedRecord CreateRecord(ExaminatedRecord record);
+        ExaminatedRecord UpdateRecord(ExaminatedRecord record);
+        ExaminatedRecord DeleteRecord(int id);
     }
 }

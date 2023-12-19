@@ -82,7 +82,7 @@ namespace MedicineService.DAOs
                 using (var context = new SepprojectDbV4Context())
                 {
                     var recordCheck = context.ExaminatedRecords.SingleOrDefault(r => r.RecordId == record.RecordId);
-                    if (recordCheck == null)
+                    if (recordCheck != null)
                     {
                         updatedRecord = record;
                         context.Entry(recordCheck).CurrentValues.SetValues(updatedRecord);
@@ -121,6 +121,27 @@ namespace MedicineService.DAOs
                 }
                 return deletedRecord;
             } catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public static List<ExaminatedRecord> SearchRecordByDoctor()
+        {
+            List<ExaminatedRecord> examinatedRecords = new List<ExaminatedRecord>();
+            try
+            {
+                using (var context = new SepprojectDbV4Context())
+                {
+                    var records = context.ExaminatedRecords.Where(r => r.DoctorId == 1 && r.IsActive);
+                    foreach (var record in records)
+                    {
+                        examinatedRecords.Add(record);
+                    }
+                }
+                return examinatedRecords;
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }

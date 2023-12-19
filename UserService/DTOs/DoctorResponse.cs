@@ -20,6 +20,7 @@
 
         public string? EmergencyContact { get; set; }
 
-        public bool IsActive { get; set; }
+        public string PhoneNumber { get; set; } = null!;
+
     }
 }

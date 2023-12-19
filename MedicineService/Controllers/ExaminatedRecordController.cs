@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure.Core;
 using MedicineService.DTOs;
 using MedicineService.Models;
 using MedicineService.Services;
@@ -80,10 +81,49 @@ namespace MedicineService.Controllers
         }
 
         [HttpPut("Update")]
-        [Authorize(Roles = "Doctor, Admin")]
+        //[Authorize(Roles = "Doctor, Admin")]
         public ActionResult<ServiceResponse<ExaminatedRecordResponse>> UpdateExaminatedRecord(UpdateExaminatedRecordRequest request)
         {
+            var response = new ServiceResponse<ExaminatedRecordResponse>();
+            var recordMap = _mapper.Map<ExaminatedRecord>(request);
+            var updatedRecord = recordService.UpdateRecord(recordMap);
+            if (updatedRecord != null)
+            {
+                response.Data = _mapper.Map<ExaminatedRecordResponse>(updatedRecord);
+                response.Status = 200;
+                response.Message = "Updated record successful.";
+                response.TotalDataList = 1;
+            } else
+            {
+                response.Data = null;
+                response.Status = 404;
+                response.Message = "Record not found.";
+                response.TotalDataList = 0;
+            }
+            return response;
+        }
 
+        [HttpPut("Delete")]
+        //[Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<ExaminatedRecordResponse>> DeleteExaminatedRecord(int id)
+        {
+            var response = new ServiceResponse<ExaminatedRecordResponse>();
+            var updatedRecord = recordService.DeleteRecord(id);
+            if (updatedRecord != null)
+            {
+                response.Data = _mapper.Map<ExaminatedRecordResponse>(updatedRecord);
+                response.Status = 200;
+                response.Message = "Delete record successful.";
+                response.TotalDataList = 1;
+            }
+            else
+            {
+                response.Data = null;
+                response.Status = 404;
+                response.Message = "Record not found.";
+                response.TotalDataList = 0;
+            }
+            return response;
         }
     }
 }
