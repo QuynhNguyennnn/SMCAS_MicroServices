@@ -101,6 +101,7 @@ namespace UserService.Controllers
         }
 
         [HttpPost("refreshToken")]
+        [Authorize(Roles = "Admin, Doctor, Staff, Medical Staff, Student")]
         public ActionResult<ServiceResponse<AuthResponse>> RefreshToken(string refreshToken)
         {
             var serviceResponse = new ServiceResponse<AuthResponse>();
@@ -252,8 +253,8 @@ namespace UserService.Controllers
             return Ok(response);
         }
 
-        [HttpPost("Update")]
-        [Authorize(Roles = "Admin")]
+        [HttpPut("Update")]
+        [Authorize(Roles = "Admin, Doctor, Staff, Medical Staff, Student")]
         public ActionResult<ServiceResponse<UserResponse>> UpdateUser(UpdateUserRequest updateRequest)
         {
             var response = new ServiceResponse<UserResponse>();
@@ -305,6 +306,82 @@ namespace UserService.Controllers
                 response.Status = 404;
                 response.TotalDataList = userResponseList.Count;
             }
+            return response;
+        }
+
+        [HttpGet("Doctors")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<List<DoctorResponse>>> GetDoctors()
+        {
+            var response = new ServiceResponse<List<DoctorResponse>>();
+            var userResponseList = new List<DoctorResponse>();
+            var userList = userService.GetDoctors();
+            var r = 1;
+            foreach (var user in userList)
+            {
+                var userRe = _mapper.Map<DoctorResponse>(user);
+                userRe.Key = r;
+                userResponseList.Add(userRe);
+                r++;
+            }
+            response.Data = userResponseList;
+            response.Message = "Get Doctors List";
+            response.Status = 200;
+            response.TotalDataList = userResponseList.Count;
+            return response;
+        }
+
+        [HttpGet("Students")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<List<StudentResponse>>> GetStudents()
+        {
+            var response = new ServiceResponse<List<StudentResponse>>();
+            var userResponseList = new List<StudentResponse>();
+            var userList = userService.GetStudents();
+            var r = 1;
+            foreach (var user in userList)
+            {
+                var userRe = _mapper.Map<StudentResponse>(user);
+                userRe.Key = r;
+                userResponseList.Add(userRe);
+                r++;
+            }
+            response.Data = userResponseList;
+            response.Message = "Get Student List";
+            response.Status = 200;
+            response.TotalDataList = userResponseList.Count;
+            return response;
+        }
+
+        [HttpGet("Users")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<List<UserManagementResponse>>> GetUserList()
+        {
+            var response = new ServiceResponse<List<UserManagementResponse>>();
+            var userResponseList = new List<UserManagementResponse>();
+            var userList = userService.GetUsers();
+            var roleList = roleService.GetRoles();
+            var r = 1;
+            foreach (var user in userList)
+            {
+                var userRe = _mapper.Map<UserManagementResponse>(user);
+                userRe.Key = r;
+                
+                foreach (var role in roleList)
+                {
+                    if (user.RoleId == role.RoleId)
+                    {
+                        userRe.RoleName = role.RoleName;
+                        break;
+                    }
+                }
+                userResponseList.Add(userRe);
+                r++;
+            }
+            response.Data = userResponseList;
+            response.Message = "Get User List";
+            response.Status = 200;
+            response.TotalDataList = userResponseList.Count;
             return response;
         }
     }
