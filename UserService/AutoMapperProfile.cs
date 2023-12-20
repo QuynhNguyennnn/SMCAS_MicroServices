@@ -22,6 +22,14 @@ namespace UserService
             CreateMap<UpdateRoleRequest, Role>();
             CreateMap<Role, UpdateRoleRequest>();
 
+            CreateMap<Feedback, FeedbackResponse>();
+            CreateMap<FeedbackResponse, Feedback>();
+            CreateMap<Feedback, AddFeedbackRequest>();
+            CreateMap<AddFeedbackRequest, Feedback>();
+            CreateMap<Feedback, UpdateFeedbackRequest>();
+            CreateMap<UpdateFeedbackRequest, Feedback>();
+            CreateMap<Feedback, DeleteFeedbackRequest>();
+            CreateMap<DeleteFeedbackRequest, Feedback>();
         }
     }
 }
