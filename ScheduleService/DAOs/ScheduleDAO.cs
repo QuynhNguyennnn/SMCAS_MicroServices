@@ -1,6 +1,291 @@
-﻿namespace ScheduleService.DAOs
+﻿using ScheduleService.Models;
+
+namespace ScheduleService.DAOs
 {
     public class ScheduleDAO
     {
+        public static List<MedicalExaminationSchedule> GetScheduleList()
+        {
+            List<MedicalExaminationSchedule> schedules = new List<MedicalExaminationSchedule>();
+            try
+            {
+                using (var context = new SepprojectDbV4Context())
+                {
+                    var scheduleList = context.MedicalExaminationSchedules.ToList();
+                    foreach (var schedule in scheduleList)
+                    {
+                        if (schedule.IsActive)
+                        {
+                            schedules.Add(schedule);
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return schedules;
+        }
+
+        public static MedicalExaminationSchedule GetScheduleById(int id)
+        {
+            MedicalExaminationSchedule schedule = new MedicalExaminationSchedule();
+            try
+            {
+                using (var context = new SepprojectDbV4Context())
+                {
+                    schedule = context.MedicalExaminationSchedules.SingleOrDefault(s => (s.ScheduleId == id) && s.IsActive);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return schedule;
+        }
+
+        public static List<MedicalExaminationSchedule> GetScheduleListByDoctorId(int id)
+        {
+            List<MedicalExaminationSchedule> schedules = new List<MedicalExaminationSchedule>();
+            try
+            {
+                using (var context = new SepprojectDbV4Context())
+                {
+                    schedules = context.MedicalExaminationSchedules.Where(s => s.DoctorId == id && s.IsActive).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return schedules;
+        }
+
+        public static List<MedicalExaminationSchedule> GetEmptyScheduleByDoctorId(int id)
+        {
+            List<MedicalExaminationSchedule> schedules = new List<MedicalExaminationSchedule>();
+            try
+            {
+                using (var context = new SepprojectDbV4Context())
+                {
+                    schedules = context.MedicalExaminationSchedules.Where(s => s.PatientId == null && s.IsActive).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return schedules;
+        }
+
+        public static List<MedicalExaminationSchedule> GetScheduleWaitingConfirmByDoctorId(int id)
+        {
+            List<MedicalExaminationSchedule> schedules = new List<MedicalExaminationSchedule>();
+            try
+            {
+                using (var context = new SepprojectDbV4Context())
+                {
+                    schedules = context.MedicalExaminationSchedules.Where(s => s.PatientId != null && s.IsActive && !s.IsAccepted && s.DoctorId == id).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return schedules;
+        }
+
+        public static List<MedicalExaminationSchedule> GetScheduleWaitingConfirmByPatientId(int id)
+        {
+            List<MedicalExaminationSchedule> schedules = new List<MedicalExaminationSchedule>();
+            try
+            {
+                using (var context = new SepprojectDbV4Context())
+                {
+                    schedules = context.MedicalExaminationSchedules.Where(s => s.PatientId == id && s.IsActive && !s.IsAccepted).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return schedules;
+        }
+
+        public static MedicalExaminationSchedule CreateSchedule(MedicalExaminationSchedule schedule)
+        {
+            try
+            {
+                using (var context = new SepprojectDbV4Context())
+                {
+                    schedule.IsActive = true;
+                    schedule.IsAccepted = false;
+
+                    context.MedicalExaminationSchedules.Add(schedule);
+                    context.SaveChanges();
+
+                    return schedule;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public static MedicalExaminationSchedule UpdateSchedule(MedicalExaminationSchedule schedule)
+        {
+            MedicalExaminationSchedule updateSchedule = new MedicalExaminationSchedule();
+            try
+            {
+                using (var context = new SepprojectDbV4Context())
+                {
+                    var scheduleCheck = context.MedicalExaminationSchedules.FirstOrDefault(s => s.ScheduleId == schedule.ScheduleId && s.IsActive && s.PatientId == null);
+                    if (scheduleCheck != null)
+                    {
+                        updateSchedule = schedule;
+                        updateSchedule.DoctorId = scheduleCheck.DoctorId;
+                        updateSchedule.IsActive = scheduleCheck.IsActive;
+                        context.Entry(scheduleCheck).CurrentValues.SetValues(updateSchedule);
+                        context.SaveChanges();
+                    }
+                    else
+                    {
+                        return null;
+                    }
+
+                    return updateSchedule;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public static MedicalExaminationSchedule RegisterSchedule(MedicalExaminationSchedule schedule)
+        {
+            MedicalExaminationSchedule updateSchedule = new MedicalExaminationSchedule();
+            try
+            {
+                using (var context = new SepprojectDbV4Context())
+                {
+                    var scheduleCheck = context.MedicalExaminationSchedules.FirstOrDefault(s => s.ScheduleId == schedule.ScheduleId && s.IsActive && s.PatientId == null);
+                    if (scheduleCheck != null)
+                    {
+                        updateSchedule = scheduleCheck;
+                        updateSchedule.PatientId = schedule.PatientId;
+                        updateSchedule.IsActive = scheduleCheck.IsActive;
+                        context.Entry(scheduleCheck).CurrentValues.SetValues(updateSchedule);
+                        context.SaveChanges();
+                    }
+                    else
+                    {
+                        return null;
+                    }
+
+                    return updateSchedule;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public static MedicalExaminationSchedule AcceptSchedule(int id)
+        {
+            MedicalExaminationSchedule updateSchedule = new MedicalExaminationSchedule();
+            try
+            {
+                using (var context = new SepprojectDbV4Context())
+                {
+                    var scheduleCheck = context.MedicalExaminationSchedules.FirstOrDefault(s => s.ScheduleId == id && s.IsActive && s.PatientId != null && !s.IsAccepted);
+                    if (scheduleCheck != null)
+                    {
+                        updateSchedule = scheduleCheck;
+                        updateSchedule.IsActive = scheduleCheck.IsActive;
+                        updateSchedule.IsAccepted = true;
+                        context.Entry(scheduleCheck).CurrentValues.SetValues(updateSchedule);
+                        context.SaveChanges();
+                    }
+                    else
+                    {
+                        return null;
+                    }
+
+                    return updateSchedule;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public static MedicalExaminationSchedule RejectSchedule(int id)
+        {
+            MedicalExaminationSchedule updateSchedule = new MedicalExaminationSchedule();
+            try
+            {
+                using (var context = new SepprojectDbV4Context())
+                {
+                    var scheduleCheck = context.MedicalExaminationSchedules.FirstOrDefault(s => s.ScheduleId == id && s.IsActive && s.PatientId != null && !s.IsAccepted);
+                    if (scheduleCheck != null)
+                    {
+                        updateSchedule = scheduleCheck;
+                        updateSchedule.IsActive = scheduleCheck.IsActive;
+                        updateSchedule.PatientId = null;
+                        context.Entry(scheduleCheck).CurrentValues.SetValues(updateSchedule);
+                        context.SaveChanges();
+                    }
+                    else
+                    {
+                        return null;
+                    }
+
+                    return updateSchedule;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public static MedicalExaminationSchedule DeleteSchedule(int id)
+        {
+            try
+            {
+                using (var context = new SepprojectDbV4Context())
+                {
+                    var _schedule = context.MedicalExaminationSchedules.SingleOrDefault(s => s.ScheduleId == id && s.IsActive);
+                    if (_schedule != null)
+                    {
+                        if (_schedule.PatientId != null)
+                        {
+                            throw new Exception("Cannot delete this schedule");
+                        }
+                        _schedule.IsActive = false;
+
+                        // Sử dụng SetValues để cập nhật giá trị từ movie vào _movie
+                        context.Entry(_schedule).CurrentValues.SetValues(_schedule);
+                        context.SaveChanges();
+
+                        return _schedule; // Trả về _feedback sau khi cập nhật
+                    }
+                    else
+                    {
+                        throw new Exception("Schedule does not exist");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
