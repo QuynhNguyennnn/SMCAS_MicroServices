@@ -13,6 +13,7 @@ namespace UserService.Services
         User UpdateUser(User user);
         List<User> SearchUserByName(string name);
         List<User> GetDoctors();
+        List<User> GetStudents();
 
     }
 }

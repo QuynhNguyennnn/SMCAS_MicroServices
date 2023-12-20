@@ -106,13 +106,10 @@ namespace UserService.DAOs
             {
                 using (var context = new SepprojectDbV4Context())
                 {
-                    var userList = context.Users.ToList();
+                    var userList = context.Users.ToList().Where(u => u.IsActive);
                     foreach (var user in userList)
                     {
-                        if (user.IsActive)
-                        {
-                            users.Add(user);
-                        }
+                        users.Add(user);
                     }
                 }
             }
@@ -269,9 +266,33 @@ namespace UserService.DAOs
                 }
                 return users;
             }
-            catch (Exception ex) { 
-                throw new Exception(ex.Message); 
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
+
+        public static List<User> GetStudents()
+        {
+            List<User> users = new List<User>();
+            try
+            {
+                using (var context = new SepprojectDbV4Context())
+                {
+                    var studnetList = context.Users.Where(u => u.RoleId == 2 && u.IsActive);
+                    foreach (var student in studnetList)
+                    {
+                        users.Add(student);
+                    }
+                }
+                return users;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
     }
 }
