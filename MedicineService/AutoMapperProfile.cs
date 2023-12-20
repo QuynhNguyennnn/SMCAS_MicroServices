@@ -35,6 +35,13 @@ namespace MedicineService
             CreateMap<ExaminatedRecord, CreateExaminatedRecordRequest>();
             CreateMap<UpdateExaminatedRecordRequest, ExaminatedRecord>();
             CreateMap<ExaminatedRecord, UpdateExaminatedRecordRequest>();
+
+            CreateMap<MedicineExaminatedRecord,  MedicineExaminatedRecordResponse>();
+            CreateMap<MedicineExaminatedRecordResponse,  MedicineExaminatedRecord>();
+            CreateMap<CreateMedicineExaminatedRecordRequest, MedicineExaminatedRecord>();
+            CreateMap<MedicineExaminatedRecord, CreateMedicineExaminatedRecordRequest>();
+            CreateMap<UpdateMedicineExaminatedRecordRequest, MedicineExaminatedRecord>();
+            CreateMap<MedicineExaminatedRecord, UpdateMedicineExaminatedRecordRequest>();
         }
     }
 }

@@ -101,6 +101,7 @@ namespace UserService.Controllers
         }
 
         [HttpPost("refreshToken")]
+        [Authorize(Roles = "Admin, Doctor, Staff, Medical Staff, Student")]
         public ActionResult<ServiceResponse<AuthResponse>> RefreshToken(string refreshToken)
         {
             var serviceResponse = new ServiceResponse<AuthResponse>();
@@ -252,8 +253,8 @@ namespace UserService.Controllers
             return Ok(response);
         }
 
-        [HttpPost("Update")]
-        [Authorize(Roles = "Admin")]
+        [HttpPut("Update")]
+        [Authorize(Roles = "Admin, Doctor, Staff, Medical Staff, Student")]
         public ActionResult<ServiceResponse<UserResponse>> UpdateUser(UpdateUserRequest updateRequest)
         {
             var response = new ServiceResponse<UserResponse>();
@@ -309,7 +310,7 @@ namespace UserService.Controllers
         }
 
         [HttpGet("Doctors")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult<ServiceResponse<List<DoctorResponse>>> GetDoctors()
         {
             var response = new ServiceResponse<List<DoctorResponse>>();
