@@ -1,71 +1,64 @@
 ﻿using MedicineService.Models;
-using System.Security.Cryptography.Xml;
 
 namespace MedicineService.DAOs
 {
-    public class ExaminatedRecordDAO
+    public class MedicineExaminatedRecordDAO
     {
-        public static List<ExaminatedRecord> GetAll()
+        public static List<MedicineExaminatedRecord> GetAllMedicineRecord()
         {
-            List<ExaminatedRecord> examinatedRecords = new List<ExaminatedRecord>();
+            List<MedicineExaminatedRecord> examinatedRecords = new List<MedicineExaminatedRecord>();
             try
             {
                 using (var context = new SepprojectDbV4Context())
                 {
-                    var records = context.ExaminatedRecords.ToList();
+                    var records = context.MedicineExaminatedRecords.ToList().Where(r => r.IsActive);
                     foreach (var record in records)
                     {
                         examinatedRecords.Add(record);
                     }
                 }
                 return examinatedRecords;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public static MedicineExaminatedRecord GetRecordById(int id)
+        {
+            var record = new MedicineExaminatedRecord();
+            try
+            {
+                using (var context = new SepprojectDbV4Context())
+                {
+                    var recordCheck = context.MedicineExaminatedRecords.FirstOrDefault(r => r.Meid == id && r.IsActive);
+                    if (recordCheck != null)
+                    {
+                        record = recordCheck;
+                    } else
+                    {
+                        return null;
+                    }
+                }
+                return record;
             } catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
 
-        public static ExaminatedRecord GetRecordById(int id)
+        public static MedicineExaminatedRecord CreateMedicineRecord(MedicineExaminatedRecord record)
         {
-            var record = new ExaminatedRecord();
+            var createdRecord = new MedicineExaminatedRecord();
             try
             {
                 using (var context = new SepprojectDbV4Context())
                 {
-                    var recordCheck = context.ExaminatedRecords.SingleOrDefault(r => r.RecordId == id);
-                    if (recordCheck != null)
-                    {
-                        record = recordCheck;
-                    } else
-                    {
-                        record = null;
-                    }
-                }
-                return record;
-            } catch(Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-        public static ExaminatedRecord CreateRecord(ExaminatedRecord record)
-        {
-            var createdRecord = new ExaminatedRecord();
-            try
-            {
-                using (var context = new SepprojectDbV4Context())
-                {
-                    /*var recordCheck = context.ExaminatedRecords.SingleOrDefault(r => r.RecordId == record.RecordId);
-                    if (recordCheck != null)
-                    {
-                        createdRecord = null;
-                    }
-                    else
-                    {*/
-                        createdRecord = record;
-                        context.ExaminatedRecords.Add(createdRecord);
-                        context.SaveChanges();
-                    //}
+                    createdRecord = record;
+                    createdRecord.IsActive = true;
+                    context.MedicineExaminatedRecords.Add(createdRecord);
+                    context.SaveChanges();
                 }
                 return createdRecord;
             } catch (Exception ex)
@@ -74,23 +67,22 @@ namespace MedicineService.DAOs
             }
         }
 
-        public static ExaminatedRecord UpdateRecord(ExaminatedRecord record)
+        public static MedicineExaminatedRecord UpdateMedicineRecord(MedicineExaminatedRecord record)
         {
-            var updatedRecord = new ExaminatedRecord();
+            var updatedRecord = new MedicineExaminatedRecord();
             try
             {
                 using (var context = new SepprojectDbV4Context())
                 {
-                    var recordCheck = context.ExaminatedRecords.SingleOrDefault(r => r.RecordId == record.RecordId);
+                    var recordCheck = context.MedicineExaminatedRecords.FirstOrDefault(r => r.Meid == record.Meid);
                     if (recordCheck != null)
                     {
                         updatedRecord = record;
                         context.Entry(recordCheck).CurrentValues.SetValues(updatedRecord);
                         context.SaveChanges();
-                    }
-                    else
+                    } else
                     {
-                        updatedRecord = null;
+                        return null;
                     }
                 }
                 return updatedRecord;
@@ -100,48 +92,52 @@ namespace MedicineService.DAOs
             }
         }
 
-        public static ExaminatedRecord DeleteRecord(int id)
+        public static MedicineExaminatedRecord DeleteMedicineRecord(int id)
         {
-            var deletedRecord = new ExaminatedRecord();
+            var deletedRecord = new MedicineExaminatedRecord();
             try
             {
                 using (var context = new SepprojectDbV4Context())
                 {
-                    var recordCheck = context.ExaminatedRecords.FirstOrDefault(r => r.RecordId == id);
-                    if (recordCheck == null)
-                    {
-                        return null;
-                    } else
+                    var recordCheck = context.MedicineExaminatedRecords.FirstOrDefault(r => r.Meid == id && r.IsActive);
+                    if (recordCheck != null)
                     {
                         deletedRecord = recordCheck;
                         deletedRecord.IsActive = false;
-                        context.Entry(deletedRecord).CurrentValues.SetValues(recordCheck);
+                        context.Entry(recordCheck).CurrentValues.SetValues(deletedRecord);
                         context.SaveChanges();
+                    }
+                    else
+                    {
+                        return null;
                     }
                 }
                 return deletedRecord;
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
 
-        public static List<ExaminatedRecord> SearchRecordByPeopleId(int id)
+        public static MedicineExaminatedRecord SearchByRecordId(int id)
         {
-            List<ExaminatedRecord> examinatedRecords = new List<ExaminatedRecord>();
+            var record = new MedicineExaminatedRecord();
             try
             {
                 using (var context = new SepprojectDbV4Context())
                 {
-                    var records = context.ExaminatedRecords.Where(r => (r.DoctorId == id || r.PatientId == id) && r.IsActive);
-                    foreach (var record in records)
+                    var recordCheck = context.MedicineExaminatedRecords.FirstOrDefault(r => r.RecordId == id && r.IsActive);
+                    if (recordCheck != null)
                     {
-                        examinatedRecords.Add(record);
+                        record = recordCheck;
+                    } else
+                    {
+                        return null;
                     }
                 }
-                return examinatedRecords;
-            }
-            catch (Exception ex)
+                return record;
+            } catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
