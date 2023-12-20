@@ -34,9 +34,9 @@ namespace BlogService.Controllers
             var response = new ServiceResponse<List<BlogResponse>>();
             var blogResponseList = new List<BlogResponse>();
             var blogList = service.GetBlogList();
-            foreach (var movie in blogList)
+            foreach (var blog in blogList)
             {
-                BlogResponse blogResponse = _mapper.Map<BlogResponse>(movie);
+                BlogResponse blogResponse = _mapper.Map<BlogResponse>(blog);
                 blogResponseList.Add(blogResponse);
             }
 

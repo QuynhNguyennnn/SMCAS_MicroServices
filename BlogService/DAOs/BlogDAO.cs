@@ -13,12 +13,11 @@ namespace BlogService.DAOs
                 using (var context = new SepprojectDbV4Context())
                 {
                     var blogList = context.Blogs.ToList();
-                    foreach (var movie in blogList)
+                    foreach (var blog in blogList)
                     {
-                        if (movie.IsActive)
+                        if (blog.IsActive)
                         {
-                            blogs.Add(movie);
-
+                            blogs.Add(blog);
                         }
                     }
                 }

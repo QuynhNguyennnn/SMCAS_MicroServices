@@ -14,6 +14,13 @@ namespace UserService
 
             CreateMap<UserResponse, User>();
             CreateMap<User, UserResponse>();
+            CreateMap<User, DoctorResponse>();
+            CreateMap<DoctorResponse, User>();
+            CreateMap<User, DoctorResponse>();
+            CreateMap<StudentResponse, User>();
+            CreateMap<User, StudentResponse>();
+            CreateMap<UserManagementResponse, User>();
+            CreateMap<User, UserManagementResponse>();
 
             CreateMap<RoleResponse, Role>();
             CreateMap<Role, RoleResponse>();
@@ -22,6 +29,14 @@ namespace UserService
             CreateMap<UpdateRoleRequest, Role>();
             CreateMap<Role, UpdateRoleRequest>();
 
+            CreateMap<Feedback, FeedbackResponse>();
+            CreateMap<FeedbackResponse, Feedback>();
+            CreateMap<Feedback, AddFeedbackRequest>();
+            CreateMap<AddFeedbackRequest, Feedback>();
+            CreateMap<Feedback, UpdateFeedbackRequest>();
+            CreateMap<UpdateFeedbackRequest, Feedback>();
+            CreateMap<Feedback, DeleteFeedbackRequest>();
+            CreateMap<DeleteFeedbackRequest, Feedback>();
         }
     }
 }

@@ -12,5 +12,8 @@ namespace UserService.Services
         User DeleteUser(int id);
         User UpdateUser(User user);
         List<User> SearchUserByName(string name);
+        List<User> GetDoctors();
+        List<User> GetStudents();
+
     }
 }
