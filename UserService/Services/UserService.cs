@@ -7,6 +7,8 @@ namespace UserService.Services
     {
         public User DeleteUser(int id) => UserDAO.DeleteUser(id);
 
+        public List<User> GetDoctors() => UserDAO.GetDoctors();
+
         public User GetUserById(int id) => UserDAO.GetUserById(id);
 
         public User GetUserByUsername(string username) => UserDAO.GetUserByUsername(username);
