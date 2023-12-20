@@ -316,9 +316,13 @@ namespace UserService.Controllers
             var response = new ServiceResponse<List<DoctorResponse>>();
             var userResponseList = new List<DoctorResponse>();
             var userList = userService.GetDoctors();
+            var r = 1;
             foreach (var user in userList)
             {
-                userResponseList.Add(_mapper.Map<DoctorResponse>(user));
+                var userRe = _mapper.Map<DoctorResponse>(user);
+                userRe.Key = r;
+                userResponseList.Add(userRe);
+                r++;
             }
             response.Data = userResponseList;
             response.Message = "Get User List";

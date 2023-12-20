@@ -4,6 +4,8 @@
     {
         public int UserId { get; set; }
 
+        public int Key {  get; set; }
+
         public string Username { get; set; } = null!;
 
         public string Gender { get; set; } = null!;
