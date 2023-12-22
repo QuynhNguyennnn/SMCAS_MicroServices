@@ -392,11 +392,21 @@ namespace UserService.Controllers
             var response = new ServiceResponse<List<StaffResponse>>();
             var userResponseList = new List<StaffResponse>();
             var userList = userService.GetStaffs();
+            var roleList = roleService.GetRoles();
             var r = 1;
             foreach (var user in userList)
             {
                 var userRe = _mapper.Map<StaffResponse>(user);
                 userRe.Key = r;
+
+                foreach (var role in roleList)
+                {
+                    if (user.RoleId == role.RoleId)
+                    {
+                        userRe.RoleName = role.RoleName;
+                        break;
+                    }
+                }
                 userResponseList.Add(userRe);
                 r++;
             }
