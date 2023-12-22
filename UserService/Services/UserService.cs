@@ -9,6 +9,8 @@ namespace UserService.Services
 
         public List<User> GetDoctors() => UserDAO.GetDoctors();
 
+        public List<User> GetStaffs() => UserDAO.GetStaffs();
+
         public List<User> GetStudents() => UserDAO.GetStudents();
 
         public User GetUserById(int id) => UserDAO.GetUserById(id);
