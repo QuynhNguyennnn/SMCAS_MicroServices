@@ -17,6 +17,7 @@
         public string? WorkPlace { get; set; }
 
         public string? Qualification { get; set; }
+        public string? Experience { get; set; }
 
         public string? RoleName { get; set; }
 
