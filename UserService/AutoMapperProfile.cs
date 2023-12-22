@@ -21,6 +21,8 @@ namespace UserService
             CreateMap<User, StudentResponse>();
             CreateMap<UserManagementResponse, User>();
             CreateMap<User, UserManagementResponse>();
+            CreateMap<StaffResponse, User>();  
+            CreateMap<User, StaffResponse>();
 
             CreateMap<RoleResponse, Role>();
             CreateMap<Role, RoleResponse>();
