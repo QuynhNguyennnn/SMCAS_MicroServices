@@ -293,6 +293,25 @@ namespace UserService.DAOs
             }
         }
 
-
+        public static List<User> GetStaffs()
+        {
+            List<User> users = new List<User>();
+            try
+            {
+                using (var context = new SepprojectDbV4Context())
+                {
+                    var studnetList = context.Users.Where(u => (u.RoleId == 3 || u.RoleId == 4) && u.IsActive);
+                    foreach (var student in studnetList)
+                    {
+                        users.Add(student);
+                    }
+                }
+                return users;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

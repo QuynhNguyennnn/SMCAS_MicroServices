@@ -384,5 +384,27 @@ namespace UserService.Controllers
             response.TotalDataList = userResponseList.Count;
             return response;
         }
+
+        [HttpGet("Staffs")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<List<StaffResponse>>> GetStaff()
+        {
+            var response = new ServiceResponse<List<StaffResponse>>();
+            var userResponseList = new List<StaffResponse>();
+            var userList = userService.GetStaffs();
+            var r = 1;
+            foreach (var user in userList)
+            {
+                var userRe = _mapper.Map<StaffResponse>(user);
+                userRe.Key = r;
+                userResponseList.Add(userRe);
+                r++;
+            }
+            response.Data = userResponseList;
+            response.Message = "Get Staff List";
+            response.Status = 200;
+            response.TotalDataList = userResponseList.Count;
+            return response;
+        }
     }
 }

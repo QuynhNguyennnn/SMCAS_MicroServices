@@ -14,6 +14,7 @@ namespace UserService.Services
         List<User> SearchUserByName(string name);
         List<User> GetDoctors();
         List<User> GetStudents();
+        List<User> GetStaffs();
 
     }
 }
