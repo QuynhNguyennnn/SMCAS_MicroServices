@@ -313,5 +313,33 @@ namespace UserService.DAOs
                 throw new Exception(ex.Message);
             }
         }
+
+        public static User CreateUser(User user)
+        {
+            var userNew = new User();
+            try
+            {
+                using (var context = new SepprojectDbV4Context())
+                {
+                    var userCheck = context.Users.FirstOrDefault(u => u.Username == user.Username);
+                    if (userCheck == null)
+                    {
+                        userNew = user;
+                        userNew.IsActive = true;
+                        context.Users.Add(userNew);
+                        context.SaveChanges();
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                return userNew;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
