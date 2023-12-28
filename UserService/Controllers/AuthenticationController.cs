@@ -416,5 +416,42 @@ namespace UserService.Controllers
             response.TotalDataList = userResponseList.Count;
             return response;
         }
+
+        [HttpPost("Create")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<UserResponse>> CreateUser(CreateUserRequest request)
+        {
+            var response = new ServiceResponse<UserResponse>();
+            var userMap = _mapper.Map<User>(request);
+            var roleCheck = roleService.GetRoleById(request.RoleId);
+            if (roleCheck != null)
+            {
+                var passwordHash = HashPassword(request.Password);
+                userMap.Password = passwordHash;
+                var userCreated = userService.CreateUser(userMap);
+                if (userCreated != null)
+                {
+                    var user = _mapper.Map<UserResponse>(userCreated);
+                    response.Data = user;
+                    response.Message = "Create user successful.";
+                    response.Status = 200;
+                    response.TotalDataList = 1;
+                }
+                else
+                {
+                    response.Data = null;
+                    response.Message = "Create user failed.";
+                    response.Status = 400;
+                    response.TotalDataList = 0;
+                }
+            } else
+            {
+                response.Data = null;
+                response.Message = "Role not found.";
+                response.Status = 404;
+                response.TotalDataList = 0;
+            }
+            return response;
+        }
     }
 }
