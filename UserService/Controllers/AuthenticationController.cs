@@ -404,6 +404,7 @@ namespace UserService.Controllers
                     if (user.RoleId == role.RoleId)
                     {
                         userRe.RoleName = role.RoleName;
+                        userRe.RoleId = role.RoleId;
                         break;
                     }
                 }
