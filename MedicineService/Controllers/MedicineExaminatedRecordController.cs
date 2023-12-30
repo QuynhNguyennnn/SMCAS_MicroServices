@@ -165,5 +165,49 @@ namespace MedicineService.Controllers
             response.TotalDataList = 1;
             return response;
         }
+
+        [HttpPost("CreateList")]
+        [Authorize(Roles = "Doctor, Admin")]
+        public ActionResult<ServiceResponse<ListMedicine>> CreateListMedicine(ListMedicine listMedicine)
+        {
+            var response = new ServiceResponse<ListMedicine>();
+            
+            var list = new ListMedicine();
+            foreach (var me in listMedicine.medicineCreatedLists)
+            {
+                if (me.Quantity == 0)
+                {
+                    response.Data = null;
+                    response.Status = 400;
+                    response.Message = "List medicine is null.";
+                    response.TotalDataList = 0;
+                    return response;
+                } else
+                {
+                    var recordIdCheck = examinatedService.GetRecordById(listMedicine.RecordId);
+                    var medicineIdCheck = medicineService.GetMedicineById(me.MedicineId);
+                    if (recordIdCheck == null || medicineIdCheck == null)
+                    {
+                        response.Data = null;
+                        response.Status = 400;
+                        response.Message = "Create examinated record failed. RecordId or MedicineId not found.";
+                        response.TotalDataList = 0;
+                    }
+                    else
+                    {
+                        var tempME = new MedicineExaminatedRecord();
+                        tempME.RecordId = listMedicine.RecordId;
+                        tempME.MedicineId = me.MedicineId;
+                        tempME.Quantity = me.Quantity;
+                        var createdRecord = recordService.CreateRecord(tempME);
+                    }
+                }
+            }
+            response.Data = listMedicine;
+            response.Status = 200;
+            response.Message = "Create list medicine successful.";
+            response.TotalDataList = 0;
+            return response;
+        }
     }
 }
