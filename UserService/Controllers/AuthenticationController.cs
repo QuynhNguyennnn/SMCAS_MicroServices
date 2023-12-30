@@ -75,7 +75,8 @@ namespace UserService.Controllers
             {
                 serviceResponse.Message = "Username not found.";
                 return NotFound(serviceResponse);
-            } else
+            }
+            else
             {
                 var hash = BCrypt.Net.BCrypt.Verify(loginDto.Password, user.Password);
                 if (!hash)
@@ -191,12 +192,12 @@ namespace UserService.Controllers
         }
 
         [NonAction]
-        public string HashPassword (string password)
+        public string HashPassword(string password)
         {
             if (password == null)
             {
                 return null;
-            } 
+            }
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(password);
             return passwordHash;
         }
@@ -229,7 +230,16 @@ namespace UserService.Controllers
             {
                 return NotFound("User not found");
             }
+            var roleList = roleService.GetRoles();
             var userResponse = _mapper.Map<UserResponse>(user);
+            foreach (var role in roleList)
+            {
+                if (user.RoleId == role.RoleId)
+                {
+                    userResponse.RoleName = role.RoleName;
+                    break;
+                }
+            }
             response.Data = userResponse;
             response.Message = "Get User List";
             response.Status = 200;
@@ -366,7 +376,7 @@ namespace UserService.Controllers
             {
                 var userRe = _mapper.Map<UserManagementResponse>(user);
                 userRe.Key = r;
-                
+
                 foreach (var role in roleList)
                 {
                     if (user.RoleId == role.RoleId)
@@ -445,7 +455,8 @@ namespace UserService.Controllers
                     response.Status = 400;
                     response.TotalDataList = 0;
                 }
-            } else
+            }
+            else
             {
                 response.Data = null;
                 response.Message = "Role not found.";
