@@ -44,7 +44,7 @@ namespace UserService.Controllers
             {
                 if (registerRequest.Password != null && registerRequest.Password == registerRequest.ConfirmPassword)
                 {
-                    var passwordHash = HashPassword(registerRequest.Password);
+                    var passwordHash = HashPassword(registerRequest.Password);  
                     var userMap = _mapper.Map<User>(registerRequest);
                     userMap.Password = passwordHash;
                     var user = userService.Register(userMap);
@@ -439,21 +439,31 @@ namespace UserService.Controllers
             {
                 var passwordHash = HashPassword(request.Password);
                 userMap.Password = passwordHash;
-                var userCreated = userService.CreateUser(userMap);
-                if (userCreated != null)
+                var usernameValidate = userService.GetUserByUsername(request.Username);
+                if (usernameValidate != null)
                 {
-                    var user = _mapper.Map<UserResponse>(userCreated);
-                    response.Data = user;
-                    response.Message = "Create user successful.";
-                    response.Status = 200;
-                    response.TotalDataList = 1;
+                    response.Message = "Username already exists.";
+                    response.Status = 400;
+                    return BadRequest(response);
                 }
                 else
                 {
-                    response.Data = null;
-                    response.Message = "Create user failed.";
-                    response.Status = 400;
-                    response.TotalDataList = 0;
+                    var userCreated = userService.CreateUser(userMap);
+                    if (userCreated != null)
+                    {
+                        var user = _mapper.Map<UserResponse>(userCreated);
+                        response.Data = user;
+                        response.Message = "Create user successful.";
+                        response.Status = 200;
+                        response.TotalDataList = 1;
+                    }
+                    else
+                    {
+                        response.Data = null;
+                        response.Message = "Create user failed.";
+                        response.Status = 400;
+                        response.TotalDataList = 0;
+                    }
                 }
             }
             else
