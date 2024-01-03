@@ -229,7 +229,8 @@ namespace UserService.DAOs
                 using (var context = new SepprojectDbV4Context())
                 {
                     var userCheck = context.Users.Where(u => (u.FirstName.ToLower().Contains(name.ToLower())
-                                                                || u.LastName.ToLower().Contains(name.ToLower()))
+                                                                || u.LastName.ToLower().Contains(name.ToLower())
+                                                                || u.Username.ToLower().Contains(name.ToLower()))
                                                                 && u.IsActive).ToList();
                     if (userCheck != null)
                     {
