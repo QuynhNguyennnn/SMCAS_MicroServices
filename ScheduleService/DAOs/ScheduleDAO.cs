@@ -9,7 +9,7 @@ namespace ScheduleService.DAOs
             List<MedicalExaminationSchedule> schedules = new List<MedicalExaminationSchedule>();
             try
             {
-                using (var context = new SepprojectDbV4Context())
+                using (var context = new SepprojectDbV5Context())
                 {
                     var scheduleList = context.MedicalExaminationSchedules.ToList();
                     foreach (var schedule in scheduleList)
@@ -34,7 +34,7 @@ namespace ScheduleService.DAOs
             MedicalExaminationSchedule schedule = new MedicalExaminationSchedule();
             try
             {
-                using (var context = new SepprojectDbV4Context())
+                using (var context = new SepprojectDbV5Context())
                 {
                     schedule = context.MedicalExaminationSchedules.SingleOrDefault(s => (s.ScheduleId == id) && s.IsActive);
                 }
@@ -51,7 +51,7 @@ namespace ScheduleService.DAOs
             List<MedicalExaminationSchedule> schedules = new List<MedicalExaminationSchedule>();
             try
             {
-                using (var context = new SepprojectDbV4Context())
+                using (var context = new SepprojectDbV5Context())
                 {
                     schedules = context.MedicalExaminationSchedules.Where(s => s.DoctorId == id && s.IsActive).ToList();
                 }
@@ -68,7 +68,7 @@ namespace ScheduleService.DAOs
             List<MedicalExaminationSchedule> schedules = new List<MedicalExaminationSchedule>();
             try
             {
-                using (var context = new SepprojectDbV4Context())
+                using (var context = new SepprojectDbV5Context())
                 {
                     schedules = context.MedicalExaminationSchedules.Where(s => s.PatientId == null && s.IsActive).ToList();
                 }
@@ -85,7 +85,7 @@ namespace ScheduleService.DAOs
             List<MedicalExaminationSchedule> schedules = new List<MedicalExaminationSchedule>();
             try
             {
-                using (var context = new SepprojectDbV4Context())
+                using (var context = new SepprojectDbV5Context())
                 {
                     schedules = context.MedicalExaminationSchedules.Where(s => s.PatientId != null && s.IsActive && !s.IsAccepted && s.DoctorId == id).ToList();
                 }
@@ -102,7 +102,7 @@ namespace ScheduleService.DAOs
             List<MedicalExaminationSchedule> schedules = new List<MedicalExaminationSchedule>();
             try
             {
-                using (var context = new SepprojectDbV4Context())
+                using (var context = new SepprojectDbV5Context())
                 {
                     schedules = context.MedicalExaminationSchedules.Where(s => s.PatientId == id && s.IsActive && !s.IsAccepted).ToList();
                 }
@@ -118,7 +118,7 @@ namespace ScheduleService.DAOs
         {
             try
             {
-                using (var context = new SepprojectDbV4Context())
+                using (var context = new SepprojectDbV5Context())
                 {
                     schedule.IsActive = true;
                     schedule.IsAccepted = false;
@@ -140,7 +140,7 @@ namespace ScheduleService.DAOs
             MedicalExaminationSchedule updateSchedule = new MedicalExaminationSchedule();
             try
             {
-                using (var context = new SepprojectDbV4Context())
+                using (var context = new SepprojectDbV5Context())
                 {
                     var scheduleCheck = context.MedicalExaminationSchedules.FirstOrDefault(s => s.ScheduleId == schedule.ScheduleId && s.IsActive && s.PatientId == null);
                     if (scheduleCheck != null)
@@ -170,7 +170,7 @@ namespace ScheduleService.DAOs
             MedicalExaminationSchedule updateSchedule = new MedicalExaminationSchedule();
             try
             {
-                using (var context = new SepprojectDbV4Context())
+                using (var context = new SepprojectDbV5Context())
                 {
                     var scheduleCheck = context.MedicalExaminationSchedules.FirstOrDefault(s => s.ScheduleId == schedule.ScheduleId && s.IsActive && s.PatientId == null);
                     if (scheduleCheck != null)
@@ -200,7 +200,7 @@ namespace ScheduleService.DAOs
             MedicalExaminationSchedule updateSchedule = new MedicalExaminationSchedule();
             try
             {
-                using (var context = new SepprojectDbV4Context())
+                using (var context = new SepprojectDbV5Context())
                 {
                     var scheduleCheck = context.MedicalExaminationSchedules.FirstOrDefault(s => s.ScheduleId == id && s.IsActive && s.PatientId != null && !s.IsAccepted);
                     if (scheduleCheck != null)
@@ -230,7 +230,7 @@ namespace ScheduleService.DAOs
             MedicalExaminationSchedule updateSchedule = new MedicalExaminationSchedule();
             try
             {
-                using (var context = new SepprojectDbV4Context())
+                using (var context = new SepprojectDbV5Context())
                 {
                     var scheduleCheck = context.MedicalExaminationSchedules.FirstOrDefault(s => s.ScheduleId == id && s.IsActive && s.PatientId != null && !s.IsAccepted);
                     if (scheduleCheck != null)
@@ -259,7 +259,7 @@ namespace ScheduleService.DAOs
         {
             try
             {
-                using (var context = new SepprojectDbV4Context())
+                using (var context = new SepprojectDbV5Context())
                 {
                     var _schedule = context.MedicalExaminationSchedules.SingleOrDefault(s => s.ScheduleId == id && s.IsActive);
                     if (_schedule != null)

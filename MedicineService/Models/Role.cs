@@ -9,6 +9,18 @@ public partial class Role
 
     public string RoleName { get; set; } = null!;
 
+    public string? Blog { get; set; }
+
+    public string? Medicine { get; set; }
+
+    public string? ExaminatedRecord { get; set; }
+
+    public string? Feedback { get; set; }
+
+    public string? Schedule { get; set; }
+
+    public string? Chat { get; set; }
+
     public bool IsActive { get; set; }
 
     public virtual ICollection<User> Users { get; set; } = new List<User>();
