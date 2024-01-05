@@ -1,4 +1,5 @@
-﻿using UserService.Models;
+﻿using AutoMapper.Configuration.Annotations;
+using UserService.Models;
 
 namespace UserService.DAOs
 {
@@ -153,5 +154,29 @@ namespace UserService.DAOs
                 throw new Exception(ex.Message);
             }
         }
+
+        public static List<Role> GetRoleStaff()
+        {
+            var roleList = new List<Role>();
+            try
+            {
+                using (var context = new SepprojectDbV4Context())
+                {
+                    var list = context.Roles.ToList();
+                    var staff = "Staff";
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        if (list[i].RoleName.ToLower().Contains(staff.ToLower()))
+                        {
+                            roleList.Add(list[i]);
+                        }
+                    }
+                }
+                return roleList;
+            } catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        } 
     }
 }

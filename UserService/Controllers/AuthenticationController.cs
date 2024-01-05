@@ -275,6 +275,8 @@ namespace UserService.Controllers
                 response.Message = "User not exists.";
                 return NotFound(response);
             }
+            var passwordHash = HashPassword(updateRequest.Password);
+            updateRequest.Password = passwordHash;
             var userMap = _mapper.Map<User>(updateRequest);
             var user = userService.UpdateUser(userMap);
             if (user == null)
@@ -471,6 +473,34 @@ namespace UserService.Controllers
                 response.Data = null;
                 response.Message = "Role not found.";
                 response.Status = 404;
+                response.TotalDataList = 0;
+            }
+            return response;
+        }
+
+        [HttpGet("Patients")]
+        [Authorize(Roles = "Admin, Doctor")]
+        public ActionResult<ServiceResponse<List<UserResponse>>> GetPatientList()
+        {
+            var response = new ServiceResponse<List<UserResponse>>();
+            var userResponseList = new List<UserResponse>();
+            var patientsList = userService.GetPatientList();
+            foreach ( var patient in patientsList )
+            {
+                userResponseList.Add(_mapper.Map<UserResponse>(patient));
+
+            }
+            if (userResponseList.Count > 0)
+            {
+                response.Data = userResponseList;
+                response.Status = 200;
+                response.Message = "Get Patients List";
+                response.TotalDataList = userResponseList.Count;
+            } else
+            {
+                response.Data = null;
+                response.Status = 204;
+                response.Message = "No patients";
                 response.TotalDataList = 0;
             }
             return response;

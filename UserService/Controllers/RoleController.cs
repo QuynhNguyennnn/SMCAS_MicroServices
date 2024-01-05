@@ -163,5 +163,24 @@ namespace UserService.Controllers
             }
             return response;
         }
+
+        [HttpGet("Staff")]
+        //[Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<List<RoleResponse>>> GetRoleStaff()
+        {
+            var response = new ServiceResponse<List<RoleResponse>>();
+            var roles = new List<RoleResponse>();
+            var roleList = roleService.GetRoleStaff();
+            foreach (var role in roleList)
+            {
+                RoleResponse roleResponse = _mapper.Map<RoleResponse>(role);
+                roles.Add(roleResponse);
+            }
+            response.Data = roles;
+            response.Status = 200;
+            response.Message = "Get Staff Roles";
+            response.TotalDataList = roles.Count;
+            return response;
+        }
     }
 }

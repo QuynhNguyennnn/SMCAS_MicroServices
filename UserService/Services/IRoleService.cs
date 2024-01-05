@@ -10,5 +10,6 @@ namespace UserService.Services
         Role UpdateRole(Role role);
         Role DeleteRole(int roleId);
         List<Role> SearchRoleByName(string name);
+        List<Role> GetRoleStaff();
     }
 }
