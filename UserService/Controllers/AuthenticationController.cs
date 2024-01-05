@@ -136,6 +136,12 @@ namespace UserService.Controllers
             List<Claim> claims = new List<Claim>
             {
                 new Claim("role", role.RoleName),
+                new Claim("Blog", role.Blog),
+                new Claim("Medicine", role.Medicine),
+                new Claim("ExaminatedRecord", role.ExaminatedRecord),
+                new Claim("Feedback", role.Feedback),
+                new Claim("Schedule", role.Schedule),
+                new Claim("Chat", role.Chat),
                 new(JwtRegisteredClaimNames.Name, username),
             };
 

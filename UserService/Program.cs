@@ -36,6 +36,24 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
     };
 });
 
+builder.Services.AddAuthorization(options =>
+{
+    
+    options.AddPolicy("View", policy =>
+    {
+        policy.RequireClaim("Blog", "View");
+    });
+    options.AddPolicy("Create", policy =>
+    {
+        policy.RequireClaim("Blog", "Create");
+    });
+    options.AddPolicy("Full Access", policy =>
+    {
+        policy.RequireClaim("Blog", "Full Access");
+    });
+});
+
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: MyAllowSpecificOrigins,
