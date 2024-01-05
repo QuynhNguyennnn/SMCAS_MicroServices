@@ -275,6 +275,8 @@ namespace UserService.Controllers
                 response.Message = "User not exists.";
                 return NotFound(response);
             }
+            var passwordHash = HashPassword(updateRequest.Password);
+            updateRequest.Password = passwordHash;
             var userMap = _mapper.Map<User>(updateRequest);
             var user = userService.UpdateUser(userMap);
             if (user == null)
