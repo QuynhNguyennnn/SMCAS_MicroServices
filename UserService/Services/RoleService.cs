@@ -13,6 +13,8 @@ namespace UserService.Services
 
         public List<Role> GetRoles() => RoleDAO.GetRoles();
 
+        public List<Role> GetRoleStaff() => RoleDAO.GetRoleStaff();
+
         public List<Role> SearchRoleByName(string name) => RoleDAO.SearchRoleByName(name);
 
         public Role UpdateRole(Role role) => RoleDAO.UpdateRole(role);

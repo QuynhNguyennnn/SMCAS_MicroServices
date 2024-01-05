@@ -16,5 +16,6 @@ namespace UserService.Services
         List<User> GetStudents();
         List<User> GetStaffs();
         User CreateUser(User user);
+        List<User> GetPatientList();
     }
 }

@@ -475,5 +475,33 @@ namespace UserService.Controllers
             }
             return response;
         }
+
+        [HttpGet("Patients")]
+        [Authorize(Roles = "Admin, Doctor")]
+        public ActionResult<ServiceResponse<List<UserResponse>>> GetPatientList()
+        {
+            var response = new ServiceResponse<List<UserResponse>>();
+            var userResponseList = new List<UserResponse>();
+            var patientsList = userService.GetPatientList();
+            foreach ( var patient in patientsList )
+            {
+                userResponseList.Add(_mapper.Map<UserResponse>(patient));
+
+            }
+            if (userResponseList.Count > 0)
+            {
+                response.Data = userResponseList;
+                response.Status = 200;
+                response.Message = "Get Patients List";
+                response.TotalDataList = userResponseList.Count;
+            } else
+            {
+                response.Data = null;
+                response.Status = 204;
+                response.Message = "No patients";
+                response.TotalDataList = 0;
+            }
+            return response;
+        }
     }
 }

@@ -342,5 +342,35 @@ namespace UserService.DAOs
                 throw new Exception(ex.Message);
             }
         }
+
+        public static List<User> GetPatientsList()
+        {
+            var patients = new List<User>();
+            try
+            {
+                using (var context = new SepprojectDbV4Context())
+                {
+                    var userList = context.Users.ToList();
+                    var recordList = context.ExaminatedRecords.ToList();
+                    for (int i = 0; i < recordList.Count; i++)
+                    {
+                        var patient = GetUserById(recordList[i].PatientId);
+                        if (patient == null)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            patients.Add(patient);
+                        }
+                    }
+                }
+                return patients;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
