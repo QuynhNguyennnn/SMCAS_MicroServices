@@ -221,7 +221,7 @@ namespace UserService.Controllers
         }
 
         [HttpGet("id")]
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         public ActionResult<ServiceResponse<UserResponse>> GetUserById(int id)
         {
             var response = new ServiceResponse<UserResponse>();
