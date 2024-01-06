@@ -16,12 +16,14 @@ namespace UserService.DAOs
                     if (role != null)
                     {
                         return role;
-                    } else
+                    }
+                    else
                     {
                         return null;
                     }
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -38,7 +40,8 @@ namespace UserService.DAOs
                     if (roleCheck != null)
                     {
                         return null;
-                    } else
+                    }
+                    else
                     {
                         newRole.RoleName = role.RoleName;
                         newRole.IsActive = true;
@@ -47,7 +50,8 @@ namespace UserService.DAOs
                     }
                 }
                 return newRole;
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -63,14 +67,12 @@ namespace UserService.DAOs
                     var roleList = context.Roles.ToList();
                     foreach (var movie in roleList)
                     {
-                        if (movie.IsActive)
-                        {
-                            roles.Add(movie);
-                        }
+                        roles.Add(movie);
                     }
                 }
                 return roles;
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -98,7 +100,8 @@ namespace UserService.DAOs
                     }
                     return updatedRole;
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -114,7 +117,8 @@ namespace UserService.DAOs
                     if (role == null)
                     {
                         return null;
-                    } else
+                    }
+                    else
                     {
                         role.IsActive = false;
                         context.Roles.Update(role);
@@ -122,7 +126,8 @@ namespace UserService.DAOs
                     }
                     return role;
                 }
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -149,7 +154,8 @@ namespace UserService.DAOs
                         return null;
                     }
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -173,10 +179,11 @@ namespace UserService.DAOs
                     }
                 }
                 return roleList;
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-        } 
+        }
     }
 }
