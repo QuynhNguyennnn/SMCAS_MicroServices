@@ -23,6 +23,7 @@ namespace UserService.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = "Full Access")] 
         public ActionResult<ServiceResponse<List<FeedbackResponse>>> GetFeedbackList()
         {
             var response = new ServiceResponse<List<FeedbackResponse>>();
