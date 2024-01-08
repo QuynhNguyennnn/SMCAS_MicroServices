@@ -40,7 +40,7 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("View", policy => policy.RequireClaim("View"));
     options.AddPolicy("Full Access", policy => policy.RequireClaim("Full Access"));
-    options.FallbackPolicy = options.DefaultPolicy; // if a method have no authorize, default policy will apply in (user must login to use the function)
+    //options.FallbackPolicy = options.DefaultPolicy; // if a method have no authorize, default policy will apply in (user must login to use the function)
 });
 
 builder.Services.AddCors(options =>

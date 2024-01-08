@@ -142,7 +142,11 @@ namespace UserService.Controllers
             if (role.RoleId == 5) // if the user is admin, they have full access
             {
                 claims.Add(new Claim("Full Access", "true")); // add policy-related claims
-            }
+            } 
+            /*else
+            {
+                claims.Add(new Claim("View", "true")); // add policy-related claims
+            }*/
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
                 _configuration.GetSection("AppSetting:Token").Value!));
