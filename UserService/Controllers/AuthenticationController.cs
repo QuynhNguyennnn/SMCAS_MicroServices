@@ -48,7 +48,7 @@ namespace UserService.Controllers
                     var userMap = _mapper.Map<User>(registerRequest);
                     userMap.Password = passwordHash;
                     var user = userService.Register(userMap);
-                    var token = GeneratAccessToken(user.Username);
+                    var token = GenerateAccessToken(user.Username);
                     authResponse.UserId = user.UserId;
                     authResponse.UserName = user.Username;
                     authResponse.AccessToken = token;
@@ -86,7 +86,7 @@ namespace UserService.Controllers
                 }
                 else
                 {
-                    var token = GeneratAccessToken(loginDto.Username);
+                    var token = GenerateAccessToken(loginDto.Username);
                     authResponse.AccessToken = token;
                     var refreshToken = GenerateRefreshToken(loginDto.Username);
                     authResponse.UserId = user.UserId;
@@ -110,7 +110,7 @@ namespace UserService.Controllers
             if (userService.GetUserByUsername(tokenReader.Username) != null && tokenReader.ExpireDate > DateTime.Now)
             {
 
-                authResponse.AccessToken = GeneratAccessToken(tokenReader.Username);
+                authResponse.AccessToken = GenerateAccessToken(tokenReader.Username);
                 authResponse.RefreshToken = GenerateRefreshToken(tokenReader.Username);
                 serviceResponse.Data = authResponse;
                 serviceResponse.Status = 200;
@@ -129,7 +129,7 @@ namespace UserService.Controllers
         }
 
         [NonAction]
-        private string GeneratAccessToken(string username)
+        private string GenerateAccessToken(string username)
         {
             var user = userService.GetUserByUsername(username);
             var role = roleService.GetRoleById(user.RoleId);
