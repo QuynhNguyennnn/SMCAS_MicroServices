@@ -16,5 +16,6 @@ namespace ScheduleService.Services
         MedicalExaminationSchedule RejectSchedule(int id);
         MedicalExaminationSchedule DeleteSchedule(int id);
         List<MedicalExaminationSchedule> GetScheduleListByDoctorId(int id);
+        List<MedicalExaminationSchedule> SearchScheduleByDate(DateTime dateStart, DateTime dateEnd);
     }
 }

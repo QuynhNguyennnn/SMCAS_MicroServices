@@ -5,9 +5,15 @@ namespace UserService.Services
 {
     public class UserService : IUserService
     {
+        public User CreateUser(User user) => UserDAO.CreateUser(user);
+
         public User DeleteUser(int id) => UserDAO.DeleteUser(id);
 
         public List<User> GetDoctors() => UserDAO.GetDoctors();
+
+        public List<User> GetPatientList() => UserDAO.GetPatientsList();
+
+        public List<User> GetStaffs() => UserDAO.GetStaffs();
 
         public List<User> GetStudents() => UserDAO.GetStudents();
 

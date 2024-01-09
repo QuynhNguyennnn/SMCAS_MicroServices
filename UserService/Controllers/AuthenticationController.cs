@@ -44,11 +44,11 @@ namespace UserService.Controllers
             {
                 if (registerRequest.Password != null && registerRequest.Password == registerRequest.ConfirmPassword)
                 {
-                    var passwordHash = HashPassword(registerRequest.Password);
+                    var passwordHash = HashPassword(registerRequest.Password);  
                     var userMap = _mapper.Map<User>(registerRequest);
                     userMap.Password = passwordHash;
                     var user = userService.Register(userMap);
-                    var token = GeneratAccessToken(user.Username);
+                    var token = GenerateAccessToken(user.Username);
                     authResponse.UserId = user.UserId;
                     authResponse.UserName = user.Username;
                     authResponse.AccessToken = token;
@@ -75,7 +75,8 @@ namespace UserService.Controllers
             {
                 serviceResponse.Message = "Username not found.";
                 return NotFound(serviceResponse);
-            } else
+            }
+            else
             {
                 var hash = BCrypt.Net.BCrypt.Verify(loginDto.Password, user.Password);
                 if (!hash)
@@ -85,7 +86,7 @@ namespace UserService.Controllers
                 }
                 else
                 {
-                    var token = GeneratAccessToken(loginDto.Username);
+                    var token = GenerateAccessToken(loginDto.Username);
                     authResponse.AccessToken = token;
                     var refreshToken = GenerateRefreshToken(loginDto.Username);
                     authResponse.UserId = user.UserId;
@@ -109,7 +110,7 @@ namespace UserService.Controllers
             if (userService.GetUserByUsername(tokenReader.Username) != null && tokenReader.ExpireDate > DateTime.Now)
             {
 
-                authResponse.AccessToken = GeneratAccessToken(tokenReader.Username);
+                authResponse.AccessToken = GenerateAccessToken(tokenReader.Username);
                 authResponse.RefreshToken = GenerateRefreshToken(tokenReader.Username);
                 serviceResponse.Data = authResponse;
                 serviceResponse.Status = 200;
@@ -128,7 +129,7 @@ namespace UserService.Controllers
         }
 
         [NonAction]
-        private string GeneratAccessToken(string username)
+        private string GenerateAccessToken(string username)
         {
             var user = userService.GetUserByUsername(username);
             var role = roleService.GetRoleById(user.RoleId);
@@ -191,12 +192,12 @@ namespace UserService.Controllers
         }
 
         [NonAction]
-        public string HashPassword (string password)
+        public string HashPassword(string password)
         {
             if (password == null)
             {
                 return null;
-            } 
+            }
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(password);
             return passwordHash;
         }
@@ -220,7 +221,7 @@ namespace UserService.Controllers
         }
 
         [HttpGet("id")]
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         public ActionResult<ServiceResponse<UserResponse>> GetUserById(int id)
         {
             var response = new ServiceResponse<UserResponse>();
@@ -229,7 +230,16 @@ namespace UserService.Controllers
             {
                 return NotFound("User not found");
             }
+            var roleList = roleService.GetRoles();
             var userResponse = _mapper.Map<UserResponse>(user);
+            foreach (var role in roleList)
+            {
+                if (user.RoleId == role.RoleId)
+                {
+                    userResponse.RoleName = role.RoleName;
+                    break;
+                }
+            }
             response.Data = userResponse;
             response.Message = "Get User List";
             response.Status = 200;
@@ -265,6 +275,8 @@ namespace UserService.Controllers
                 response.Message = "User not exists.";
                 return NotFound(response);
             }
+            var passwordHash = HashPassword(updateRequest.Password);
+            updateRequest.Password = passwordHash;
             var userMap = _mapper.Map<User>(updateRequest);
             var user = userService.UpdateUser(userMap);
             if (user == null)
@@ -366,7 +378,7 @@ namespace UserService.Controllers
             {
                 var userRe = _mapper.Map<UserManagementResponse>(user);
                 userRe.Key = r;
-                
+
                 foreach (var role in roleList)
                 {
                     if (user.RoleId == role.RoleId)
@@ -382,6 +394,115 @@ namespace UserService.Controllers
             response.Message = "Get User List";
             response.Status = 200;
             response.TotalDataList = userResponseList.Count;
+            return response;
+        }
+
+        [HttpGet("Staffs")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<List<StaffResponse>>> GetStaff()
+        {
+            var response = new ServiceResponse<List<StaffResponse>>();
+            var userResponseList = new List<StaffResponse>();
+            var userList = userService.GetStaffs();
+            var roleList = roleService.GetRoles();
+            var r = 1;
+            foreach (var user in userList)
+            {
+                var userRe = _mapper.Map<StaffResponse>(user);
+                userRe.Key = r;
+
+                foreach (var role in roleList)
+                {
+                    if (user.RoleId == role.RoleId)
+                    {
+                        userRe.RoleName = role.RoleName;
+                        userRe.RoleId = role.RoleId;
+                        break;
+                    }
+                }
+                userResponseList.Add(userRe);
+                r++;
+            }
+            response.Data = userResponseList;
+            response.Message = "Get Staff List";
+            response.Status = 200;
+            response.TotalDataList = userResponseList.Count;
+            return response;
+        }
+
+        [HttpPost("Create")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<UserResponse>> CreateUser(CreateUserRequest request)
+        {
+            var response = new ServiceResponse<UserResponse>();
+            var userMap = _mapper.Map<User>(request);
+            var roleCheck = roleService.GetRoleById(request.RoleId);
+            if (roleCheck != null)
+            {
+                var passwordHash = HashPassword(request.Password);
+                userMap.Password = passwordHash;
+                var usernameValidate = userService.GetUserByUsername(request.Username);
+                if (usernameValidate != null)
+                {
+                    response.Message = "Username already exists.";
+                    response.Status = 400;
+                    return BadRequest(response);
+                }
+                else
+                {
+                    var userCreated = userService.CreateUser(userMap);
+                    if (userCreated != null)
+                    {
+                        var user = _mapper.Map<UserResponse>(userCreated);
+                        response.Data = user;
+                        response.Message = "Create user successful.";
+                        response.Status = 200;
+                        response.TotalDataList = 1;
+                    }
+                    else
+                    {
+                        response.Data = null;
+                        response.Message = "Create user failed.";
+                        response.Status = 400;
+                        response.TotalDataList = 0;
+                    }
+                }
+            }
+            else
+            {
+                response.Data = null;
+                response.Message = "Role not found.";
+                response.Status = 404;
+                response.TotalDataList = 0;
+            }
+            return response;
+        }
+
+        [HttpGet("Patients")]
+        [Authorize(Roles = "Admin, Doctor")]
+        public ActionResult<ServiceResponse<List<UserResponse>>> GetPatientList()
+        {
+            var response = new ServiceResponse<List<UserResponse>>();
+            var userResponseList = new List<UserResponse>();
+            var patientsList = userService.GetPatientList();
+            foreach ( var patient in patientsList )
+            {
+                userResponseList.Add(_mapper.Map<UserResponse>(patient));
+
+            }
+            if (userResponseList.Count > 0)
+            {
+                response.Data = userResponseList;
+                response.Status = 200;
+                response.Message = "Get Patients List";
+                response.TotalDataList = userResponseList.Count;
+            } else
+            {
+                response.Data = null;
+                response.Status = 204;
+                response.Message = "No patients";
+                response.TotalDataList = 0;
+            }
             return response;
         }
     }
