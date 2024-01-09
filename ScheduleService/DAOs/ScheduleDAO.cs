@@ -1,4 +1,5 @@
 ﻿using ScheduleService.Models;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ScheduleService.DAOs
 {
@@ -12,6 +13,7 @@ namespace ScheduleService.DAOs
                 using (var context = new SepprojectDbV4Context())
                 {
                     var scheduleList = context.MedicalExaminationSchedules.ToList();
+                    DateTime now = DateTime.Now;
                     foreach (var schedule in scheduleList)
                     {
                         if (schedule.IsActive)
@@ -53,7 +55,7 @@ namespace ScheduleService.DAOs
             {
                 using (var context = new SepprojectDbV4Context())
                 {
-                    schedules = context.MedicalExaminationSchedules.Where(s => s.DoctorId == id && s.IsActive).ToList();
+                    schedules = context.MedicalExaminationSchedules.Where(s => s.DoctorId == id && s.Date.Date >= DateTime.Now.Date && s.IsActive).ToList();
                 }
             }
             catch (Exception ex)
@@ -70,7 +72,7 @@ namespace ScheduleService.DAOs
             {
                 using (var context = new SepprojectDbV4Context())
                 {
-                    schedules = context.MedicalExaminationSchedules.Where(s => s.PatientId == null && s.IsActive).ToList();
+                    schedules = context.MedicalExaminationSchedules.Where(s => s.PatientId == null && s.Date.Date >= DateTime.Now.Date && s.IsActive).ToList();
                 }
             }
             catch (Exception ex)
@@ -286,6 +288,23 @@ namespace ScheduleService.DAOs
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public static List<MedicalExaminationSchedule> SearchScheduleByDate(DateTime dateStart, DateTime dateEnd)
+        {
+            List<MedicalExaminationSchedule> schedules = new List<MedicalExaminationSchedule>();
+            try
+            {
+                using (var context = new SepprojectDbV4Context())
+                {
+                    schedules = context.MedicalExaminationSchedules.Where(s => s.Date.Date >= dateStart.Date && s.Date.Date >= dateEnd.Date && s.IsActive && s.PatientId == null).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return schedules;
         }
     }
 }

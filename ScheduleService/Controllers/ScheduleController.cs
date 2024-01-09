@@ -237,5 +237,24 @@ namespace ScheduleService.Controllers
             response.Status = 200;
             return response;
         }
+
+        [HttpGet("Search")]
+        public ActionResult<ServiceResponse<List<ScheduleResponse>>> SearchScheduleByDate(DateTime dateStart, DateTime dateEnd)
+        {
+            var response = new ServiceResponse<List<ScheduleResponse>>();
+            var scheduleResponseList = new List<ScheduleResponse>();
+            var scheduleList = service.SearchScheduleByDate(dateStart, dateEnd);
+            foreach (var schedule in scheduleList)
+            {
+                ScheduleResponse feedbackResponse = _mapper.Map<ScheduleResponse>(schedule);
+                scheduleResponseList.Add(feedbackResponse);
+            }
+
+            response.Data = scheduleResponseList;
+            response.Message = "Search Schedule By Date";
+            response.Status = 200;
+            response.TotalDataList = scheduleResponseList.Count;
+            return response;
+        }
     }
 }
