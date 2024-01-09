@@ -1,4 +1,5 @@
-﻿using UserService.Models;
+﻿using AutoMapper.Configuration.Annotations;
+using UserService.Models;
 
 namespace UserService.DAOs
 {
@@ -15,12 +16,14 @@ namespace UserService.DAOs
                     if (role != null)
                     {
                         return role;
-                    } else
+                    }
+                    else
                     {
                         return null;
                     }
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -37,7 +40,8 @@ namespace UserService.DAOs
                     if (roleCheck != null)
                     {
                         return null;
-                    } else
+                    }
+                    else
                     {
                         newRole.RoleName = role.RoleName;
                         newRole.IsActive = true;
@@ -46,7 +50,8 @@ namespace UserService.DAOs
                     }
                 }
                 return newRole;
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -62,14 +67,12 @@ namespace UserService.DAOs
                     var roleList = context.Roles.ToList();
                     foreach (var movie in roleList)
                     {
-                        if (movie.IsActive)
-                        {
-                            roles.Add(movie);
-                        }
+                        roles.Add(movie);
                     }
                 }
                 return roles;
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -97,7 +100,8 @@ namespace UserService.DAOs
                     }
                     return updatedRole;
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -113,7 +117,8 @@ namespace UserService.DAOs
                     if (role == null)
                     {
                         return null;
-                    } else
+                    }
+                    else
                     {
                         role.IsActive = false;
                         context.Roles.Update(role);
@@ -121,7 +126,8 @@ namespace UserService.DAOs
                     }
                     return role;
                 }
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -148,7 +154,33 @@ namespace UserService.DAOs
                         return null;
                     }
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public static List<Role> GetRoleStaff()
+        {
+            var roleList = new List<Role>();
+            try
+            {
+                using (var context = new SepprojectDbV4Context())
+                {
+                    var list = context.Roles.ToList();
+                    var staff = "Staff";
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        if (list[i].RoleName.ToLower().Contains(staff.ToLower()))
+                        {
+                            roleList.Add(list[i]);
+                        }
+                    }
+                }
+                return roleList;
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
