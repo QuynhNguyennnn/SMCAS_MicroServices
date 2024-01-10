@@ -229,7 +229,8 @@ namespace UserService.DAOs
                 using (var context = new SepprojectDbV4Context())
                 {
                     var userCheck = context.Users.Where(u => (u.FirstName.ToLower().Contains(name.ToLower())
-                                                                || u.LastName.ToLower().Contains(name.ToLower()))
+                                                                || u.LastName.ToLower().Contains(name.ToLower())
+                                                                || u.Username.ToLower().Contains(name.ToLower()))
                                                                 && u.IsActive).ToList();
                     if (userCheck != null)
                     {
@@ -293,6 +294,83 @@ namespace UserService.DAOs
             }
         }
 
+        public static List<User> GetStaffs()
+        {
+            List<User> users = new List<User>();
+            try
+            {
+                using (var context = new SepprojectDbV4Context())
+                {
+                    var studnetList = context.Users.Where(u => (u.RoleId == 3 || u.RoleId == 4) && u.IsActive);
+                    foreach (var student in studnetList)
+                    {
+                        users.Add(student);
+                    }
+                }
+                return users;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
+        public static User CreateUser(User user)
+        {
+            var userNew = new User();
+            try
+            {
+                using (var context = new SepprojectDbV4Context())
+                {
+                    var userCheck = context.Users.FirstOrDefault(u => u.Username == user.Username);
+                    if (userCheck == null)
+                    {
+                        userNew = user;
+                        userNew.IsActive = true;
+                        context.Users.Add(userNew);
+                        context.SaveChanges();
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                return userNew;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public static List<User> GetPatientsList()
+        {
+            var patients = new List<User>();
+            try
+            {
+                using (var context = new SepprojectDbV4Context())
+                {
+                    var userList = context.Users.ToList();
+                    var recordList = context.ExaminatedRecords.ToList();
+                    for (int i = 0; i < recordList.Count; i++)
+                    {
+                        var patient = GetUserById(recordList[i].PatientId);
+                        if (patient == null)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            patients.Add(patient);
+                        }
+                    }
+                }
+                return patients;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
