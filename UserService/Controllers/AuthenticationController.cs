@@ -209,7 +209,7 @@ namespace UserService.Controllers
         }
 
         [HttpGet]
-        [Authorize(Policy = "FullAccess")]
+        [Authorize(Policy = "UserFullAccess")]
         public ActionResult<ServiceResponse<List<UserResponse>>> GetUsers()
         {
             var response = new ServiceResponse<List<UserResponse>>();
@@ -253,7 +253,7 @@ namespace UserService.Controllers
         }
 
         [HttpPut("id")]
-        [Authorize(Policy = "FullAccess")]
+        [Authorize(Policy = "UserFullAccess")]
         public ActionResult<ServiceResponse<UserResponse>> DeleteUser(int id)
         {
             var response = new ServiceResponse<List<UserResponse>>();
@@ -303,7 +303,7 @@ namespace UserService.Controllers
         }
 
         [HttpGet("Search/name")]
-        [Authorize(Policy = "FullAccess")]
+        [Authorize(Policy = "UserFullAccess")]
         public ActionResult<ServiceResponse<List<UserResponse>>> SearchUserByName(string name)
         {
             var response = new ServiceResponse<List<UserResponse>>();
@@ -328,7 +328,7 @@ namespace UserService.Controllers
         }
 
         [HttpGet("Doctors")]
-        [Authorize(Policy = "FullAccess")]
+        [Authorize(Policy = "UserFullAccess")]
         public ActionResult<ServiceResponse<List<DoctorResponse>>> GetDoctors()
         {
             var response = new ServiceResponse<List<DoctorResponse>>();
@@ -350,7 +350,7 @@ namespace UserService.Controllers
         }
 
         [HttpGet("Students")]
-        [Authorize(Policy = "FullAccess")]
+        [Authorize(Policy = "UserFullAccess")]
         public ActionResult<ServiceResponse<List<StudentResponse>>> GetStudents()
         {
             var response = new ServiceResponse<List<StudentResponse>>();
@@ -372,7 +372,7 @@ namespace UserService.Controllers
         }
 
         [HttpGet("Users")]
-        [Authorize(Policy = "FullAccess")]
+        [Authorize(Policy = "UserFullAccess")]
         public ActionResult<ServiceResponse<List<UserManagementResponse>>> GetUserList()
         {
             var response = new ServiceResponse<List<UserManagementResponse>>();
@@ -404,7 +404,7 @@ namespace UserService.Controllers
         }
 
         [HttpGet("Staffs")]
-        [Authorize(Policy = "FullAccess")]
+        [Authorize(Policy = "UserFullAccess")]
         public ActionResult<ServiceResponse<List<StaffResponse>>> GetStaff()
         {
             var response = new ServiceResponse<List<StaffResponse>>();
@@ -437,7 +437,7 @@ namespace UserService.Controllers
         }
 
         [HttpPost("Create")]
-        [Authorize(Policy = "FullAccess")]
+        [Authorize(Policy = "UserFullAccess")]
         public ActionResult<ServiceResponse<UserResponse>> CreateUser(CreateUserRequest request)
         {
             var response = new ServiceResponse<UserResponse>();
