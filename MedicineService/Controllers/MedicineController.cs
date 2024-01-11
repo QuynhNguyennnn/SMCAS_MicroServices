@@ -66,7 +66,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpPost("Create")]
-        [Authorize(Roles = "Admin, Doctor, Medical Staff")]
+        [Authorize(Policy = "MedicineFullAccess")]
         public ActionResult<ServiceResponse<MedicineResponse>> CreateMedicine(CreateMedicineRequest request)
         {
             var response = new ServiceResponse<MedicineResponse>();
@@ -92,7 +92,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpPut("Update")]
-        [Authorize(Roles = "Admin, Doctor, Medical Staff")]
+        [Authorize(Policy = "MedicineFullAccess")]
         public ActionResult<ServiceResponse<MedicineResponse>> UpdateMedicine(UpdateMedicineRequest request)
         {
             var response = new ServiceResponse<MedicineResponse>();
@@ -115,7 +115,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpPut("Delete")]
-        [Authorize(Roles = "Admin, Doctor, Medical Staff")]
+        [Authorize(Policy = "MedicineFullAccess")]
         public ActionResult<ServiceResponse<MedicineResponse>> DeleteMedicine(int id)
         {
             var response = new ServiceResponse<MedicineResponse>();

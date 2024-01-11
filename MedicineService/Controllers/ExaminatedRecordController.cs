@@ -25,7 +25,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Doctor, Admin")]
+        [Authorize(Policy = "ExaminatedRecordFullAccess")]
         public ActionResult<ServiceResponse<List<ExaminatedRecordResponse>>> GetAll()
         {
             var response = new ServiceResponse<List<ExaminatedRecordResponse>>();
@@ -44,7 +44,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpGet("id")]
-        [Authorize(Roles = "Doctor, Admin")]
+        [Authorize(Policy = "ExaminatedRecordViewOrFullAccess")]
         public ActionResult<ServiceResponse<ExaminatedRecordResponse>> GetRecordById(int id)
         {
             var response = new ServiceResponse<ExaminatedRecordResponse>();
@@ -68,7 +68,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Doctor, Admin")]
+        [Authorize(Policy = "ExaminatedRecordFullAccess")]
         public ActionResult<ServiceResponse<ExaminatedRecordResponse>> CreateExaminatedRecord(CreateExaminatedRecordRequest request)
         {
             var response = new ServiceResponse<ExaminatedRecordResponse>();
@@ -92,7 +92,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpPut("Update")]
-        [Authorize(Roles = "Doctor, Admin")]
+        [Authorize(Policy = "ExaminatedRecordFullAccess")]
         public ActionResult<ServiceResponse<ExaminatedRecordResponse>> UpdateExaminatedRecord(UpdateExaminatedRecordRequest request)
         {
             var response = new ServiceResponse<ExaminatedRecordResponse>();
@@ -126,7 +126,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpPut("Delete")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "Admin")]
         public ActionResult<ServiceResponse<ExaminatedRecordResponse>> DeleteExaminatedRecord(int id)
         {
             var response = new ServiceResponse<ExaminatedRecordResponse>();
@@ -149,7 +149,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpGet("Search/id")]
-        [Authorize(Roles = "Doctor, Admin")]
+        [Authorize(Policy = "ExaminatedRecordFullAccess")]
         public ActionResult<ServiceResponse<List<ExaminatedRecordResponse>>> SearchRecordByPeopleId(int id)
         {
             var response = new ServiceResponse<List<ExaminatedRecordResponse>>();

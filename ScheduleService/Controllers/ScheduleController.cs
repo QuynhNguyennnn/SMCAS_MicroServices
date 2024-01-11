@@ -77,7 +77,7 @@ namespace ScheduleService.Controllers
         }
 
         [HttpGet("getWattingConfirmSchedule/doctorId")]
-        [Authorize(Roles = "Doctor, Admin")]
+        [Authorize(Policy = "ScheduleModifiedDoctorOrFullAccess")]
         public ActionResult<ServiceResponse<List<ScheduleResponse>>> GetScheduleWaitingConfirmByDoctorId(int id)
         {
             var response = new ServiceResponse<List<ScheduleResponse>>();
@@ -97,7 +97,7 @@ namespace ScheduleService.Controllers
         }
 
         [HttpGet("getWattingConfirmSchedule/patientId")]
-        [Authorize(Roles = "Student, Staff, Admin")]
+        [Authorize(Policy = "ScheduleModifiedPatientOrFullAccess")]
         public ActionResult<ServiceResponse<List<ScheduleResponse>>> GetScheduleWaitingConfirmByPatientId(int id)
         {
             var response = new ServiceResponse<List<ScheduleResponse>>();
@@ -117,7 +117,7 @@ namespace ScheduleService.Controllers
         }
 
         [HttpPost("Create")]
-        [Authorize(Roles = "Doctor, Admin")]
+        [Authorize(Policy = "ScheduleModifiedDoctorOrFullAccess")]
         public ActionResult<ServiceResponse<ScheduleResponse>> CreateSchedule(AddScheduleRequest addSchedule)
         {
             if (addSchedule.StartShift.TotalSeconds > addSchedule.EndShift.TotalSeconds)
@@ -149,7 +149,7 @@ namespace ScheduleService.Controllers
         }
 
         [HttpPut("Update")]
-        [Authorize(Roles = "Doctor, Admin")]
+        [Authorize(Policy = "ScheduleModifiedDoctorOrFullAccess"]
         public ActionResult<ServiceResponse<ScheduleResponse>> UpdateSchedule(UpdateScheduleRequest updateSchedule)
         {
             if (updateSchedule.StartShift.TotalSeconds > updateSchedule.EndShift.TotalSeconds)
@@ -186,7 +186,7 @@ namespace ScheduleService.Controllers
         }
 
         [HttpPut("Register")]
-        [Authorize(Roles = "Student, Staff, Admin")]
+        [Authorize(Policy = "ScheduleModifiedPatientOrFullAccess")]
         public ActionResult<ServiceResponse<ScheduleResponse>> RegisterSchedule(RegisterScheduleRequest registerSchedule)
         {
             MedicalExaminationSchedule schedule = _mapper.Map<MedicalExaminationSchedule>(registerSchedule);
@@ -201,7 +201,7 @@ namespace ScheduleService.Controllers
         }
 
         [HttpPut("accept/id")]
-        [Authorize(Roles = "Doctor, Admin")]
+        [Authorize(Policy = "ScheduleModifiedDoctorOrFullAccess")]
         public ActionResult<ServiceResponse<ScheduleResponse>> AcceptSchedule(int id)
         {
             var schedule = service.AcceptSchedule(id);
@@ -214,7 +214,7 @@ namespace ScheduleService.Controllers
         }
 
         [HttpPut("reject/id")]
-        [Authorize(Roles = "Doctor, Admin")]
+        [Authorize(Policy = "ScheduleModifiedDoctorOrFullAccess")]
         public ActionResult<ServiceResponse<ScheduleResponse>> RejectSchedule(int id)
         {
             var schedule = service.RejectSchedule(id);
@@ -227,6 +227,7 @@ namespace ScheduleService.Controllers
         }
 
         [HttpPut("Delete")]
+        [Authorize(Policy = "ScheduleModifiedDoctorOrFullAccess")]
         public ActionResult<ServiceResponse<ScheduleResponse>> DeleteSchedule(int id)
         {
             var schedule = service.DeleteSchedule(id);
