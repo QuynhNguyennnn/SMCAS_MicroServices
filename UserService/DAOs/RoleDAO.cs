@@ -10,7 +10,7 @@ namespace UserService.DAOs
             Role role = new Role();
             try
             {
-                using (var context = new SepprojectDbV4Context())
+                using (var context = new SepprojectDbV5Context())
                 {
                     role = context.Roles.FirstOrDefault(r => r.RoleId == id);
                     if (role != null)
@@ -34,7 +34,7 @@ namespace UserService.DAOs
             Role newRole = new Role();
             try
             {
-                using (var context = new SepprojectDbV4Context())
+                using (var context = new SepprojectDbV5Context())
                 {
                     var roleCheck = context.Roles.FirstOrDefault(r => r.RoleName.ToLower() == role.RoleName.ToLower());
                     if (roleCheck != null)
@@ -62,7 +62,7 @@ namespace UserService.DAOs
             List<Role> roles = new List<Role>();
             try
             {
-                using (var context = new SepprojectDbV4Context())
+                using (var context = new SepprojectDbV5Context())
                 {
                     var roleList = context.Roles.ToList();
                     foreach (var movie in roleList)
@@ -83,7 +83,7 @@ namespace UserService.DAOs
             Role updatedRole = new Role();
             try
             {
-                using (var context = new SepprojectDbV4Context())
+                using (var context = new SepprojectDbV5Context())
                 {
                     var roleCheck = context.Roles.FirstOrDefault(r => r.RoleId == role.RoleId && r.IsActive);
                     if (roleCheck != null)
@@ -111,7 +111,7 @@ namespace UserService.DAOs
         {
             try
             {
-                using (var context = new SepprojectDbV4Context())
+                using (var context = new SepprojectDbV5Context())
                 {
                     var role = context.Roles.FirstOrDefault(r => r.RoleId == roleId);
                     if (role == null)
@@ -138,7 +138,7 @@ namespace UserService.DAOs
             var roleList = new List<Role>();
             try
             {
-                using (var context = new SepprojectDbV4Context())
+                using (var context = new SepprojectDbV5Context())
                 {
                     var roleCheck = context.Roles.Where(r => r.RoleName.ToLower().Contains(roleName.ToLower()) && r.IsActive).ToList();
                     if (roleCheck != null)
@@ -166,7 +166,7 @@ namespace UserService.DAOs
             var roleList = new List<Role>();
             try
             {
-                using (var context = new SepprojectDbV4Context())
+                using (var context = new SepprojectDbV5Context())
                 {
                     var list = context.Roles.ToList();
                     var staff = "Staff";

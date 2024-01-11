@@ -10,7 +10,7 @@ namespace BlogService.DAOs
             List<Blog> blogs = new List<Blog>();
             try
             {
-                using (var context = new SepprojectDbV4Context())
+                using (var context = new SepprojectDbV5Context())
                 {
                     var blogList = context.Blogs.ToList();
                     foreach (var blog in blogList)
@@ -34,7 +34,7 @@ namespace BlogService.DAOs
             Blog blog = new Blog();
             try
             {
-                using (var context = new SepprojectDbV4Context())
+                using (var context = new SepprojectDbV5Context())
                 {
                     blog = context.Blogs.SingleOrDefault(b => (b.BlogId == id) && b.IsActive);
                 }
@@ -50,7 +50,7 @@ namespace BlogService.DAOs
         {
             try
             {
-                using (var context = new SepprojectDbV4Context())
+                using (var context = new SepprojectDbV5Context())
                 {
                     blog.IsActive = true;
 
@@ -71,7 +71,7 @@ namespace BlogService.DAOs
             Blog updateBlog = new Blog();
             try
             {
-                using (var context = new SepprojectDbV4Context())
+                using (var context = new SepprojectDbV5Context())
                 {
                     var blogCheck = context.Blogs.FirstOrDefault(r => r.BlogId == blog.BlogId && r.IsActive);
                     if (blogCheck != null)
@@ -99,7 +99,7 @@ namespace BlogService.DAOs
         {
             try
             {
-                using (var context = new SepprojectDbV4Context())
+                using (var context = new SepprojectDbV5Context())
                 {
                     var _blog = context.Blogs.SingleOrDefault(b => b.BlogId == id && b.IsActive);
                     if (_blog != null)
@@ -129,7 +129,7 @@ namespace BlogService.DAOs
             List<Blog> blogs = new List<Blog>();
             try
             {
-                using (var context = new SepprojectDbV4Context())
+                using (var context = new SepprojectDbV5Context())
                 {
                     blogs = context.Blogs
                         .Where(blog =>
