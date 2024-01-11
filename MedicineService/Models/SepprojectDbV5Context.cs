@@ -41,7 +41,7 @@ public partial class SepprojectDbV5Context : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("server=MINHTAM; database = SEPProjectDB_v5;uid=sa;pwd=123456;TrustServerCertificate=true;");
+        => optionsBuilder.UseSqlServer("server=LAPOFQUYNH; database = SEPProjectDB_v5;uid=sa;pwd=123456;TrustServerCertificate=true;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -220,10 +220,6 @@ public partial class SepprojectDbV5Context : DbContext
             entity.Property(e => e.Medicine)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.Role1)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("Role");
             entity.Property(e => e.RoleName).HasMaxLength(50);
             entity.Property(e => e.Schedule)
                 .HasMaxLength(50)
