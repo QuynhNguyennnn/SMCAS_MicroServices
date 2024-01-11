@@ -149,7 +149,7 @@ namespace ScheduleService.Controllers
         }
 
         [HttpPut("Update")]
-        [Authorize(Policy = "ScheduleModifiedDoctorOrFullAccess"]
+        [Authorize(Policy = "ScheduleModifiedDoctorOrFullAccess")]
         public ActionResult<ServiceResponse<ScheduleResponse>> UpdateSchedule(UpdateScheduleRequest updateSchedule)
         {
             if (updateSchedule.StartShift.TotalSeconds > updateSchedule.EndShift.TotalSeconds)

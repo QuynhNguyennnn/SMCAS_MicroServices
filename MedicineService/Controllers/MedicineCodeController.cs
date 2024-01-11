@@ -65,7 +65,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpPost("Create")]
-        [Authorize(Policy = "MedicineFullAccess"]
+        [Authorize(Policy = "MedicineFullAccess")]
         public ActionResult<ServiceResponse<MedicineCodeResponse>> CreateMedicineCode(CreateMedicineCodeRequest request)
         {
             var response = new ServiceResponse<MedicineCodeResponse>();
@@ -114,7 +114,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpPut("Delete")]
-        [Authorize(Policy = "MedicineFullAccess"]
+        [Authorize(Policy = "MedicineFullAccess")]
         public ActionResult<ServiceResponse<MedicineCodeResponse>> DeleteMedicineCode(int id)
         {
             var response = new ServiceResponse<MedicineCodeResponse>();
