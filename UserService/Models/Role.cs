@@ -11,8 +11,6 @@ public partial class Role
 
     public string? User { get; set; }
 
-    public string? Role1 { get; set; }
-
     public string? Blog { get; set; }
 
     public string? Medicine { get; set; }
