@@ -133,6 +133,7 @@ namespace UserService.DAOs
                         }
 
                         updateFeedback = feedback;
+                        updateFeedback.FeedbackDate = feedbackCheck.FeedbackDate;
                         updateFeedback.DoctorId = feedbackCheck.DoctorId;
                         updateFeedback.IsActive = feedbackCheck.IsActive;
                         context.Entry(feedbackCheck).CurrentValues.SetValues(updateFeedback);
