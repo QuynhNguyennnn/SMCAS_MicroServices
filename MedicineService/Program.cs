@@ -45,6 +45,22 @@ builder.Services.AddCors(options =>
                       });
 });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ExaminatedRecordFullAccess", policy =>
+    {
+        policy.RequireClaim("ExaminatedRecord", "Full Access");
+    });
+    options.AddPolicy("ExaminatedRecordViewOrFullAccess", policy =>
+    {
+        policy.RequireClaim("ExaminatedRecord", "View", "Full Access");
+    });
+
+    options.AddPolicy("MedicineFullAccess", policy =>
+    {
+        policy.RequireClaim("Medicine", "Full Access");
+    });
+});
 
 var app = builder.Build();
 

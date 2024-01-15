@@ -45,6 +45,25 @@ builder.Services.AddCors(options =>
                       });
 });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ScheduleFullAccess", policy =>
+    {
+        policy.RequireClaim("Schedule", "Full Access");
+    });
+    options.AddPolicy("ScheduleModifiedDoctorOrFullAccess", policy =>
+    {
+        policy.RequireClaim("Schedule", "Modified Doctor", "Full Access");
+    });
+    options.AddPolicy("ScheduleModifiedPatientOrFullAccess", policy =>
+    {
+        policy.RequireClaim("Schedule", "Modified Patient", "Full Access");
+    });
+    options.AddPolicy("ScheduleView,ModifiedOrFullAccess", policy =>
+    {
+        policy.RequireClaim("Schedule","View", "Modified Doctor", "Modified Patient", "Full Access");
+    });
+});
 
 var app = builder.Build();
 
