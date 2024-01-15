@@ -165,7 +165,7 @@ namespace UserService.Controllers
         }
 
         [HttpGet("Staff")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult<ServiceResponse<List<RoleResponse>>> GetRoleStaff()
         {
             var response = new ServiceResponse<List<RoleResponse>>();

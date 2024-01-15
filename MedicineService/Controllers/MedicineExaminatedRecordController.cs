@@ -26,7 +26,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Doctor, Admin")]
+        [Authorize(Policy = "ExaminatedRecordFullAccess")]
         public ActionResult<ServiceResponse<List<MedicineExaminatedRecordResponse>>> GetAll()
         {
             var response = new ServiceResponse<List<MedicineExaminatedRecordResponse>>();
@@ -45,7 +45,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpGet("id")]
-        [Authorize(Roles = "Doctor, Admin")]
+        [Authorize(Policy = "ExaminatedRecordViewOrFullAccess")]
         public ActionResult<ServiceResponse<MedicineExaminatedRecordResponse>> GetRecordById(int id)
         {
             var response = new ServiceResponse<MedicineExaminatedRecordResponse>();
@@ -69,7 +69,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Doctor, Admin")]
+        [Authorize(Policy = "ExaminatedRecordFullAccess")]
         public ActionResult<ServiceResponse<MedicineExaminatedRecordResponse>> CreateMedicineExaminatedRecord(CreateMedicineExaminatedRecordRequest request)
         {
             var response = new ServiceResponse<MedicineExaminatedRecordResponse>();
@@ -95,7 +95,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpPut("Update")]
-        [Authorize (Roles = "Doctor, Admin")]
+        [Authorize (Policy = "ExaminatedRecordFullAccess")]
         public ActionResult<ServiceResponse<MedicineExaminatedRecordResponse>> UpdateMedicineExaminatedRecord(UpdateMedicineExaminatedRecordRequest request)
         {
             var response = new ServiceResponse<MedicineExaminatedRecordResponse>();
@@ -153,7 +153,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpGet("Search/id")]
-        [Authorize(Roles = "Doctor, Admin")]
+        [Authorize(Policy = "ExaminatedRecordViewOrFullAccess")]
         public ActionResult<ServiceResponse<MedicineExaminatedRecordResponse>> SearchRecordByRecordId(int id)
         {
             var response = new ServiceResponse<MedicineExaminatedRecordResponse>();
@@ -167,7 +167,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpPost("CreateList")]
-        [Authorize(Roles = "Doctor, Admin")]
+        [Authorize(Policy = "ExaminatedRecordFullAccess")]
         public ActionResult<ServiceResponse<ListMedicine>> CreateListMedicine(ListMedicine listMedicine)
         {
             var response = new ServiceResponse<ListMedicine>();

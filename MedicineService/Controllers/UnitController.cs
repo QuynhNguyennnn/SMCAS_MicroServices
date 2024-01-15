@@ -25,7 +25,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "MedicineFullAccess")]
         public ActionResult<ServiceResponse<List<UnitResponse>>> GetAllUnits()
         {
             var response = new ServiceResponse<List<UnitResponse>>();
@@ -44,7 +44,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpGet("id")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "MedicineFullAccess")]
         public ActionResult<ServiceResponse<UnitResponse>> GetUnitById(int id)
         {
             var response = new ServiceResponse<UnitResponse>();
@@ -69,7 +69,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpPost("Create")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "MedicineFullAccess")]
         public ActionResult<ServiceResponse<UnitResponse>> CreateUnit(CreateUnitRequest request)
         {
             var response = new ServiceResponse<UnitResponse>();
@@ -95,7 +95,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpPut("Update")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "MedicineFullAccess")]
         public ActionResult<ServiceResponse<UnitResponse>> UpdateUnit(UpdateUnitRequest request)
         {
             var response = new ServiceResponse<UnitResponse>();
@@ -118,7 +118,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpDelete("id")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "MedicineFullAccess")]
         public ActionResult<ServiceResponse<UnitResponse>> DeleteUnit(int id)
         {
             var response = new ServiceResponse<UnitResponse>();
@@ -140,7 +140,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpGet("Search/name")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Policy = "MedicineFullAccess")]
         public ActionResult<ServiceResponse<List<UnitResponse>>> SearchUnitByName(string name)
         {
             var response = new ServiceResponse<List<UnitResponse>>();
