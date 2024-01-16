@@ -45,6 +45,34 @@ builder.Services.AddCors(options =>
                       });
 });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("FeedBackFullAccess", policy =>
+    {
+        policy.RequireClaim("FeedBack", "Full Access");
+    });
+    options.AddPolicy("FeedBackCreateOrFullAccess", policy =>
+    {
+        policy.RequireClaim("FeedBack", "Full Access", "Create");
+    });
+    options.AddPolicy("FeedBackView,CreateOrFullAccess", policy =>
+    {
+        policy.RequireClaim("FeedBack", "View", "Create", "Full Access");
+    });
+
+    options.AddPolicy("UserFullAccess", policy =>
+    {
+        policy.RequireClaim("User", "Full Access");
+    });
+    options.AddPolicy("UserUpdateOrFullAccess", policy =>
+    {
+        policy.RequireClaim("FeedBack", "Full Access", "Update");
+    });
+    options.AddPolicy("UserViewOrFullAccess", policy =>
+    {
+        policy.RequireClaim("FeedBack", "View", "Full Access");
+    });
+});
 
 var app = builder.Build();
 

@@ -75,7 +75,7 @@ namespace UserService.Controllers
         }
 
         [HttpGet("patient/id")]
-        [Authorize(Roles = "Admin, Staff, Student")]
+        [Authorize(Policy = "FeedBackView,CreateOrFullAccess")]
         public async Task<ActionResult<ServiceResponse<List<FeedbackResponse>>>> GetFeedbackByPatientId(int id)
         {
             var response = new ServiceResponse<List<FeedbackResponse>>();
@@ -95,7 +95,7 @@ namespace UserService.Controllers
         }
 
         [HttpPost("Create")]
-        [Authorize(Roles = "Admin, Staff, Student")]
+        [Authorize(Policy = "FeedBackCreateOrFullAccess")]
         public ActionResult<ServiceResponse<FeedbackResponse>> CreateFeedback(AddFeedbackRequest addFeedback)
         {
             Feedback feedback = _mapper.Map<Feedback>(addFeedback);
@@ -109,7 +109,7 @@ namespace UserService.Controllers
         }
 
         [HttpPut("Update")]
-        [Authorize(Roles = "Admin, Staff, Student")]
+        [Authorize(Policy = "FeedBackCreateOrFullAccess")]
         public ActionResult<ServiceResponse<FeedbackResponse>> UpdateFeedback(UpdateFeedbackRequest updateFeedback)
         {
             Feedback feedback = _mapper.Map<Feedback>(updateFeedback);
@@ -124,7 +124,7 @@ namespace UserService.Controllers
         }
 
         [HttpPut("Delete")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "FeedBackFullAccess")]
         public ActionResult<ServiceResponse<FeedbackResponse>> DeleteFeedback(DeleteFeedbackRequest deleteFeedback)
         {
             Feedback feedback = _mapper.Map<Feedback>(deleteFeedback);
