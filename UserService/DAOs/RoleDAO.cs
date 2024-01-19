@@ -43,6 +43,7 @@ namespace UserService.DAOs
                     }
                     else
                     {
+                        newRole = role;
                         newRole.RoleName = role.RoleName;
                         newRole.IsActive = true;
                         context.Roles.Add(newRole);
@@ -65,9 +66,12 @@ namespace UserService.DAOs
                 using (var context = new SepprojectDbV5Context())
                 {
                     var roleList = context.Roles.ToList();
-                    foreach (var movie in roleList)
+                    foreach (var role in roleList)
                     {
-                        roles.Add(movie);
+                        if (!(role.RoleName == "Admin"))
+                        {
+                            roles.Add(role);
+                        }
                     }
                 }
                 return roles;
@@ -88,6 +92,7 @@ namespace UserService.DAOs
                     var roleCheck = context.Roles.FirstOrDefault(r => r.RoleId == role.RoleId && r.IsActive);
                     if (roleCheck != null)
                     {
+                        updatedRole = role;
                         updatedRole.RoleId = roleCheck.RoleId;
                         updatedRole.RoleName = role.RoleName;
                         updatedRole.IsActive = role.IsActive;
