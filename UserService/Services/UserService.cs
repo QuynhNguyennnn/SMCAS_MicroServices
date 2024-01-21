@@ -27,6 +27,8 @@ namespace UserService.Services
 
         public User Register(User user) => UserDAO.Register(user);
 
+        public List<User> SearchUserByNameRole(string name, int roleId) => UserDAO.SearchUserByNameRole(name, roleId);
+
         public List<User> SearchUserByName(string name) => UserDAO.SearchUserByName(name);
 
         public User UpdateUser(User user) => UserDAO.UpdateUser(user);

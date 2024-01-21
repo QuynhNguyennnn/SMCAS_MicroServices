@@ -252,6 +252,37 @@ namespace UserService.DAOs
             }
         }
 
+        public static List<User> SearchUserByNameRole(string name, int roleId)
+        {
+            var userList = new List<User>();
+            try
+            {
+                using (var context = new SepprojectDbV5Context())
+                {
+                    var userCheck = context.Users.Where(u => (u.FirstName.ToLower().Contains(name.ToLower())
+                                                                || u.LastName.ToLower().Contains(name.ToLower())
+                                                                || u.Username.ToLower().Contains(name.ToLower()))
+                                                                && u.IsActive && u.RoleId == roleId).ToList();
+                    if (userCheck != null)
+                    {
+                        foreach (var item in userCheck)
+                        {
+                            userList.Add(item);
+                        }
+                        return userList;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public static List<User> GetDoctors()
         {
             List<User> users = new List<User>();
