@@ -217,9 +217,20 @@ namespace ScheduleService.Controllers
         [Authorize(Policy = "ScheduleModifiedDoctorOrFullAccess")]
         public ActionResult<ServiceResponse<ScheduleResponse>> RejectSchedule(int id)
         {
+            DateTime now = DateTime.Now;
+            var response = new ServiceResponse<ScheduleResponse>();
+            var scheduleCheck = service.GetScheduleById(id);
+            var startDate = scheduleCheck.Date + scheduleCheck.StartShift;
+            var timeCheck = startDate - TimeSpan.FromHours(7);
+            if (now > timeCheck)
+            {
+                response.Data = null;
+                response.Message = "Reject Schedule Failed.";
+                response.Status = 400;
+                return response;
+            }
             var schedule = service.RejectSchedule(id);
             var scheduleResponse = _mapper.Map<ScheduleResponse>(schedule);
-            var response = new ServiceResponse<ScheduleResponse>();
             response.Data = scheduleResponse;
             response.Message = "Reject Schedule";
             response.Status = 200;
