@@ -66,11 +66,11 @@ builder.Services.AddAuthorization(options =>
     });
     options.AddPolicy("UserUpdateOrFullAccess", policy =>
     {
-        policy.RequireClaim("FeedBack", "Full Access", "Update");
+        policy.RequireClaim("User", "Full Access", "Update", "ViewAndUpdate");
     });
     options.AddPolicy("UserViewOrFullAccess", policy =>
     {
-        policy.RequireClaim("FeedBack", "View", "Full Access");
+        policy.RequireClaim("User", "ViewAndUpdate", "Full Access");
     });
 });
 
