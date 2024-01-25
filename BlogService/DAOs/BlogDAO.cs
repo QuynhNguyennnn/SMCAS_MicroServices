@@ -78,6 +78,7 @@ namespace BlogService.DAOs
                     {
                         updateBlog = blog;
                         updateBlog.WritingDate = blogCheck.WritingDate;
+                        updateBlog.PublishedDate = blogCheck.PublishedDate;
                         updateBlog.UserId = blogCheck.UserId;
                         updateBlog.IsActive = blogCheck.IsActive;
                         context.Entry(blogCheck).CurrentValues.SetValues(updateBlog);
