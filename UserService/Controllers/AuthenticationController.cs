@@ -408,7 +408,7 @@ namespace UserService.Controllers
         }
 
         [HttpGet("Doctors")]
-        [Authorize(Policy = "UserFullAccess")]
+        [Authorize(Policy = "UserUpdateOrFullAccess")]
         public ActionResult<ServiceResponse<List<DoctorResponse>>> GetDoctors()
         {
             var response = new ServiceResponse<List<DoctorResponse>>();
@@ -430,7 +430,7 @@ namespace UserService.Controllers
         }
 
         [HttpGet("Students")]
-        [Authorize(Policy = "UserFullAccess")]
+        [Authorize(Policy = "UserUpdateOrFullAccess")]
         public ActionResult<ServiceResponse<List<StudentResponse>>> GetStudents()
         {
             var response = new ServiceResponse<List<StudentResponse>>();
@@ -452,7 +452,7 @@ namespace UserService.Controllers
         }
 
         [HttpGet("Users")]
-        [Authorize(Policy = "UserFullAccess")]
+        [Authorize(Policy = "UserUpdateOrFullAccess")]
         public ActionResult<ServiceResponse<List<UserManagementResponse>>> GetUserList()
         {
             var response = new ServiceResponse<List<UserManagementResponse>>();
@@ -484,7 +484,7 @@ namespace UserService.Controllers
         }
 
         [HttpGet("Staffs")]
-        [Authorize(Policy = "UserFullAccess")]
+        [Authorize(Policy = "UserUpdateOrFullAccess")]
         public ActionResult<ServiceResponse<List<StaffResponse>>> GetStaff()
         {
             var response = new ServiceResponse<List<StaffResponse>>();
