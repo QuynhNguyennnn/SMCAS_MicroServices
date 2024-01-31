@@ -68,10 +68,7 @@ namespace UserService.DAOs
                     var roleList = context.Roles.ToList();
                     foreach (var role in roleList)
                     {
-                        if (!(role.RoleName == "Admin"))
-                        {
-                            roles.Add(role);
-                        }
+                        roles.Add(role);
                     }
                 }
                 return roles;
