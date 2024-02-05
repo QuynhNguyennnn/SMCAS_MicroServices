@@ -70,7 +70,7 @@ namespace BlogService.Controllers
             var blogResponse = _mapper.Map<BlogResponse>(blog);
             var response = new ServiceResponse<BlogResponse>();
             response.Data = blogResponse;
-            response.Message = "Create Blog";
+            response.Message = "Create Successful";
             response.Status = 200;
             return response;
         }
@@ -85,7 +85,7 @@ namespace BlogService.Controllers
             var blogResponse = _mapper.Map<BlogResponse>(blog);
             var response = new ServiceResponse<BlogResponse>();
             response.Data = blogResponse;
-            response.Message = "Update Blog";
+            response.Message = "Update Successful";
             response.Status = 200;
             return response;
         }
@@ -98,7 +98,7 @@ namespace BlogService.Controllers
             var blogResponse = _mapper.Map<BlogResponse>(blog);
             var response = new ServiceResponse<BlogResponse>();
             response.Data = blogResponse;
-            response.Message = "Delete Blog";
+            response.Message = "Delete Successful";
             response.Status = 200;
             return response;
         }
