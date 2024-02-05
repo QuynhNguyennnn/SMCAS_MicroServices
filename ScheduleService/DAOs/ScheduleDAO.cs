@@ -297,7 +297,7 @@ namespace ScheduleService.DAOs
             {
                 using (var context = new SepprojectDbV5Context())
                 {
-                    schedules = context.MedicalExaminationSchedules.Where(s => s.Date.Date >= dateStart.Date && s.Date.Date >= dateEnd.Date && s.IsActive && s.PatientId == null).ToList();
+                    schedules = context.MedicalExaminationSchedules.Where(s => s.Date.Date >= dateStart.Date && s.Date.Date <= dateEnd.Date && s.IsActive && s.PatientId == null).ToList();
                 }
             }
             catch (Exception ex)

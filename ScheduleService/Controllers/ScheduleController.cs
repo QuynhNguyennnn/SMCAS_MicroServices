@@ -123,6 +123,9 @@ namespace ScheduleService.Controllers
             if (addSchedule.StartShift.TotalSeconds > addSchedule.EndShift.TotalSeconds)
             {
                 throw new Exception("End shift must be greater than start shift");
+            } else if (addSchedule.Date.Date < DateTime.Today)
+            {
+                throw new Exception("Examination date cannot be before today.");
             }
             List<MedicalExaminationSchedule> scheduleList = service.GetScheduleListByDoctorId(addSchedule.DoctorId);
 
@@ -143,7 +146,7 @@ namespace ScheduleService.Controllers
             var scheduleResponse = _mapper.Map<ScheduleResponse>(schedule);
             var response = new ServiceResponse<ScheduleResponse>();
             response.Data = scheduleResponse;
-            response.Message = "Create Schedule";
+            response.Message = "Create Successful";
             response.Status = 200;
             return response;
         }
@@ -154,7 +157,19 @@ namespace ScheduleService.Controllers
         {
             if (updateSchedule.StartShift.TotalSeconds > updateSchedule.EndShift.TotalSeconds)
             {
-                throw new Exception("End shift must be greater than start shift");
+                var response1 = new ServiceResponse<ScheduleResponse>();
+                response1.Data = null;
+                response1.Message = "End shift must be greater than start shift";
+                response1.Status = 404;
+                return response1;
+            }
+            else if (updateSchedule.Date.Date < DateTime.Today)
+            {
+                var response1 = new ServiceResponse<ScheduleResponse>();
+                response1.Data = null;
+                response1.Message = "Examination date cannot be before today.";
+                response1.Status = 404;
+                return response1;
             }
 
             var scheduleCheck = service.GetScheduleById(updateSchedule.ScheduleId);
@@ -180,7 +195,7 @@ namespace ScheduleService.Controllers
             var scheduleResponse = _mapper.Map<ScheduleResponse>(schedule);
             var response = new ServiceResponse<ScheduleResponse>();
             response.Data = scheduleResponse;
-            response.Message = "Update Schedule";
+            response.Message = "Update Successful";
             response.Status = 200;
             return response;
         }
@@ -195,7 +210,7 @@ namespace ScheduleService.Controllers
             var scheduleResponse = _mapper.Map<ScheduleResponse>(schedule);
             var response = new ServiceResponse<ScheduleResponse>();
             response.Data = scheduleResponse;
-            response.Message = "Register Schedule";
+            response.Message = "Register Successful";
             response.Status = 200;
             return response;
         }
@@ -208,7 +223,7 @@ namespace ScheduleService.Controllers
             var scheduleResponse = _mapper.Map<ScheduleResponse>(schedule);
             var response = new ServiceResponse<ScheduleResponse>();
             response.Data = scheduleResponse;
-            response.Message = "Accept Schedule";
+            response.Message = "Accept Successful";
             response.Status = 200;
             return response;
         }
@@ -232,7 +247,7 @@ namespace ScheduleService.Controllers
             var schedule = service.RejectSchedule(id);
             var scheduleResponse = _mapper.Map<ScheduleResponse>(schedule);
             response.Data = scheduleResponse;
-            response.Message = "Reject Schedule";
+            response.Message = "Reject Successful";
             response.Status = 200;
             return response;
         }
@@ -245,7 +260,7 @@ namespace ScheduleService.Controllers
             var scheduleResponse = _mapper.Map<ScheduleResponse>(schedule);
             var response = new ServiceResponse<ScheduleResponse>();
             response.Data = scheduleResponse;
-            response.Message = "Delete Schedule";
+            response.Message = "Delete Successful";
             response.Status = 200;
             return response;
         }
