@@ -65,7 +65,7 @@ namespace UserService.Controllers
         }
 
         [HttpPost("Create")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult<ServiceResponse<RoleResponse>> CreateRole(CreateRoleRequest request)
         {
             var response = new ServiceResponse<RoleResponse>();
