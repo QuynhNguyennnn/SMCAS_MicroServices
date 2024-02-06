@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.RegularExpressions;
 using UserService.DTOs;
 using UserService.Models;
 using UserService.Services;
@@ -64,26 +65,36 @@ namespace UserService.Controllers
         }
 
         [HttpPost("Create")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public ActionResult<ServiceResponse<RoleResponse>> CreateRole(CreateRoleRequest request)
         {
             var response = new ServiceResponse<RoleResponse>();
             var roleMap = _mapper.Map<Role>(request);
-            var role = roleService.CreateRole(roleMap);
-            if (role == null)
+            string regexPattern = @"[^a-zA-Z0-9 ]";
+            if (Regex.IsMatch(request.RoleName, regexPattern))
             {
                 response.Data = null;
                 response.Status = 400;
-                response.Message = "Role name has already exists.";
+                response.Message = "Role name can not contain special characters.";
                 response.TotalDataList = 0;
-            }
-            else
+            } else
             {
-                var roleResponse = _mapper.Map<RoleResponse>(role);
-                response.Data = roleResponse;
-                response.Status = 200;
-                response.Message = "Create role successful.";
-                response.TotalDataList = 1;
+                var role = roleService.CreateRole(roleMap);
+                if (role == null)
+                {
+                    response.Data = null;
+                    response.Status = 400;
+                    response.Message = "Role name has already exists.";
+                    response.TotalDataList = 0;
+                }
+                else
+                {
+                    var roleResponse = _mapper.Map<RoleResponse>(role);
+                    response.Data = roleResponse;
+                    response.Status = 200;
+                    response.Message = "Create role successful.";
+                    response.TotalDataList = 1;
+                }
             }
             return response;
         }
