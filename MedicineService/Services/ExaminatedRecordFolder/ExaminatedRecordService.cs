@@ -13,6 +13,8 @@ namespace MedicineService.Services.ExaminatedRecordFolder
 
         public ExaminatedRecord GetRecordById(int id) => ExaminatedRecordDAO.GetRecordById(id);
 
+        public List<ExaminatedRecord> SearchRecordByName(string name) => ExaminatedRecordDAO.SearchRecordByName(name);
+
         public List<ExaminatedRecord> SearchRecordByPeopleId(int id) => ExaminatedRecordDAO.SearchRecordByPeopleId(id);
 
         public ExaminatedRecord UpdateRecord(ExaminatedRecord record) => ExaminatedRecordDAO.UpdateRecord(record);

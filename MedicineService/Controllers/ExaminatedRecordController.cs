@@ -166,5 +166,24 @@ namespace MedicineService.Controllers
             response.TotalDataList = codeList.Count;
             return response;
         }
+
+        [HttpGet("Search/name")]
+        [Authorize(Policy = "ExaminatedRecordFullAccess")]
+        public ActionResult<ServiceResponse<List<ExaminatedRecordResponse>>> SearchRecordByName(string name)
+        {
+            var response = new ServiceResponse<List<ExaminatedRecordResponse>>();
+            var codeList = new List<ExaminatedRecordResponse>();
+            var codes = recordService.SearchRecordByName(name);
+            foreach (var code in codes)
+            {
+                ExaminatedRecordResponse examinatedRecord = _mapper.Map<ExaminatedRecordResponse>(code);
+                codeList.Add(examinatedRecord);
+            }
+            response.Data = codeList;
+            response.Status = 200;
+            response.Message = "Search record by name: " + name;
+            response.TotalDataList = codeList.Count;
+            return response;
+        }
     }
 }

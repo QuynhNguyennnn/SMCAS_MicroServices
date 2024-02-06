@@ -19,7 +19,8 @@ namespace MedicineService.DAOs
                     }
                 }
                 return examinatedRecords;
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -36,13 +37,15 @@ namespace MedicineService.DAOs
                     if (recordCheck != null)
                     {
                         record = recordCheck;
-                    } else
+                    }
+                    else
                     {
                         record = null;
                     }
                 }
                 return record;
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -55,20 +58,13 @@ namespace MedicineService.DAOs
             {
                 using (var context = new SepprojectDbV5Context())
                 {
-                    /*var recordCheck = context.ExaminatedRecords.SingleOrDefault(r => r.RecordId == record.RecordId);
-                    if (recordCheck != null)
-                    {
-                        createdRecord = null;
-                    }
-                    else
-                    {*/
-                        createdRecord = record;
-                        context.ExaminatedRecords.Add(createdRecord);
-                        context.SaveChanges();
-                    //}
+                    createdRecord = record;
+                    context.ExaminatedRecords.Add(createdRecord);
+                    context.SaveChanges();
                 }
                 return createdRecord;
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -94,7 +90,8 @@ namespace MedicineService.DAOs
                     }
                 }
                 return updatedRecord;
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -111,7 +108,8 @@ namespace MedicineService.DAOs
                     if (recordCheck == null)
                     {
                         return null;
-                    } else
+                    }
+                    else
                     {
                         deletedRecord = recordCheck;
                         deletedRecord.IsActive = false;
@@ -120,7 +118,8 @@ namespace MedicineService.DAOs
                     }
                 }
                 return deletedRecord;
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -137,6 +136,34 @@ namespace MedicineService.DAOs
                     foreach (var record in records)
                     {
                         examinatedRecords.Add(record);
+                    }
+                }
+                return examinatedRecords;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public static List<ExaminatedRecord> SearchRecordByName(string name)
+        {
+            List<ExaminatedRecord> examinatedRecords = new List<ExaminatedRecord>();
+            try
+            {
+                using (var context = new SepprojectDbV5Context())
+                {
+                    var records = context.ExaminatedRecords.ToList();
+                    var nameList = context.Users.Where(u => u.FirstName.ToLower() == name.ToLower() || u.LastName.ToLower() == name.ToLower()).ToList();
+                    foreach (var item in nameList)
+                    {
+                        for (int i = 0; i < records.Count; i++)
+                        {
+                            if (records[i].DoctorId == item.UserId || records[i].PatientId == item.UserId)
+                            {
+                                examinatedRecords.Add(records[i]);
+                            }
+                        }
                     }
                 }
                 return examinatedRecords;
