@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.OutputCaching;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using UserService.Models;
 
@@ -399,6 +400,26 @@ namespace UserService.DAOs
                 return patients;
             }
             catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public static List<User> GetListOfVisitor()
+        {
+            var visitors = new List<User>();
+            try
+            {
+                using (var context = new SepprojectDbV5Context())
+                {
+                    var visitorList = context.Users.Where(u => u.RoleId != 1 && u.RoleId != 5 && u.RoleId != 4 && u.IsActive).ToList();
+                    foreach (var visitor in visitorList)
+                    {
+                        visitors.Add(visitor);
+                    }
+                }
+                return visitors;
+            } catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
