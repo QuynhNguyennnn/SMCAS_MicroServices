@@ -591,5 +591,35 @@ namespace UserService.Controllers
             }
             return response;
         }
+
+        //Visitor means the person who came to medical examination but ha not been included in to examination record to become a patient  
+        [HttpGet("Visitors")]
+        [Authorize(Policy = "UserViewOrFullAccess")]
+        public ActionResult<ServiceResponse<List<UserResponse>>> GetListOfVisitor()
+        {
+            var response = new ServiceResponse<List<UserResponse>>();
+            var userResponseList = new List<UserResponse>();
+            var visitorsList = userService.GetPatientList();
+            foreach (var visitor in visitorsList)
+            {
+                userResponseList.Add(_mapper.Map<UserResponse>(visitor));
+
+            }
+            if (userResponseList.Count > 0)
+            {
+                response.Data = userResponseList;
+                response.Status = 200;
+                response.Message = "Get Visitors List";
+                response.TotalDataList = userResponseList.Count;
+            }
+            else
+            {
+                response.Data = null;
+                response.Status = 204;
+                response.Message = "No visitors";
+                response.TotalDataList = 0;
+            }
+            return response;
+        }
     }
 }

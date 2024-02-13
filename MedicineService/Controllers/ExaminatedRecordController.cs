@@ -126,7 +126,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpPut("Delete")]
-        [Authorize(Policy = "Admin")]
+        [Authorize(Policy = "ExaminatedRecordFullAccess")]
         public ActionResult<ServiceResponse<ExaminatedRecordResponse>> DeleteExaminatedRecord(int id)
         {
             var response = new ServiceResponse<ExaminatedRecordResponse>();

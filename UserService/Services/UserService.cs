@@ -32,5 +32,7 @@ namespace UserService.Services
         public List<User> SearchUserByName(string name) => UserDAO.SearchUserByName(name);
 
         public User UpdateUser(User user) => UserDAO.UpdateUser(user);
+
+        public List<User> GetListOfVisitor() => UserDAO.GetListOfVisitor();
     }
 }
