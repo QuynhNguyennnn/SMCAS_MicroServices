@@ -6,6 +6,7 @@ namespace BlogService.Services
     public class BlogService : IBlogService
     {
         public List<Blog> GetBlogList() => BlogDAO.GetBlogList();
+        public List<Blog> GetBlogListAdmin() => BlogDAO.GetBlogListAdmin();
         public Blog GetBlogById(int id) => BlogDAO.GetBlogById(id);
         public Blog CreateBlog(Blog blog) => BlogDAO.CreateBlog(blog);
         public Blog UpdateBlog(Blog blog) => BlogDAO.UpdateBlog(blog);

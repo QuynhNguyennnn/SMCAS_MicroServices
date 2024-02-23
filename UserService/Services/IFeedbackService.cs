@@ -8,6 +8,7 @@ namespace UserService.Services
         List<Feedback> GetFeedbackByDoctorId(int id);
         List<Feedback> GetFeedbackByPatientId(int id);
         List<Feedback> GetFeedbacks();
+        List<Feedback> GetFeedbacksAdmin();
         Feedback CreateFeedback(Feedback feedback);
         Feedback UpdateFeedback(Feedback feedback);
         Feedback DeleteFeedback(Feedback feedback);
