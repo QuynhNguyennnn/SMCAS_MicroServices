@@ -40,7 +40,7 @@ namespace ScheduleService.Controllers
             return response;
         }
 
-        [HttpGet("Admin")]
+        [HttpGet("ListAdmin")]
         [Authorize(Roles = "Admin")]
         public ActionResult<ServiceResponse<List<ScheduleResponse>>> GetScheduleListByAdmin()
         {
