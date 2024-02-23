@@ -31,9 +31,14 @@ namespace MedicineService.Controllers
             var response = new ServiceResponse<List<ExaminatedRecordResponse>>();
             var codeList = new List<ExaminatedRecordResponse>();
             var codes = recordService.GetAll();
+            
             foreach (var code in codes)
             {
                 ExaminatedRecordResponse examinatedRecord = _mapper.Map<ExaminatedRecordResponse>(code);
+                examinatedRecord.DoctorName = recordService.GetPeopleInfo(examinatedRecord.DoctorId).FirstName + 
+                                              " " + recordService.GetPeopleInfo(examinatedRecord.DoctorId).LastName;
+                examinatedRecord.PatientName = recordService.GetPeopleInfo(examinatedRecord.PatientId).FirstName + 
+                                              " " + recordService.GetPeopleInfo(examinatedRecord.PatientId).LastName;
                 codeList.Add(examinatedRecord);
             }
             response.Data = codeList;
@@ -59,6 +64,10 @@ namespace MedicineService.Controllers
             else
             {
                 var recordResponse = _mapper.Map<ExaminatedRecordResponse>(record);
+                recordResponse.DoctorName = recordService.GetPeopleInfo(recordResponse.DoctorId).FirstName +
+                                              " " + recordService.GetPeopleInfo(recordResponse.DoctorId).LastName;
+                recordResponse.PatientName = recordService.GetPeopleInfo(recordResponse.PatientId).FirstName +
+                                              " " + recordService.GetPeopleInfo(recordResponse.PatientId).LastName;
                 response.Data = recordResponse;
                 response.Status = 200;
                 response.Message = "Get examinated record by id = " + id;
@@ -83,10 +92,18 @@ namespace MedicineService.Controllers
             else
             {
                 var createdRecord = recordService.CreateRecord(record);
-                response.Data = _mapper.Map<ExaminatedRecordResponse>(createdRecord);
-                response.Status = 200;
-                response.Message = "Create examinated record successful.";
-                response.TotalDataList = 1;
+                if (createdRecord == null)
+                {
+                    response.Data = null;
+                    response.Status = 400;
+                    response.Message = "Create examinated record failed. The storage is not enough drugs.";
+                } else
+                {
+                    response.Data = _mapper.Map<ExaminatedRecordResponse>(createdRecord);
+                    response.Status = 200;
+                    response.Message = "Create examinated record successful.";
+                    response.TotalDataList = 1;
+                }
             }
             return response;
         }

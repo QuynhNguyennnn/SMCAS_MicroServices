@@ -1,4 +1,5 @@
 ﻿using MedicineService.Models;
+using System.Net.WebSockets;
 
 namespace MedicineService.DAOs
 {
@@ -55,10 +56,22 @@ namespace MedicineService.DAOs
             {
                 using (var context = new SepprojectDbV5Context())
                 {
-                    createdRecord = record;
-                    createdRecord.IsActive = true;
-                    context.MedicineExaminatedRecords.Add(createdRecord);
-                    context.SaveChanges();
+                    var quantity = record.Quantity;
+                    var medicine = context.Medicines.FirstOrDefault(r => r.MedicineId == record.MedicineId);
+                    if (medicine.Quantity < quantity)
+                    {
+                        return null;
+                    } else
+                    {
+                        var medicineNew = new Medicine();
+                        createdRecord = record;
+                        createdRecord.IsActive = true;
+                        context.MedicineExaminatedRecords.Add(createdRecord);
+                        medicineNew = medicine;
+                        medicineNew.Quantity -= quantity;
+                        context.Entry(medicine).CurrentValues.SetValues(medicineNew);
+                        context.SaveChanges();
+                    }
                 }
                 return createdRecord;
             } catch (Exception ex)
