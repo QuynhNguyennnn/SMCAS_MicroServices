@@ -18,5 +18,6 @@ namespace ScheduleService.Services
         public MedicalExaminationSchedule DeleteSchedule(int id) => ScheduleDAO.DeleteSchedule(id);
         public List<MedicalExaminationSchedule> GetScheduleListByDoctorId(int id) => ScheduleDAO.GetScheduleListByDoctorId(id);
         public List<MedicalExaminationSchedule> SearchScheduleByDate(DateTime dateStart, DateTime dateEnd) => ScheduleDAO.SearchScheduleByDate(dateStart, dateEnd);
+        public List<MedicalExaminationSchedule> GetEmptySchedule() => ScheduleDAO.GetEmptySchedule();
     }
 }
