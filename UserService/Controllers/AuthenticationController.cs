@@ -209,7 +209,7 @@ namespace UserService.Controllers
         }
 
         [HttpGet]
-        [Authorize(Policy = "UserFullAccess")]
+        [Authorize(Policy = "UserUpdateOrFullAccess")]
         public ActionResult<ServiceResponse<List<UserResponse>>> GetUsers()
         {
             var response = new ServiceResponse<List<UserResponse>>();
@@ -565,7 +565,7 @@ namespace UserService.Controllers
         }
 
         [HttpGet("Patients")]
-        [Authorize(Policy = "UserViewOrFullAccess")]
+        [Authorize(Policy = "UserUpdateOrFullAccess")]
         public ActionResult<ServiceResponse<List<UserResponse>>> GetPatientList()
         {
             var response = new ServiceResponse<List<UserResponse>>();
