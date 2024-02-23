@@ -1,12 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ScheduleService.DAOs;
 using ScheduleService.DTOs;
 using ScheduleService.Models;
 using ScheduleService.Services;
-using System;
 
 namespace ScheduleService.Controllers
 {
@@ -123,20 +120,21 @@ namespace ScheduleService.Controllers
             if (addSchedule.StartShift.TotalSeconds > addSchedule.EndShift.TotalSeconds)
             {
                 throw new Exception("End shift must be greater than start shift");
-            } else if (addSchedule.Date.Date < DateTime.Today)
+            }
+            else if (addSchedule.Date.Date < DateTime.Today)
             {
                 throw new Exception("Examination date cannot be before today.");
             }
             List<MedicalExaminationSchedule> scheduleList = service.GetScheduleListByDoctorId(addSchedule.DoctorId);
 
-            foreach(var s in scheduleList)
+            foreach (var s in scheduleList)
             {
                 if (!(s.EndShift < addSchedule.StartShift || addSchedule.EndShift < s.StartShift) &&
                        s.Date.ToString("yyyy-MM-dd") == addSchedule.Date.ToString("yyyy-MM-dd"))
                 {
                     var response1 = new ServiceResponse<ScheduleResponse>();
                     response1.Data = null;
-                    response1.Message = "There is an appointment scheduled for the period from "+ addSchedule.StartShift + " to "+addSchedule.EndShift+"";
+                    response1.Message = "There is an appointment scheduled for the period from " + addSchedule.StartShift + " to " + addSchedule.EndShift + "";
                     response1.Status = 404;
                     return response1;
                 }
@@ -279,6 +277,25 @@ namespace ScheduleService.Controllers
 
             response.Data = scheduleResponseList;
             response.Message = "Search Schedule By Date";
+            response.Status = 200;
+            response.TotalDataList = scheduleResponseList.Count;
+            return response;
+        }
+
+        [HttpGet("GetEmptySchedule")]
+        public ActionResult<ServiceResponse<List<ScheduleResponse>>> GetEmptySchedule()
+        {
+            var response = new ServiceResponse<List<ScheduleResponse>>();
+            var scheduleResponseList = new List<ScheduleResponse>();
+            var scheduleList = service.GetEmptySchedule();
+            foreach (var schedule in scheduleList)
+            {
+                ScheduleResponse feedbackResponse = _mapper.Map<ScheduleResponse>(schedule);
+                scheduleResponseList.Add(feedbackResponse);
+            }
+
+            response.Data = scheduleResponseList;
+            response.Message = "Get empty schedule";
             response.Status = 200;
             response.TotalDataList = scheduleResponseList.Count;
             return response;
