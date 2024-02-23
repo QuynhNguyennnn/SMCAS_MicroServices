@@ -11,5 +11,6 @@ namespace MedicineService.Services.ExaminatedRecordFolder
         ExaminatedRecord DeleteRecord(int id);
         List<ExaminatedRecord> SearchRecordByPeopleId(int id);
         List<ExaminatedRecord> SearchRecordByName(string name);
+        User GetPeopleInfo(int id);
     }
 }

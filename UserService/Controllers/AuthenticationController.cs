@@ -516,6 +516,39 @@ namespace UserService.Controllers
             return response;
         }
 
+        [HttpGet("MedicalStaffs")]
+        [Authorize(Policy = "UserUpdateOrFullAccess")]
+        public ActionResult<ServiceResponse<List<StaffResponse>>> GetMedicalStaffs()
+        {
+            var response = new ServiceResponse<List<StaffResponse>>();
+            var userResponseList = new List<StaffResponse>();
+            var userList = userService.GetMedicalStaffs();
+            var roleList = roleService.GetRoles();
+            var r = 1;
+            foreach (var user in userList)
+            {
+                var userRe = _mapper.Map<StaffResponse>(user);
+                userRe.Key = r;
+
+                foreach (var role in roleList)
+                {
+                    if (user.RoleId == role.RoleId)
+                    {
+                        userRe.RoleName = role.RoleName;
+                        userRe.RoleId = role.RoleId;
+                        break;
+                    }
+                }
+                userResponseList.Add(userRe);
+                r++;
+            }
+            response.Data = userResponseList;
+            response.Message = "Get Medical Staff List";
+            response.Status = 200;
+            response.TotalDataList = userResponseList.Count;
+            return response;
+        }
+
         [HttpPost("Create")]
         [Authorize(Policy = "UserFullAccess")]
         public ActionResult<ServiceResponse<UserResponse>> CreateUser(CreateUserRequest request)

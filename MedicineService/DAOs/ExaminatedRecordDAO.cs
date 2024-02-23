@@ -173,5 +173,30 @@ namespace MedicineService.DAOs
                 throw new Exception(ex.Message);
             }
         }
+
+        public static User GetPeopleInfo(int id)
+        {
+            var user = new User();
+            try
+            {
+                using (var context = new SepprojectDbV5Context())
+                {
+                    user = context.Users.FirstOrDefault(user => (user.UserId == id) && user.IsActive);
+                    if (user != null)
+                    {
+                        return user;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+
+        }
     }
 }
