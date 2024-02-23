@@ -34,5 +34,7 @@ namespace UserService.Services
         public User UpdateUser(User user) => UserDAO.UpdateUser(user);
 
         public List<User> GetListOfVisitor() => UserDAO.GetListOfVisitor();
+
+        public List<User> GetMedicalStaffs() => UserDAO.GetMedicalStaffs();
     }
 }
