@@ -29,6 +29,23 @@ namespace BlogService.DAOs
             return blogs;
         }
 
+        public static List<Blog> GetBlogListAdmin()
+        {
+            List<Blog> blogs = new List<Blog>();
+            try
+            {
+                using (var context = new SepprojectDbV5Context())
+                {
+                    var blogList = context.Blogs.ToList();
+                    return blogList;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public static Blog GetBlogById(int id)
         {
             Blog blog = new Blog();
