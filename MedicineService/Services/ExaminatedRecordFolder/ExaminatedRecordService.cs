@@ -11,6 +11,8 @@ namespace MedicineService.Services.ExaminatedRecordFolder
 
         public List<ExaminatedRecord> GetAll() => ExaminatedRecordDAO.GetAll();
 
+        public User GetPeopleInfo(int id) => ExaminatedRecordDAO.GetPeopleInfo(id);
+
         public ExaminatedRecord GetRecordById(int id) => ExaminatedRecordDAO.GetRecordById(id);
 
         public List<ExaminatedRecord> SearchRecordByName(string name) => ExaminatedRecordDAO.SearchRecordByName(name);
