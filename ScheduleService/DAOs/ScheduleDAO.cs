@@ -31,6 +31,24 @@ namespace ScheduleService.DAOs
             return schedules;
         }
 
+        public static List<MedicalExaminationSchedule> GetScheduleListAdmin()
+        {
+            List<MedicalExaminationSchedule> schedules = new List<MedicalExaminationSchedule>();
+            try
+            {
+                using (var context = new SepprojectDbV5Context())
+                {
+                    var scheduleList = context.MedicalExaminationSchedules.ToList();
+                    return scheduleList;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            
+        }
+
         public static MedicalExaminationSchedule GetScheduleById(int id)
         {
             MedicalExaminationSchedule schedule = new MedicalExaminationSchedule();

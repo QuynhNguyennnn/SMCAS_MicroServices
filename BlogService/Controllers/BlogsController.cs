@@ -47,6 +47,26 @@ namespace BlogService.Controllers
             return response;
         }
 
+        [HttpGet("Admin")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<List<BlogResponse>>> GetBlogListAdmin()
+        {
+            var response = new ServiceResponse<List<BlogResponse>>();
+            var blogResponseList = new List<BlogResponse>();
+            var blogList = service.GetBlogListAdmin();
+            foreach (var blog in blogList)
+            {
+                BlogResponse blogResponse = _mapper.Map<BlogResponse>(blog);
+                blogResponseList.Add(blogResponse);
+            }
+
+            response.Data = blogResponseList;
+            response.Message = "Get Blog List";
+            response.Status = 200;
+            response.TotalDataList = blogResponseList.Count;
+            return response;
+        }
+
         [HttpGet("id")]
         public async Task<ActionResult<ServiceResponse<BlogResponse>>> GetBlogById(int id)
         {

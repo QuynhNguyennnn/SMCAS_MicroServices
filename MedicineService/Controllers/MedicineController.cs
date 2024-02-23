@@ -41,6 +41,25 @@ namespace MedicineService.Controllers
             return response;
         }
 
+        [HttpGet("Admin")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<List<MedicineResponse>>> GetAllMedicinesAdmin()
+        {
+            var response = new ServiceResponse<List<MedicineResponse>>();
+            var medicineList = new List<MedicineResponse>();
+            var medicines = medicineService.GetMedicinesAdmin();
+            foreach (var medicine in medicines)
+            {
+                MedicineResponse MedicineResponse = _mapper.Map<MedicineResponse>(medicine);
+                medicineList.Add(MedicineResponse);
+            }
+            response.Data = medicineList;
+            response.Status = 200;
+            response.Message = "Get All Medicines By Admin";
+            response.TotalDataList = medicineList.Count;
+            return response;
+        }
+
         [HttpGet("id")]
         public ActionResult<ServiceResponse<MedicineResponse>> GetMedicineById(int id)
         {

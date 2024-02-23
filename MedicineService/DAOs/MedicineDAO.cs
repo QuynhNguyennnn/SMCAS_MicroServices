@@ -26,6 +26,23 @@ namespace MedicineService.DAOs
             }
         }
 
+        public static List<Medicine> GetMedicinesAdmin()
+        {
+            List<Medicine> medicines = new List<Medicine>();
+            try
+            {
+                using (var context = new SepprojectDbV5Context())
+                {
+                    var medicineList = context.Medicines.ToList();
+                    return medicines;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public static Medicine GetMedicineById(int id)
         {
             var medicine = new Medicine();

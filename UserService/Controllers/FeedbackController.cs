@@ -41,6 +41,26 @@ namespace UserService.Controllers
             return response;
         }
 
+        [HttpGet("Admin")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<List<FeedbackResponse>>> GetFeedbackListAdmin()
+        {
+            var response = new ServiceResponse<List<FeedbackResponse>>();
+            var feedbackResponseList = new List<FeedbackResponse>();
+            var feedbackList = service.GetFeedbacksAdmin();
+            foreach (var feedback in feedbackList)
+            {
+                FeedbackResponse feedbackResponse = _mapper.Map<FeedbackResponse>(feedback);
+                feedbackResponseList.Add(feedbackResponse);
+            }
+
+            response.Data = feedbackResponseList;
+            response.Message = "Get Feedback List By Admin";
+            response.Status = 200;
+            response.TotalDataList = feedbackResponseList.Count;
+            return response;
+        }
+
         [HttpGet("id")]
         public async Task<ActionResult<ServiceResponse<FeedbackResponse>>> GetFeedbackById(int id)
         {
