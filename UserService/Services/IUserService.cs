@@ -20,5 +20,6 @@ namespace UserService.Services
         User CreateUser(User user);
         List<User> GetPatientList();
         List<User> GetListOfVisitor();
+        User UpdatePassword(string username, string password);
     }
 }
