@@ -25,22 +25,44 @@ namespace MedicineService.Controllers
             _configuration = configuration;
         }
 
-        [HttpGet]
+        [HttpGet("ListAdmin")]
         [Authorize(Policy = "ExaminatedRecordFullAccess")]
         public ActionResult<ServiceResponse<List<MedicineExaminatedRecordResponse>>> GetAll()
         {
             var response = new ServiceResponse<List<MedicineExaminatedRecordResponse>>();
-            var codeList = new List<MedicineExaminatedRecordResponse>();
-            var codes = recordService.GetAllMedicineRecord();
-            foreach (var code in codes)
+            var recordList = new List<MedicineExaminatedRecordResponse>();
+            var records = recordService.GetAllMedicineRecord();
+            foreach (var record in records)
             {
-                MedicineExaminatedRecordResponse examinatedRecord = _mapper.Map<MedicineExaminatedRecordResponse>(code);
-                codeList.Add(examinatedRecord);
+                MedicineExaminatedRecordResponse examinatedRecord = _mapper.Map<MedicineExaminatedRecordResponse>(record);
+                recordList.Add(examinatedRecord);
             }
-            response.Data = codeList;
+            response.Data = recordList;
             response.Status = 200;
             response.Message = "Get All Examinated Record";
-            response.TotalDataList = codeList.Count;
+            response.TotalDataList = recordList.Count;
+            return response;
+        }
+
+        [HttpGet]
+        [Authorize(Policy = "ExaminatedRecordFullAccess")]
+        public ActionResult<ServiceResponse<List<MedicineExaminatedRecordResponse>>> GetAllActive()
+        {
+            var response = new ServiceResponse<List<MedicineExaminatedRecordResponse>>();
+            var recordList = new List<MedicineExaminatedRecordResponse>();
+            var records = recordService.GetAllMedicineRecord();
+            foreach (var record in records)
+            {
+                if (record.IsActive)
+                {
+                    MedicineExaminatedRecordResponse examinatedRecord = _mapper.Map<MedicineExaminatedRecordResponse>(record);
+                    recordList.Add(examinatedRecord);
+                }
+            }
+            response.Data = recordList;
+            response.Status = 200;
+            response.Message = "Get All Examinated Record";
+            response.TotalDataList = recordList.Count;
             return response;
         }
 
@@ -95,7 +117,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpPut("Update")]
-        [Authorize (Policy = "ExaminatedRecordFullAccess")]
+        [Authorize(Policy = "ExaminatedRecordFullAccess")]
         public ActionResult<ServiceResponse<MedicineExaminatedRecordResponse>> UpdateMedicineExaminatedRecord(UpdateMedicineExaminatedRecordRequest request)
         {
             var response = new ServiceResponse<MedicineExaminatedRecordResponse>();
@@ -108,7 +130,8 @@ namespace MedicineService.Controllers
                 response.Status = 400;
                 response.Message = "Updated examinated record failed. RecordId or MedicineId not found.";
                 response.TotalDataList = 0;
-            } else
+            }
+            else
             {
                 var updatedRecord = recordService.UpdateRecord(recordMap);
                 if (updatedRecord != null)
@@ -152,18 +175,65 @@ namespace MedicineService.Controllers
             return response;
         }
 
+        [HttpGet("SearchAdmin/id")]
+        [Authorize(Policy = "ExaminatedRecordViewOrFullAccess")]
+        public ActionResult<ServiceResponse<List<MedicineExaminatedRecordResponse>>> SearchRecordByRecordId(int id)
+        {
+            var response = new ServiceResponse<List<MedicineExaminatedRecordResponse>>();
+            var recordList = new List<MedicineExaminatedRecordResponse>();
+            var records = recordService.SearchByRecordId(id);
+            foreach (var record in records)
+            {
+                recordList.Add(_mapper.Map<MedicineExaminatedRecordResponse>(record));
+            }
+            if (recordList.Count > 0)
+            {
+                response.Data = recordList;
+                response.Status = 200;
+                response.Message = "Search record by record id: " + id;
+                response.TotalDataList = recordList.Count;
+                return response;
+            }
+            else
+            {
+                response.Data = null;
+                response.Status = 400;
+                response.Message = "Search record by record id: " + id;
+                response.TotalDataList = 0;
+                return response;
+            }
+        }
+
         [HttpGet("Search/id")]
         [Authorize(Policy = "ExaminatedRecordViewOrFullAccess")]
-        public ActionResult<ServiceResponse<MedicineExaminatedRecordResponse>> SearchRecordByRecordId(int id)
+        public ActionResult<ServiceResponse<List<MedicineExaminatedRecordResponse>>> SearchRecordActiveByRecordId(int id)
         {
-            var response = new ServiceResponse<MedicineExaminatedRecordResponse>();
-            var codes = recordService.SearchByRecordId(id);
-
-            response.Data = _mapper.Map<MedicineExaminatedRecordResponse>(codes);
-            response.Status = 200;
-            response.Message = "Search record by record id: " + id;
-            response.TotalDataList = 1;
-            return response;
+            var response = new ServiceResponse<List<MedicineExaminatedRecordResponse>>();
+            var recordList = new List<MedicineExaminatedRecordResponse>();
+            var records = recordService.SearchByRecordId(id);
+            foreach (var record in records)
+            {
+                if (record.IsActive)
+                {
+                    recordList.Add(_mapper.Map<MedicineExaminatedRecordResponse>(record));
+                }
+            }
+            if (recordList.Count > 0)
+            {
+                response.Data = recordList;
+                response.Status = 200;
+                response.Message = "Search record by record id: " + id;
+                response.TotalDataList = recordList.Count;
+                return response;
+            }
+            else
+            {
+                response.Data = null;
+                response.Status = 400;
+                response.Message = "Search record by record id: " + id;
+                response.TotalDataList = 0;
+                return response;
+            }
         }
 
         [HttpPost("CreateList")]
@@ -171,7 +241,7 @@ namespace MedicineService.Controllers
         public ActionResult<ServiceResponse<ListMedicine>> CreateListMedicine(ListMedicine listMedicine)
         {
             var response = new ServiceResponse<ListMedicine>();
-            
+
             var list = new ListMedicine();
             foreach (var me in listMedicine.medicineCreatedLists)
             {
@@ -182,7 +252,8 @@ namespace MedicineService.Controllers
                     response.Message = "List medicine is null.";
                     response.TotalDataList = 0;
                     return response;
-                } else
+                }
+                else
                 {
                     var recordIdCheck = examinatedService.GetRecordById(listMedicine.RecordId);
                     var medicineIdCheck = medicineService.GetMedicineById(me.MedicineId);
