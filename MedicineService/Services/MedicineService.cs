@@ -13,6 +13,8 @@ namespace MedicineService.Services
 
         public List<Medicine> GetMedicines() => MedicineDAO.GetMedicines();
 
+        public List<Medicine> GetMedicinesAdmin() => MedicineDAO.GetMedicinesAdmin();
+
         public Medicine UpdateMedicine(Medicine Medicine) => MedicineDAO.UpdateMedicine(Medicine);
 
         public List<Medicine> GetMedicinesByname(string name) => MedicineDAO.SearchMedicineByName(name);

@@ -5,6 +5,7 @@ namespace ScheduleService.Services
     public interface IScheduleService
     {
         List<MedicalExaminationSchedule> GetScheduleList();
+        List<MedicalExaminationSchedule> GetScheduleListAdmin();
         MedicalExaminationSchedule GetScheduleById(int id);
         List<MedicalExaminationSchedule> GetEmptyScheduleByDoctorId(int id);
         List<MedicalExaminationSchedule> GetScheduleWaitingConfirmByDoctorId(int id);

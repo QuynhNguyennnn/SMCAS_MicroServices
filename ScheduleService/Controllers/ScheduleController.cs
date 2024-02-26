@@ -40,6 +40,26 @@ namespace ScheduleService.Controllers
             return response;
         }
 
+        [HttpGet("ListAdmin")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<List<ScheduleResponse>>> GetScheduleListByAdmin()
+        {
+            var response = new ServiceResponse<List<ScheduleResponse>>();
+            var scheduleResponseList = new List<ScheduleResponse>();
+            var scheduleList = service.GetScheduleListAdmin();
+            foreach (var schedule in scheduleList)
+            {
+                ScheduleResponse feedbackResponse = _mapper.Map<ScheduleResponse>(schedule);
+                scheduleResponseList.Add(feedbackResponse);
+            }
+
+            response.Data = scheduleResponseList;
+            response.Message = "Get Schedule List By Admin";
+            response.Status = 200;
+            response.TotalDataList = scheduleResponseList.Count;
+            return response;
+        }
+
         [HttpGet("id")]
         public async Task<ActionResult<ServiceResponse<ScheduleResponse>>> GetScheduleById(int id)
         {

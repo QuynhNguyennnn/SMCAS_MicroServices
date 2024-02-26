@@ -29,6 +29,24 @@ namespace UserService.DAOs
             return feedbacks;
         }
 
+        public static List<Feedback> GetFeedBackListAdmin()
+        {
+            List<Feedback> feedbacks = new List<Feedback>();
+            try
+            {
+                using (var context = new SepprojectDbV5Context())
+                {
+                    var feedbackList = context.Feedbacks.ToList();
+                    return feedbackList;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        
+        }
+
         public static Feedback GetFeedbackById(int id)
         {
             Feedback feedback = new Feedback();
