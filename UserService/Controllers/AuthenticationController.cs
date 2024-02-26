@@ -311,7 +311,7 @@ namespace UserService.Controllers
                 return BadRequest(response);
             }
             var userMap = _mapper.Map<User>(updateRequest);
-            userMap.Password = HashPassword(updateRequest.Password);
+            //userMap.Password = HashPassword(updateRequest.Password);
             var user = userService.UpdateUser(userMap);
             if (user == null)
             {
@@ -366,7 +366,7 @@ namespace UserService.Controllers
             }
         }
 
-        [HttpGet("Search/name")]
+        [HttpGet("SearchAdmin/name")]
         [Authorize(Policy = "UserFullAccess")]
         public ActionResult<ServiceResponse<List<UserResponse>>> SearchUserByName(string name)
         {
@@ -376,6 +376,34 @@ namespace UserService.Controllers
             foreach (var user in userList)
             {
                 userResponseList.Add(_mapper.Map<UserResponse>(user));
+            }
+            response.Data = userResponseList;
+            response.Message = "List user have name contain: " + name;
+            response.Status = 200;
+            response.TotalDataList = userResponseList.Count;
+            if (userResponseList.Count == 0)
+            {
+                response.Data = userResponseList;
+                response.Message = "There is no user name: " + name;
+                response.Status = 404;
+                response.TotalDataList = userResponseList.Count;
+            }
+            return response;
+        }
+
+        [HttpGet("Search/name")]
+        [Authorize(Policy = "UserFullAccess")]
+        public ActionResult<ServiceResponse<List<UserResponse>>> SearchActiveUserByName(string name)
+        {
+            var response = new ServiceResponse<List<UserResponse>>();
+            var userResponseList = new List<UserResponse>();
+            var userList = userService.SearchUserByName(name);
+            foreach (var user in userList)
+            {
+                if (user.IsActive)
+                {
+                    userResponseList.Add(_mapper.Map<UserResponse>(user));
+                }
             }
             response.Data = userResponseList;
             response.Message = "List user have name contain: " + name;

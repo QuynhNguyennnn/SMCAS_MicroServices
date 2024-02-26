@@ -115,7 +115,7 @@ namespace UserService.DAOs
             {
                 using (var context = new SepprojectDbV5Context())
                 {
-                    var role = context.Roles.FirstOrDefault(r => r.RoleId == roleId);
+                    var role = context.Roles.FirstOrDefault(r => r.RoleId == roleId && r.IsActive);
                     if (role == null)
                     {
                         return null;
@@ -142,7 +142,7 @@ namespace UserService.DAOs
             {
                 using (var context = new SepprojectDbV5Context())
                 {
-                    var roleCheck = context.Roles.Where(r => r.RoleName.ToLower().Contains(roleName.ToLower()) && r.IsActive).ToList();
+                    var roleCheck = context.Roles.Where(r => r.RoleName.ToLower().Contains(roleName.ToLower())).ToList();
                     if (roleCheck != null)
                     {
                         foreach (var item in roleCheck)

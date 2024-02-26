@@ -132,7 +132,7 @@ namespace MedicineService.DAOs
             {
                 using (var context = new SepprojectDbV5Context())
                 {
-                    var records = context.ExaminatedRecords.Where(r => (r.DoctorId == id || r.PatientId == id) && r.IsActive);
+                    var records = context.ExaminatedRecords.Where(r => (r.DoctorId == id || r.PatientId == id));
                     foreach (var record in records)
                     {
                         examinatedRecords.Add(record);
@@ -181,7 +181,7 @@ namespace MedicineService.DAOs
             {
                 using (var context = new SepprojectDbV5Context())
                 {
-                    user = context.Users.FirstOrDefault(user => (user.UserId == id) && user.IsActive);
+                    user = context.Users.FirstOrDefault(user => (user.UserId == id));
                     if (user != null)
                     {
                         return user;

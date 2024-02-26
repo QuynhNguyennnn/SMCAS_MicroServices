@@ -12,7 +12,7 @@ namespace MedicineService.DAOs
             {
                 using (var context = new SepprojectDbV5Context())
                 {
-                    var records = context.MedicineExaminatedRecords.ToList().Where(r => r.IsActive);
+                    var records = context.MedicineExaminatedRecords.ToList();
                     foreach (var record in records)
                     {
                         examinatedRecords.Add(record);
@@ -33,7 +33,7 @@ namespace MedicineService.DAOs
             {
                 using (var context = new SepprojectDbV5Context())
                 {
-                    var recordCheck = context.MedicineExaminatedRecords.FirstOrDefault(r => r.Meid == id && r.IsActive);
+                    var recordCheck = context.MedicineExaminatedRecords.FirstOrDefault(r => r.Meid == id);
                     if (recordCheck != null)
                     {
                         record = recordCheck;
@@ -133,23 +133,20 @@ namespace MedicineService.DAOs
             }
         }
 
-        public static MedicineExaminatedRecord SearchByRecordId(int id)
+        public static List<MedicineExaminatedRecord> SearchByRecordId(int id)
         {
-            var record = new MedicineExaminatedRecord();
+            var records = new List<MedicineExaminatedRecord>();
             try
             {
                 using (var context = new SepprojectDbV5Context())
                 {
-                    var recordCheck = context.MedicineExaminatedRecords.FirstOrDefault(r => r.RecordId == id && r.IsActive);
-                    if (recordCheck != null)
+                    var recordCheck = context.MedicineExaminatedRecords.Where(r => r.RecordId == id);
+                    foreach (var record in recordCheck)
                     {
-                        record = recordCheck;
-                    } else
-                    {
-                        return null;
+                        records.Add(record);
                     }
                 }
-                return record;
+                return records;
             } catch (Exception ex)
             {
                 throw new Exception(ex.Message);

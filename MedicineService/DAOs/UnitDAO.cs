@@ -130,7 +130,7 @@ namespace MedicineService.DAOs
             {
                 using (var context = new SepprojectDbV5Context())
                 {
-                    var unitCheck = context.Units.Where(u => u.UnitName.ToLower().Contains(name.ToLower()) && u.IsActive).ToList();
+                    var unitCheck = context.Units.Where(u => u.UnitName.ToLower().Contains(name.ToLower())).ToList();
                     if (unitCheck != null)
                     {
                         foreach (var item in unitCheck)
