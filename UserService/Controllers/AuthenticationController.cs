@@ -10,6 +10,7 @@ using System.Text;
 using UserService.Models;
 using UserService.Services;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using System.Reflection.Metadata.Ecma335;
 
 namespace UserService.Controllers
 {
@@ -208,7 +209,7 @@ namespace UserService.Controllers
             return passwordHash;
         }
 
-        [HttpGet]
+        [HttpGet("ListAdmin")]
         [Authorize(Policy = "UserUpdateOrFullAccess")]
         public ActionResult<ServiceResponse<List<UserResponse>>> GetUsers()
         {
@@ -218,6 +219,27 @@ namespace UserService.Controllers
             foreach (var user in userList)
             {
                 userResponseList.Add(_mapper.Map<UserResponse>(user));
+            }
+            response.Data = userResponseList;
+            response.Message = "Get User List";
+            response.Status = 200;
+            response.TotalDataList = userResponseList.Count;
+            return response;
+        }
+
+        [HttpGet]
+        [Authorize(Policy = "UserUpdateOrFullAccess")]
+        public ActionResult<ServiceResponse<List<UserResponse>>> GetUsersActive()
+        {
+            var response = new ServiceResponse<List<UserResponse>>();
+            var userResponseList = new List<UserResponse>();
+            var userList = userService.GetUsers();
+            foreach (var user in userList)
+            {
+                if (user.IsActive)
+                {
+                    userResponseList.Add(_mapper.Map<UserResponse>(user));
+                }
             }
             response.Data = userResponseList;
             response.Message = "Get User List";
@@ -281,9 +303,15 @@ namespace UserService.Controllers
                 response.Message = "User not exists.";
                 return NotFound(response);
             }
-            var passwordHash = HashPassword(updateRequest.Password);
-            updateRequest.Password = passwordHash;
+            var now = DateTime.Now.AddYears(-10);
+            if (updateRequest.Birthday >  DateTime.Now.AddYears(-10))
+            {
+                response.Status = 400;
+                response.Message = "Birthday is not valid";
+                return BadRequest(response);
+            }
             var userMap = _mapper.Map<User>(updateRequest);
+            userMap.Password = HashPassword(updateRequest.Password);
             var user = userService.UpdateUser(userMap);
             if (user == null)
             {
@@ -298,8 +326,44 @@ namespace UserService.Controllers
                 response.Data = userUpdated;
                 response.Message = "Updated successful";
                 response.TotalDataList = 1;
+                return Ok(response);
             }
-            return Ok(response);
+        }
+
+        [HttpPut("UpdatePassword")]
+        [Authorize(Policy = "UserUpdateOrFullAccess")]
+        public ActionResult<ServiceResponse<PasswordResponse>> UpdatePassword(UpdatePasswordRequest updateRequest)
+        {
+            var response = new ServiceResponse<PasswordResponse>();
+            var userValidate = userService.GetUserByUsername(updateRequest.Username);
+            var hash = BCrypt.Net.BCrypt.Verify(updateRequest.Password, userValidate.Password);
+            if (hash)
+            {
+                response.Data = null;
+                response.Message = "Update password failed. New password cannot be the same as old password.";
+                response.Status = 400;
+                response.TotalDataList = 0;
+                return BadRequest(response);
+            }
+            var password = userService.UpdatePassword(updateRequest.Username, HashPassword(updateRequest.Password));
+            if (password == null)
+            {
+                response.Data = null;
+                response.Message = "Update password failed. Username not found";
+                response.Status = 400;
+                response.TotalDataList = 0;
+                return BadRequest(response);
+            } else
+            {
+                var passwordUpdated = new PasswordResponse();
+                passwordUpdated.OldPassword = userValidate.Password;
+                passwordUpdated.NewPassword = password.Password;
+                response.Data = null;
+                response.Message = "Reset password successful.";
+                response.Status = 200;
+                response.TotalDataList = 0;
+                return response;
+            }
         }
 
         [HttpGet("Search/name")]
@@ -409,6 +473,31 @@ namespace UserService.Controllers
 
         [HttpGet("Doctors")]
         [Authorize(Policy = "UserUpdateOrFullAccess")]
+        public ActionResult<ServiceResponse<List<DoctorResponse>>> GetDoctorsActive()
+        {
+            var response = new ServiceResponse<List<DoctorResponse>>();
+            var userResponseList = new List<DoctorResponse>();
+            var userList = userService.GetDoctors();
+            var r = 1;
+            foreach (var user in userList)
+            {
+                if (user.IsActive)
+                {
+                    var userRe = _mapper.Map<DoctorResponse>(user);
+                    userRe.Key = r;
+                    userResponseList.Add(userRe);
+                    r++;
+                }
+            }
+            response.Data = userResponseList;
+            response.Message = "Get Doctors List";
+            response.Status = 200;
+            response.TotalDataList = userResponseList.Count;
+            return response;
+        }
+
+        [HttpGet("ListAdminDoctors")]
+        [Authorize(Policy = "UserUpdateOrFullAccess")]
         public ActionResult<ServiceResponse<List<DoctorResponse>>> GetDoctors()
         {
             var response = new ServiceResponse<List<DoctorResponse>>();
@@ -429,7 +518,7 @@ namespace UserService.Controllers
             return response;
         }
 
-        [HttpGet("Students")]
+        [HttpGet("ListAdminStudents")]
         [Authorize(Policy = "UserUpdateOrFullAccess")]
         public ActionResult<ServiceResponse<List<StudentResponse>>> GetStudents()
         {
@@ -443,6 +532,31 @@ namespace UserService.Controllers
                 userRe.Key = r;
                 userResponseList.Add(userRe);
                 r++;
+            }
+            response.Data = userResponseList;
+            response.Message = "Get Student List";
+            response.Status = 200;
+            response.TotalDataList = userResponseList.Count;
+            return response;
+        }
+
+        [HttpGet("Students")]
+        [Authorize(Policy = "UserUpdateOrFullAccess")]
+        public ActionResult<ServiceResponse<List<StudentResponse>>> GetStudentsActive()
+        {
+            var response = new ServiceResponse<List<StudentResponse>>();
+            var userResponseList = new List<StudentResponse>();
+            var userList = userService.GetStudents();
+            var r = 1;
+            foreach (var user in userList)
+            {
+                if (user.IsActive)
+                {
+                    var userRe = _mapper.Map<StudentResponse>(user);
+                    userRe.Key = r;
+                    userResponseList.Add(userRe);
+                    r++;
+                }
             }
             response.Data = userResponseList;
             response.Message = "Get Student List";
@@ -483,7 +597,7 @@ namespace UserService.Controllers
             return response;
         }
 
-        [HttpGet("Staffs")]
+        [HttpGet("ListAdminStaffs")]
         [Authorize(Policy = "UserUpdateOrFullAccess")]
         public ActionResult<ServiceResponse<List<StaffResponse>>> GetStaff()
         {
@@ -516,7 +630,43 @@ namespace UserService.Controllers
             return response;
         }
 
-        [HttpGet("MedicalStaffs")]
+        [HttpGet("Staffs")]
+        [Authorize(Policy = "UserUpdateOrFullAccess")]
+        public ActionResult<ServiceResponse<List<StaffResponse>>> GetStaffActive()
+        {
+            var response = new ServiceResponse<List<StaffResponse>>();
+            var userResponseList = new List<StaffResponse>();
+            var userList = userService.GetStaffs();
+            var roleList = roleService.GetRoles();
+            var r = 1;
+            foreach (var user in userList)
+            {
+                if (user.IsActive)
+                {
+                    var userRe = _mapper.Map<StaffResponse>(user);
+                    userRe.Key = r;
+
+                    foreach (var role in roleList)
+                    {
+                        if (user.RoleId == role.RoleId)
+                        {
+                            userRe.RoleName = role.RoleName;
+                            userRe.RoleId = role.RoleId;
+                            break;
+                        }
+                    }
+                    userResponseList.Add(userRe);
+                    r++;
+                }
+            }
+            response.Data = userResponseList;
+            response.Message = "Get Staff List";
+            response.Status = 200;
+            response.TotalDataList = userResponseList.Count;
+            return response;
+        }
+
+        [HttpGet("ListAdminMedicalStaffs")]
         [Authorize(Policy = "UserUpdateOrFullAccess")]
         public ActionResult<ServiceResponse<List<StaffResponse>>> GetMedicalStaffs()
         {
@@ -541,6 +691,42 @@ namespace UserService.Controllers
                 }
                 userResponseList.Add(userRe);
                 r++;
+            }
+            response.Data = userResponseList;
+            response.Message = "Get Medical Staff List";
+            response.Status = 200;
+            response.TotalDataList = userResponseList.Count;
+            return response;
+        }
+
+        [HttpGet("MedicalStaffs")]
+        [Authorize(Policy = "UserUpdateOrFullAccess")]
+        public ActionResult<ServiceResponse<List<StaffResponse>>> GetMedicalStaffsActive()
+        {
+            var response = new ServiceResponse<List<StaffResponse>>();
+            var userResponseList = new List<StaffResponse>();
+            var userList = userService.GetMedicalStaffs();
+            var roleList = roleService.GetRoles();
+            var r = 1;
+            foreach (var user in userList)
+            {
+                if (user.IsActive)
+                {
+                    var userRe = _mapper.Map<StaffResponse>(user);
+                    userRe.Key = r;
+
+                    foreach (var role in roleList)
+                    {
+                        if (user.RoleId == role.RoleId)
+                        {
+                            userRe.RoleName = role.RoleName;
+                            userRe.RoleId = role.RoleId;
+                            break;
+                        }
+                    }
+                    userResponseList.Add(userRe);
+                    r++;
+                }
             }
             response.Data = userResponseList;
             response.Message = "Get Medical Staff List";
