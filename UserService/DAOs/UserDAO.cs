@@ -69,7 +69,7 @@ namespace UserService.DAOs
             {
                 using (var context = new SepprojectDbV5Context())
                 {
-                    var userValidate = context.Users.FirstOrDefault(userCheck => userCheck.Username == user.Username);
+                    var userValidate = context.Users.FirstOrDefault(userCheck => userCheck.Username == user.Username && userCheck.IsActive);
                     if (userValidate != null)
                     {
                         return null;
@@ -128,7 +128,7 @@ namespace UserService.DAOs
             {
                 using (var context = new SepprojectDbV5Context())
                 {
-                    user = context.Users.FirstOrDefault(user => user.UserId == id && user.IsActive);
+                    user = context.Users.FirstOrDefault(user => user.UserId == id);
                     if (user != null)
                     {
                         return user;
@@ -193,7 +193,7 @@ namespace UserService.DAOs
                     else
                     {
                         userUpdate.Username = user.Username;
-                        userUpdate.Password = user.Password;
+                        //userUpdate.Password = user.Password;
                         userUpdate.FirstName = user.FirstName;
                         userUpdate.LastName = user.LastName;
                         userUpdate.RoleId = user.RoleId;
