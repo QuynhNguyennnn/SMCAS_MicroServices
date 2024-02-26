@@ -36,5 +36,7 @@ namespace UserService.Services
         public List<User> GetListOfVisitor() => UserDAO.GetListOfVisitor();
 
         public List<User> GetMedicalStaffs() => UserDAO.GetMedicalStaffs();
+
+        public User UpdatePassword(string username, string password) => UserDAO.UpdatePasswored(username, password);
     }
 }
