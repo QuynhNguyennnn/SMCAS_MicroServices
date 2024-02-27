@@ -192,7 +192,7 @@ namespace MedicineService.Controllers
             return response;
         }
 
-        [HttpGet("SearchAdmin/id")]
+        [HttpGet("SearchIdAdmin/id")]
         [Authorize(Policy = "ExaminatedRecordFullAccess")]
         public ActionResult<ServiceResponse<List<ExaminatedRecordResponse>>> SearchRecordByPeopleId(int id)
         {
@@ -233,7 +233,7 @@ namespace MedicineService.Controllers
             return response;
         }
 
-        [HttpGet("SearchAdmin/name")]
+        [HttpGet("SearchNameAdmin/name")]
         [Authorize(Policy = "ExaminatedRecordFullAccess")]
         public ActionResult<ServiceResponse<List<ExaminatedRecordResponse>>> SearchRecordByName(string name)
         {
