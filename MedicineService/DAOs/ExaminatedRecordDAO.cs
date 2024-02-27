@@ -196,7 +196,22 @@ namespace MedicineService.DAOs
             {
                 throw new Exception(e.Message);
             }
+        }
 
+        public static List<User> GetDoctorList()
+        {
+            List<User> users = new List<User>();
+            try
+            {
+                using (var context = new SepprojectDbV7Context())
+                {
+                    users = context.Users.Where(u => u.RoleId == 1).ToList();
+                    return users;
+                }
+            } catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
     }
 }
