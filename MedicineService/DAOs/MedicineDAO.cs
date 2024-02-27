@@ -50,6 +50,23 @@ namespace MedicineService.DAOs
             {
                 using (var context = new SepprojectDbV5Context())
                 {
+                    medicine = context.Medicines.FirstOrDefault(m => m.MedicineId == id && m.IsActive == true);
+                }
+                return medicine;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public static Medicine GetMedicineByIdAdmin(int id)
+        {
+            var medicine = new Medicine();
+            try
+            {
+                using (var context = new SepprojectDbV5Context())
+                {
                     medicine = context.Medicines.FirstOrDefault(m => m.MedicineId == id);
                 }
                 return medicine;
@@ -165,6 +182,61 @@ namespace MedicineService.DAOs
                 throw new Exception(ex.Message);
             }
             return medicines;
+        }
+
+        public static List<Medicine> SearchMedicineByNameAdmin(string name)
+        {
+            List<Medicine> medicines = new List<Medicine>();
+            try
+            {
+                using (var context = new SepprojectDbV5Context())
+                {
+                    medicines = context.Medicines
+                        .Where(m =>
+                            (m.MedicineName.Contains(name)
+                            ))
+                        .ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return medicines;
+        }
+
+        public static int CountActiveMedicine()
+        {
+            int count = 0;
+            try
+            {
+                using (var context = new SepprojectDbV5Context())
+                {
+                    count = context.Medicines.Where(m => m.IsActive).ToList().Count;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return count;
+        }
+
+        public static int CountInActiveMedicine()
+        {
+            int count = 0;
+            try
+            {
+                using (var context = new SepprojectDbV5Context())
+                {
+                    count = context.Medicines.Where(m => !m.IsActive).ToList().Count;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return count;
         }
     }
 }

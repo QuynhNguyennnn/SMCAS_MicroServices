@@ -74,6 +74,21 @@ namespace ScheduleService.Controllers
             return response;
         }
 
+        [HttpGet("DetailAdmin")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ServiceResponse<ScheduleResponse>>> GetScheduleByIdAdmin(int id)
+        {
+            var schedule = service.GetScheduleByIdAdmin(id);
+            var scheduleResponse = _mapper.Map<ScheduleResponse>(schedule);
+
+            var response = new ServiceResponse<ScheduleResponse>();
+            response.Data = scheduleResponse;
+            response.Message = "Get Schedule Detail By Admin";
+            response.Status = 200;
+            response.TotalDataList = 1;
+            return response;
+        }
+
         [HttpGet("getEmptySchedule/doctorId")]
         public ActionResult<ServiceResponse<List<ScheduleResponse>>> GetEmptyScheduleByDoctorId(int id)
         {
@@ -297,6 +312,26 @@ namespace ScheduleService.Controllers
 
             response.Data = scheduleResponseList;
             response.Message = "Search Schedule By Date";
+            response.Status = 200;
+            response.TotalDataList = scheduleResponseList.Count;
+            return response;
+        }
+
+        [HttpGet("SearchAdmin")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<List<ScheduleResponse>>> SearchScheduleByDateAdmin(DateTime dateStart, DateTime dateEnd)
+        {
+            var response = new ServiceResponse<List<ScheduleResponse>>();
+            var scheduleResponseList = new List<ScheduleResponse>();
+            var scheduleList = service.SearchScheduleByDateAdmin(dateStart, dateEnd);
+            foreach (var schedule in scheduleList)
+            {
+                ScheduleResponse feedbackResponse = _mapper.Map<ScheduleResponse>(schedule);
+                scheduleResponseList.Add(feedbackResponse);
+            }
+
+            response.Data = scheduleResponseList;
+            response.Message = "Search Schedule By Date By Admin";
             response.Status = 200;
             response.TotalDataList = scheduleResponseList.Count;
             return response;

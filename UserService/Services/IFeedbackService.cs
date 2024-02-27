@@ -5,6 +5,7 @@ namespace UserService.Services
     public interface IFeedbackService
     {
         Feedback GetFeedbackById(int id);
+        Feedback GetFeedbackByIdAdmin(int id);
         List<Feedback> GetFeedbackByDoctorId(int id);
         List<Feedback> GetFeedbackByPatientId(int id);
         List<Feedback> GetFeedbacks();

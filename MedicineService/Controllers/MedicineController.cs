@@ -84,6 +84,31 @@ namespace MedicineService.Controllers
             }
         }
 
+        [HttpGet("DetailAdmin")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<MedicineResponse>> GetMedicineByIdAdmin(int id)
+        {
+            var response = new ServiceResponse<MedicineResponse>();
+            var medicine = medicineService.GetMedicineByIdAdmin(id);
+            if (medicine == null)
+            {
+                response.Data = null;
+                response.Status = 404;
+                response.Message = "Medicine not found.";
+                response.TotalDataList = 0;
+                return BadRequest(response);
+            }
+            else
+            {
+                var MedicineResponse = _mapper.Map<MedicineResponse>(medicine);
+                response.Data = MedicineResponse;
+                response.Status = 200;
+                response.Message = "Get Medicine By Id = " + id + " By Admin";
+                response.TotalDataList = 1;
+                return Ok(response);
+            }
+        }
+
         [HttpPost("Create")]
         [Authorize(Policy = "MedicineFullAccess")]
         public ActionResult<ServiceResponse<MedicineResponse>> CreateMedicine(CreateMedicineRequest request)
@@ -171,6 +196,52 @@ namespace MedicineService.Controllers
             response.Message = "Search Medicine By Name";
             response.Status = 200;
             response.TotalDataList = medicineResponseList.Count;
+            return response;
+        }
+
+        [HttpGet("SearchAdmin/name")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<List<MedicineResponse>>> SearchMedicinesByNameAdmin(string name)
+        {
+            var response = new ServiceResponse<List<MedicineResponse>>();
+            var medicineResponseList = new List<MedicineResponse>();
+            var medicineList = medicineService.GetMedicinesBynameAdmin(name);
+            foreach (var medicine in medicineList)
+            {
+                MedicineResponse blogResponse = _mapper.Map<MedicineResponse>(medicine);
+                medicineResponseList.Add(blogResponse);
+            }
+
+            response.Data = medicineResponseList;
+            response.Message = "Search Medicine By Name By Admin";
+            response.Status = 200;
+            response.TotalDataList = medicineResponseList.Count;
+            return response;
+        }
+
+        [HttpGet("CountActiveMedicine")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<int>> CountActiveMedince()
+        {
+            var response = new ServiceResponse<int>();
+            var count = medicineService.CountActiveMedicine();
+            response.Data = count;
+            response.Message = ("Count Number Of Active Medicine");
+            response.Status = 200;
+            response.TotalDataList = 1;
+            return response;
+        }
+
+        [HttpGet("CountInActiveMedicine")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<int>> CountInActiveMedince()
+        {
+            var response = new ServiceResponse<int>();
+            var count = medicineService.CountInActiveMedicine();
+            response.Data = count;
+            response.Message = ("Count Number Of InActive Medicine");
+            response.Status = 200;
+            response.TotalDataList = 1;
             return response;
         }
     }

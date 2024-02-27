@@ -81,6 +81,21 @@ namespace BlogService.Controllers
             return response;
         }
 
+        [HttpGet("DetailAdmin")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ServiceResponse<BlogResponse>>> GetBlogByIdAdmin(int id)
+        {
+            var blog = service.GetBlogByIdAdmin(id);
+            var blogResponse = _mapper.Map<BlogResponse>(blog);
+
+            var response = new ServiceResponse<BlogResponse>();
+            response.Data = blogResponse;
+            response.Message = "Get Blog Detail By Admin";
+            response.Status = 200;
+            response.TotalDataList = 1;
+            return response;
+        }
+
         [HttpPost("Create")]
         [Authorize(Policy = "BlogFullAccess")]
         public ActionResult<ServiceResponse<BlogResponse>> CreateBlog(AddBlogRequest addBlog)
@@ -137,6 +152,26 @@ namespace BlogService.Controllers
 
             response.Data = blogResponseList;
             response.Message = "Search Blog By Title";
+            response.Status = 200;
+            response.TotalDataList = blogResponseList.Count;
+            return response;
+        }
+
+        [HttpGet("SearchForAdmin/title")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<List<BlogResponse>>> SearchBlogForAdminByTitle(string? title)
+        {
+            var response = new ServiceResponse<List<BlogResponse>>();
+            var blogResponseList = new List<BlogResponse>();
+            var blogList = service.GetBlogsByTitleAdmin(title);
+            foreach (var blog in blogList)
+            {
+                BlogResponse blogResponse = _mapper.Map<BlogResponse>(blog);
+                blogResponseList.Add(blogResponse);
+            }
+
+            response.Data = blogResponseList;
+            response.Message = "Search Blog By Title Admin";
             response.Status = 200;
             response.TotalDataList = blogResponseList.Count;
             return response;

@@ -66,6 +66,23 @@ namespace ScheduleService.DAOs
             return schedule;
         }
 
+        public static MedicalExaminationSchedule GetScheduleByIdAdmin(int id)
+        {
+            MedicalExaminationSchedule schedule = new MedicalExaminationSchedule();
+            try
+            {
+                using (var context = new SepprojectDbV5Context())
+                {
+                    schedule = context.MedicalExaminationSchedules.SingleOrDefault(s => (s.ScheduleId == id));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return schedule;
+        }
+
         public static List<MedicalExaminationSchedule> GetScheduleListByDoctorId(int id)
         {
             List<MedicalExaminationSchedule> schedules = new List<MedicalExaminationSchedule>();
@@ -333,6 +350,23 @@ namespace ScheduleService.DAOs
                 using (var context = new SepprojectDbV5Context())
                 {
                     schedules = context.MedicalExaminationSchedules.Where(s =>s.PatientId == null && s.IsAccepted == false && s.IsActive == true).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return schedules;
+        }
+
+        public static List<MedicalExaminationSchedule> SearchScheduleByDateAdmin(DateTime dateStart, DateTime dateEnd)
+        {
+            List<MedicalExaminationSchedule> schedules = new List<MedicalExaminationSchedule>();
+            try
+            {
+                using (var context = new SepprojectDbV5Context())
+                {
+                    schedules = context.MedicalExaminationSchedules.Where(s => s.Date.Date >= dateStart.Date && s.Date.Date <= dateEnd.Date && s.PatientId == null).ToList();
                 }
             }
             catch (Exception ex)
