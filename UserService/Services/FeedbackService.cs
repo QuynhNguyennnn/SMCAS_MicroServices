@@ -6,6 +6,7 @@ namespace UserService.Services
     public class FeedbackService : IFeedbackService
     {
         public Feedback GetFeedbackById(int id) => FeedbackDAO.GetFeedbackById(id);
+        public Feedback GetFeedbackByIdAdmin(int id) => FeedbackDAO.GetFeedbackByIdAdmin(id);
         public List<Feedback> GetFeedbackByDoctorId(int id) => FeedbackDAO.GetFeedbackByDoctorId(id);
         public List<Feedback> GetFeedbackByPatientId(int id) => FeedbackDAO.GetFeedbackByPatientId(id);
         public List<Feedback> GetFeedbacks() => FeedbackDAO.GetFeedBackList();

@@ -75,6 +75,21 @@ namespace UserService.Controllers
             return response;
         }
 
+        [HttpGet("DetailAdmin")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ServiceResponse<FeedbackResponse>>> GetFeedbackByIdAdmin(int id)
+        {
+            var feedback = service.GetFeedbackByIdAdmin(id);
+            var feedbackResponse = _mapper.Map<FeedbackResponse>(feedback);
+
+            var response = new ServiceResponse<FeedbackResponse>();
+            response.Data = feedbackResponse;
+            response.Message = "Get Feedback Detail";
+            response.Status = 200;
+            response.TotalDataList = 1;
+            return response;
+        }
+
         [HttpGet("doctor/id")]
         public async Task<ActionResult<ServiceResponse<List<FeedbackResponse>>>> GetFeedbackByDoctorId(int id)
         {

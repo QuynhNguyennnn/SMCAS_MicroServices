@@ -7,6 +7,7 @@ namespace ScheduleService.Services
         List<MedicalExaminationSchedule> GetScheduleList();
         List<MedicalExaminationSchedule> GetScheduleListAdmin();
         MedicalExaminationSchedule GetScheduleById(int id);
+        MedicalExaminationSchedule GetScheduleByIdAdmin(int id);
         List<MedicalExaminationSchedule> GetEmptyScheduleByDoctorId(int id);
         List<MedicalExaminationSchedule> GetScheduleWaitingConfirmByDoctorId(int id);
         List<MedicalExaminationSchedule> GetScheduleWaitingConfirmByPatientId(int id);
@@ -18,6 +19,7 @@ namespace ScheduleService.Services
         MedicalExaminationSchedule DeleteSchedule(int id);
         List<MedicalExaminationSchedule> GetScheduleListByDoctorId(int id);
         List<MedicalExaminationSchedule> SearchScheduleByDate(DateTime dateStart, DateTime dateEnd);
+        List<MedicalExaminationSchedule> SearchScheduleByDateAdmin(DateTime dateStart, DateTime dateEnd);
         List<MedicalExaminationSchedule> GetEmptySchedule();
     }
 }

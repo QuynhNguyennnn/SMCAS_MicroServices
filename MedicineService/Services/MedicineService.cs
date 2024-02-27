@@ -11,6 +11,8 @@ namespace MedicineService.Services
 
         public Medicine GetMedicineById(int id) => MedicineDAO.GetMedicineById(id);
 
+        public Medicine GetMedicineByIdAdmin(int id) => MedicineDAO.GetMedicineByIdAdmin(id);
+
         public List<Medicine> GetMedicines() => MedicineDAO.GetMedicines();
 
         public List<Medicine> GetMedicinesAdmin() => MedicineDAO.GetMedicinesAdmin();
@@ -18,5 +20,11 @@ namespace MedicineService.Services
         public Medicine UpdateMedicine(Medicine Medicine) => MedicineDAO.UpdateMedicine(Medicine);
 
         public List<Medicine> GetMedicinesByname(string name) => MedicineDAO.SearchMedicineByName(name);
+
+        public List<Medicine> GetMedicinesBynameAdmin(string name) => MedicineDAO.SearchMedicineByNameAdmin(name);
+
+        public int CountActiveMedicine() => MedicineDAO.CountActiveMedicine();
+        
+        public int CountInActiveMedicine()=> MedicineDAO.CountInActiveMedicine();
     }
 }

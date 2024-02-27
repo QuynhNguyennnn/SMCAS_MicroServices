@@ -51,6 +51,23 @@ namespace MedicineService.DAOs
             {
                 using (var context = new SepprojectDbV5Context())
                 {
+                    medicineCode = context.MedicineCodes.FirstOrDefault(m => m.CodeId == id && m.IsActive == true);
+                }
+                return medicineCode;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public static MedicineCode GetCodeByIdAdmin(int id)
+        {
+            var medicineCode = new MedicineCode();
+            try
+            {
+                using (var context = new SepprojectDbV5Context())
+                {
                     medicineCode = context.MedicineCodes.FirstOrDefault(m => m.CodeId == id);
                 }
                 return medicineCode;
@@ -154,6 +171,25 @@ namespace MedicineService.DAOs
                 {
                     medicineCodes = context.MedicineCodes
                         .Where(m => m.IsActive && (m.CodeName.Contains(name)))
+                        .ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return medicineCodes;
+        }
+
+        public static List<MedicineCode> SearchMedicineCodeByNameAdmin(string name)
+        {
+            List<MedicineCode> medicineCodes = new List<MedicineCode>();
+            try
+            {
+                using (var context = new SepprojectDbV5Context())
+                {
+                    medicineCodes = context.MedicineCodes
+                        .Where(m => (m.CodeName.Contains(name)))
                         .ToList();
                 }
             }

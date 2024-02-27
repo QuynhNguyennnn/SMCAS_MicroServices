@@ -11,6 +11,8 @@ namespace MedicineService.Services
 
         public MedicineCode GetMedicineCodeById(int id) => MedicineCodeDAO.GetCodeById(id);
 
+        public MedicineCode GetMedicineCodeByIdAdmin(int id) => MedicineCodeDAO.GetCodeByIdAdmin(id);
+
         public List<MedicineCode> GetMedicineCodes() => MedicineCodeDAO.GetCodes();
         
         public List<MedicineCode> GetMedicineCodesAdmin() => MedicineCodeDAO.GetCodesAdmin();
@@ -18,5 +20,7 @@ namespace MedicineService.Services
         public MedicineCode UpdateMedicineCode(MedicineCode medicineCode) => MedicineCodeDAO.UpdateMedicineCode(medicineCode);
 
         public List<MedicineCode> GetMedicineCodesByName(string name) => MedicineCodeDAO.SearchMedicineCodeByName(name);
+
+        public List<MedicineCode> GetMedicineCodesByNameAdmin(string name) => MedicineCodeDAO.SearchMedicineCodeByNameAdmin(name);
     }
 }
