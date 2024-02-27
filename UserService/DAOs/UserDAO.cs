@@ -12,7 +12,7 @@ namespace UserService.DAOs
             User user = new User();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     user = context.Users.FirstOrDefault(user => (user.Username == username) && user.IsActive);
                     if (user != null)
@@ -43,7 +43,7 @@ namespace UserService.DAOs
             User member = new User();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     member = context.Users.FirstOrDefault(user => (user.Username == username) && user.IsActive);
                     if (member != null)
@@ -67,7 +67,7 @@ namespace UserService.DAOs
             User userNew = new User();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var userValidate = context.Users.FirstOrDefault(userCheck => userCheck.Username == user.Username && userCheck.IsActive);
                     if (userValidate != null)
@@ -105,7 +105,7 @@ namespace UserService.DAOs
             var users = new List<User>();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var userList = context.Users.ToList();
                     foreach (var user in userList)
@@ -126,7 +126,7 @@ namespace UserService.DAOs
             var user = new User();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     user = context.Users.FirstOrDefault(user => user.UserId == id);
                     if (user != null)
@@ -151,7 +151,7 @@ namespace UserService.DAOs
             var userUnActive = new User();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     userActive = context.Users.FirstOrDefault(user => (user.UserId == id) && user.IsActive);
                     userUnActive = context.Users.FirstOrDefault(user => (user.UserId == id) && !user.IsActive);
@@ -183,7 +183,7 @@ namespace UserService.DAOs
             var userUpdate = new User();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     userUpdate = context.Users.FirstOrDefault(u => u.UserId == user.UserId);
                     if (userUpdate == null)
@@ -227,7 +227,7 @@ namespace UserService.DAOs
             var user = new User();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     user = context.Users.FirstOrDefault(u => u.Username == username && u.IsActive);
                     if (user == null)
@@ -253,7 +253,7 @@ namespace UserService.DAOs
             var userList = new List<User>();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var userCheck = context.Users.Where(u => (u.FirstName.ToLower().Contains(name.ToLower())
                                                                 || u.LastName.ToLower().Contains(name.ToLower())
@@ -283,7 +283,7 @@ namespace UserService.DAOs
             var userList = new List<User>();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var userCheck = context.Users.Where(u => (u.FirstName.ToLower().Contains(name.ToLower())
                                                                 || u.LastName.ToLower().Contains(name.ToLower())
@@ -313,7 +313,7 @@ namespace UserService.DAOs
             List<User> users = new List<User>();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var doctorList = context.Users.Where(u => u.RoleId == 1);
                     foreach (var doctor in doctorList)
@@ -334,7 +334,7 @@ namespace UserService.DAOs
             List<User> users = new List<User>();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var studnetList = context.Users.Where(u => u.RoleId == 2);
                     foreach (var student in studnetList)
@@ -355,7 +355,7 @@ namespace UserService.DAOs
             List<User> users = new List<User>();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var studnetList = context.Users.Where(u => (u.RoleId == 3 || u.RoleId == 4));
                     foreach (var student in studnetList)
@@ -376,7 +376,7 @@ namespace UserService.DAOs
             List<User> users = new List<User>();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var studnetList = context.Users.Where(u => u.RoleId == 4);
                     foreach (var student in studnetList)
@@ -397,7 +397,7 @@ namespace UserService.DAOs
             var userNew = new User();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var userCheck = context.Users.FirstOrDefault(u => u.Username == user.Username);
                     if (userCheck == null)
@@ -425,7 +425,7 @@ namespace UserService.DAOs
             var patients = new List<User>();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var userList = context.Users.ToList();
                     var recordList = context.ExaminatedRecords.ToList();
@@ -455,7 +455,7 @@ namespace UserService.DAOs
             var visitors = new List<User>();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var visitorList = context.Users.Where(u => u.RoleId != 1 && u.RoleId != 5 && u.RoleId != 4).ToList();
                     foreach (var visitor in visitorList)

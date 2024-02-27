@@ -1,0 +1,99 @@
+﻿using UserService.Models;
+
+namespace UserService.DAOs
+{
+    public class ChatDAO
+    {
+        public static bool CheckExist(int patientId, int doctorId)
+        {
+            try
+            {
+                using (var context = new SepprojectDbV5Context())
+                {
+                    var chats = context.Chats.Where(c => c.DoctorId == doctorId && c.PatientId == patientId && c.EndTime == null).ToList();
+                    if (chats.Count > 0)
+                    {
+                        return true;
+                    } else return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public static Chat CreateChatRoom(int patientId, int doctorId)
+        {
+            var chat = new Chat();
+            chat.DoctorId = doctorId;
+            chat.PatientId = patientId;
+            try
+            {
+                using (var context = new SepprojectDbV5Context())
+                {
+                    chat.IsActive = true;
+                    chat.ChatDate = DateTime.Now;
+                    chat.ChatDate = DateTime.Now;
+
+                    context.Chats.Add(chat);
+                    context.SaveChanges();
+
+                    return chat;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public static Chat GetChat(int patientId, int doctorId) 
+        {
+            Chat chat = new Chat();
+            try
+            {
+                using (var context = new SepprojectDbV5Context())
+                {
+                    chat = context.Chats.SingleOrDefault(c => c.DoctorId == doctorId && c.PatientId == patientId && c.EndTime == null);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return chat;
+        }
+
+        public static Chat EndChat(int chatId)
+        {
+            Chat updateChat = new Chat();
+            try
+            {
+                using (var context = new SepprojectDbV5Context())
+                {
+                    var chatCheck = context.Chats.FirstOrDefault(c => c.ChatId == chatId);
+                    if (chatCheck != null)
+                    {
+                        updateChat = chatCheck;
+                        updateChat.EndTime = DateTime.Now;
+                        TimeSpan timeDifference = updateChat.EndTime - updateChat.StartTime;
+                        updateChat.TotalTime = timeDifference.ToString();
+                        context.Entry(chatCheck).CurrentValues.SetValues(updateChat);
+                        context.SaveChanges();
+                    }
+                    else
+                    {
+                        return null;
+                    }
+
+                    return updateChat;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+    }
+}
