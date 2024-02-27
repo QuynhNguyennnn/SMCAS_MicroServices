@@ -162,11 +162,6 @@ namespace UserService.DAOs
                     var feedbackCheck = context.Feedbacks.FirstOrDefault(f => f.FeedbackId == feedback.FeedbackId && f.IsActive);
                     if (feedbackCheck != null)
                     {
-                        if (feedback.PatientId != feedbackCheck.PatientId)
-                        {
-                            throw new Exception("You cannot update this feedback");
-                        }
-
                         updateFeedback = feedback;
                         updateFeedback.FeedbackDate = feedbackCheck.FeedbackDate;
                         updateFeedback.DoctorId = feedbackCheck.DoctorId;
