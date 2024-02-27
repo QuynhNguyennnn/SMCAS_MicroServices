@@ -31,13 +31,13 @@ namespace MedicineService.Controllers
             var response = new ServiceResponse<List<ExaminatedRecordResponse>>();
             var codeList = new List<ExaminatedRecordResponse>();
             var codes = recordService.GetAll();
-            
+
             foreach (var code in codes)
             {
                 ExaminatedRecordResponse examinatedRecord = _mapper.Map<ExaminatedRecordResponse>(code);
-                examinatedRecord.DoctorName = recordService.GetPeopleInfo(examinatedRecord.DoctorId).FirstName + 
+                examinatedRecord.DoctorName = recordService.GetPeopleInfo(examinatedRecord.DoctorId).FirstName +
                                               " " + recordService.GetPeopleInfo(examinatedRecord.DoctorId).LastName;
-                examinatedRecord.PatientName = recordService.GetPeopleInfo(examinatedRecord.PatientId).FirstName + 
+                examinatedRecord.PatientName = recordService.GetPeopleInfo(examinatedRecord.PatientId).FirstName +
                                               " " + recordService.GetPeopleInfo(examinatedRecord.PatientId).LastName;
                 codeList.Add(examinatedRecord);
             }
@@ -58,7 +58,7 @@ namespace MedicineService.Controllers
 
             foreach (var record in records)
             {
-                if(record.IsActive)
+                if (record.IsActive)
                 {
                     ExaminatedRecordResponse examinatedRecord = _mapper.Map<ExaminatedRecordResponse>(record);
                     examinatedRecord.DoctorName = recordService.GetPeopleInfo(examinatedRecord.DoctorId).FirstName +
@@ -124,7 +124,8 @@ namespace MedicineService.Controllers
                     response.Data = null;
                     response.Status = 400;
                     response.Message = "Create examinated record failed. The storage is not enough drugs.";
-                } else
+                }
+                else
                 {
                     response.Data = _mapper.Map<ExaminatedRecordResponse>(createdRecord);
                     response.Status = 200;
@@ -273,5 +274,73 @@ namespace MedicineService.Controllers
             response.TotalDataList = recordList.Count;
             return response;
         }
+
+        [HttpGet("Statistic")]
+        [Authorize(Policy = "ExaminatedRecordFullAccess")]
+        public ActionResult<ServiceResponse<List<StatisticResponse>>> StatisticRecordUsingDoctorId()
+        {
+            var response = new ServiceResponse<List<StatisticResponse>>();
+            var recordList = new List<StatisticResponse>();
+            var listFinal = new List<StatisticResponse>();
+            var doctors = recordService.GetDoctorList();
+            var records = recordService.GetAll();
+            if (records == null)
+            {
+                response.Data = null;
+                response.Message = "No record created.";
+                response.Status = 200;
+                return response;
+            }
+            else
+            {
+                foreach (var item in records)
+                {
+                    var statistic = new StatisticResponse();
+                    var doctor = recordService.GetPeopleInfo(item.DoctorId);
+                    if (doctor == null)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        recordList.Add(statistic);
+                    }
+                }
+                for (int i = 0; i <= doctors.Count; i++)
+                {
+                    while (i < doctors.Count)
+                    {
+                        int recordCount = 0;
+                        var statistic = new StatisticResponse();
+                        for (int j = 0; j < recordList.Count; j++)
+                        {
+                            if (records[j].DoctorId == doctors[i].UserId)
+                            {
+                                recordCount++;
+                            }
+                        }
+                        if (recordCount > 0)
+                        {
+                            statistic.DoctorId = records[i].DoctorId;
+                            statistic.DoctorName = recordService.GetPeopleInfo(records[i].DoctorId).FirstName +
+                                                  " " + recordService.GetPeopleInfo(records[i].DoctorId).LastName;
+                            statistic.TotalRecord = recordCount;
+                            listFinal.Add(statistic);
+                            i++;
+                        }
+                        else
+                        {
+                            i++;
+                        }
+                    }
+                }
+                response.Data = listFinal;
+                response.Message = "Statistic to visit each doctor.";
+                response.Status = 200;
+                response.TotalDataList = listFinal.Count;
+                return response;
+            }
+        }
     }
 }
+

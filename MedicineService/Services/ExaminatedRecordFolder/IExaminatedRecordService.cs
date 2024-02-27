@@ -12,5 +12,6 @@ namespace MedicineService.Services.ExaminatedRecordFolder
         List<ExaminatedRecord> SearchRecordByPeopleId(int id);
         List<ExaminatedRecord> SearchRecordByName(string name);
         User GetPeopleInfo(int id);
+        List<User> GetDoctorList();
     }
 }
