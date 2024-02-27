@@ -63,6 +63,23 @@ namespace BlogService.DAOs
             return blog;
         }
 
+        public static Blog GetBlogByIdAdmin(int id)
+        {
+            Blog blog = new Blog();
+            try
+            {
+                using (var context = new SepprojectDbV5Context())
+                {
+                    blog = context.Blogs.SingleOrDefault(b => b.BlogId == id);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return blog;
+        }
+
         public static Blog CreateBlog(Blog blog)
         {
             try
@@ -153,6 +170,27 @@ namespace BlogService.DAOs
                     blogs = context.Blogs
                         .Where(blog =>
                             blog.IsActive &&
+                            (blog.Title.Contains(title)
+                            ))
+                        .ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return blogs;
+        }
+
+        public static List<Blog> SearchBlogByTitleAdmin(string title)
+        {
+            List<Blog> blogs = new List<Blog>();
+            try
+            {
+                using (var context = new SepprojectDbV5Context())
+                {
+                    blogs = context.Blogs
+                        .Where(blog =>
                             (blog.Title.Contains(title)
                             ))
                         .ToList();

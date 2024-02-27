@@ -8,6 +8,7 @@ namespace ScheduleService.Services
         public List<MedicalExaminationSchedule> GetScheduleList() => ScheduleDAO.GetScheduleList();
         public List<MedicalExaminationSchedule> GetScheduleListAdmin() => ScheduleDAO.GetScheduleListAdmin();
         public MedicalExaminationSchedule GetScheduleById(int id) => ScheduleDAO.GetScheduleById(id);
+        public MedicalExaminationSchedule GetScheduleByIdAdmin(int id) => ScheduleDAO.GetScheduleByIdAdmin(id);
         public List<MedicalExaminationSchedule> GetEmptyScheduleByDoctorId(int id) => ScheduleDAO.GetEmptyScheduleByDoctorId(id);
         public List<MedicalExaminationSchedule> GetScheduleWaitingConfirmByDoctorId(int id) => ScheduleDAO.GetScheduleWaitingConfirmByDoctorId(id);
         public List<MedicalExaminationSchedule> GetScheduleWaitingConfirmByPatientId(int id) => ScheduleDAO.GetScheduleWaitingConfirmByPatientId(id);
@@ -19,6 +20,7 @@ namespace ScheduleService.Services
         public MedicalExaminationSchedule DeleteSchedule(int id) => ScheduleDAO.DeleteSchedule(id);
         public List<MedicalExaminationSchedule> GetScheduleListByDoctorId(int id) => ScheduleDAO.GetScheduleListByDoctorId(id);
         public List<MedicalExaminationSchedule> SearchScheduleByDate(DateTime dateStart, DateTime dateEnd) => ScheduleDAO.SearchScheduleByDate(dateStart, dateEnd);
+        public List<MedicalExaminationSchedule> SearchScheduleByDateAdmin(DateTime dateStart, DateTime dateEnd) => ScheduleDAO.SearchScheduleByDateAdmin(dateStart, dateEnd);
         public List<MedicalExaminationSchedule> GetEmptySchedule() => ScheduleDAO.GetEmptySchedule();
     }
 }

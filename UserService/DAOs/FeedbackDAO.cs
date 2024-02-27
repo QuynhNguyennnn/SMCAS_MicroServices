@@ -64,6 +64,23 @@ namespace UserService.DAOs
             return feedback;
         }
 
+        public static Feedback GetFeedbackByIdAdmin(int id)
+        {
+            Feedback feedback = new Feedback();
+            try
+            {
+                using (var context = new SepprojectDbV5Context())
+                {
+                    feedback = context.Feedbacks.SingleOrDefault(f => (f.FeedbackId == id));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return feedback;
+        }
+
         public static List<Feedback> GetFeedbackByDoctorId(int id)
         {
             List<Feedback> feedbacks = new List<Feedback>();
