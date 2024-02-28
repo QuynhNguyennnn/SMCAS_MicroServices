@@ -113,6 +113,12 @@ namespace MedicineService.DAOs
                     {
                         deletedRecord = recordCheck;
                         deletedRecord.IsActive = false;
+                        var medicineRecord = context.MedicineExaminatedRecords.Where(r => r.RecordId == id).ToList();
+                        foreach (var record in medicineRecord)
+                        {
+                            record.IsActive = false;
+                            context.MedicineExaminatedRecords.Update(record);
+                        }
                         context.Entry(deletedRecord).CurrentValues.SetValues(recordCheck);
                         context.SaveChanges();
                     }
