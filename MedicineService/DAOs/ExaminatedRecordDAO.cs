@@ -10,7 +10,7 @@ namespace MedicineService.DAOs
             List<ExaminatedRecord> examinatedRecords = new List<ExaminatedRecord>();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var records = context.ExaminatedRecords.ToList();
                     foreach (var record in records)
@@ -31,7 +31,7 @@ namespace MedicineService.DAOs
             var record = new ExaminatedRecord();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var recordCheck = context.ExaminatedRecords.SingleOrDefault(r => r.RecordId == id);
                     if (recordCheck != null)
@@ -56,7 +56,7 @@ namespace MedicineService.DAOs
             var createdRecord = new ExaminatedRecord();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     createdRecord = record;
                     context.ExaminatedRecords.Add(createdRecord);
@@ -75,7 +75,7 @@ namespace MedicineService.DAOs
             var updatedRecord = new ExaminatedRecord();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var recordCheck = context.ExaminatedRecords.SingleOrDefault(r => r.RecordId == record.RecordId);
                     if (recordCheck != null)
@@ -102,7 +102,7 @@ namespace MedicineService.DAOs
             var deletedRecord = new ExaminatedRecord();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var recordCheck = context.ExaminatedRecords.FirstOrDefault(r => r.RecordId == id);
                     if (recordCheck == null)
@@ -113,6 +113,12 @@ namespace MedicineService.DAOs
                     {
                         deletedRecord = recordCheck;
                         deletedRecord.IsActive = false;
+                        var medicineRecord = context.MedicineExaminatedRecords.Where(r => r.RecordId == id).ToList();
+                        foreach (var record in medicineRecord)
+                        {
+                            record.IsActive = false;
+                            context.MedicineExaminatedRecords.Update(record);
+                        }
                         context.Entry(deletedRecord).CurrentValues.SetValues(recordCheck);
                         context.SaveChanges();
                     }
@@ -130,7 +136,7 @@ namespace MedicineService.DAOs
             List<ExaminatedRecord> examinatedRecords = new List<ExaminatedRecord>();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var records = context.ExaminatedRecords.Where(r => (r.DoctorId == id || r.PatientId == id));
                     foreach (var record in records)
@@ -151,7 +157,7 @@ namespace MedicineService.DAOs
             List<ExaminatedRecord> examinatedRecords = new List<ExaminatedRecord>();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var records = context.ExaminatedRecords.ToList();
                     var nameList = context.Users.Where(u => u.FirstName.ToLower() == name.ToLower() || u.LastName.ToLower() == name.ToLower()).ToList();
@@ -179,7 +185,7 @@ namespace MedicineService.DAOs
             var user = new User();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     user = context.Users.FirstOrDefault(user => (user.UserId == id));
                     if (user != null)
@@ -196,7 +202,22 @@ namespace MedicineService.DAOs
             {
                 throw new Exception(e.Message);
             }
+        }
 
+        public static List<User> GetDoctorList()
+        {
+            List<User> users = new List<User>();
+            try
+            {
+                using (var context = new SepprojectDbV7Context())
+                {
+                    users = context.Users.Where(u => u.RoleId == 1).ToList();
+                    return users;
+                }
+            } catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
     }
 }

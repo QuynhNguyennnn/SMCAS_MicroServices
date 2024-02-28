@@ -10,7 +10,7 @@ namespace MedicineService.DAOs
             List<Medicine> medicines = new List<Medicine>();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var medicineList = context.Medicines.ToList();
                     foreach (var medicine in medicineList)
@@ -31,7 +31,7 @@ namespace MedicineService.DAOs
             List<Medicine> medicines = new List<Medicine>();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var medicineList = context.Medicines.ToList();
                     return medicines;
@@ -48,7 +48,7 @@ namespace MedicineService.DAOs
             var medicine = new Medicine();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     medicine = context.Medicines.FirstOrDefault(m => m.MedicineId == id && m.IsActive == true);
                 }
@@ -65,7 +65,7 @@ namespace MedicineService.DAOs
             var medicine = new Medicine();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     medicine = context.Medicines.FirstOrDefault(m => m.MedicineId == id);
                 }
@@ -82,7 +82,7 @@ namespace MedicineService.DAOs
             var createMedicine = new Medicine();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var medicineCheck = context.Medicines.FirstOrDefault(m => m.MedicineName == medicine.MedicineName);
                     if (medicineCheck != null)
@@ -110,7 +110,7 @@ namespace MedicineService.DAOs
             var updatedMedicine = new Medicine();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var medicineCheck = context.Medicines.FirstOrDefault(m => m.MedicineId == medicine.MedicineId);
                     if (medicineCheck != null)
@@ -139,7 +139,7 @@ namespace MedicineService.DAOs
             var deletedMedicine = new Medicine();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var medicineCheck = context.Medicines.FirstOrDefault(m => m.MedicineId == id);
                     if (medicineCheck != null)
@@ -167,7 +167,7 @@ namespace MedicineService.DAOs
             List<Medicine> medicines = new List<Medicine>();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     medicines = context.Medicines
                         .Where(m =>
@@ -189,7 +189,7 @@ namespace MedicineService.DAOs
             List<Medicine> medicines = new List<Medicine>();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     medicines = context.Medicines
                         .Where(m =>
@@ -210,7 +210,7 @@ namespace MedicineService.DAOs
             int count = 0;
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     count = context.Medicines.Where(m => m.IsActive).ToList().Count;
                 }
@@ -227,7 +227,7 @@ namespace MedicineService.DAOs
             int count = 0;
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     count = context.Medicines.Where(m => !m.IsActive).ToList().Count;
                 }
