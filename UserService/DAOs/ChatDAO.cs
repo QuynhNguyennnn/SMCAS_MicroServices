@@ -8,7 +8,7 @@ namespace UserService.DAOs
         {
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var chats = context.Chats.Where(c => c.DoctorId == doctorId && c.PatientId == patientId && c.EndTime == null).ToList();
                     if (chats.Count > 0)
@@ -30,11 +30,11 @@ namespace UserService.DAOs
             chat.PatientId = patientId;
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     chat.IsActive = true;
                     chat.ChatDate = DateTime.Now;
-                    chat.ChatDate = DateTime.Now;
+                    chat.StartTime = DateTime.Now;
 
                     context.Chats.Add(chat);
                     context.SaveChanges();
@@ -53,7 +53,7 @@ namespace UserService.DAOs
             Chat chat = new Chat();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     chat = context.Chats.SingleOrDefault(c => c.DoctorId == doctorId && c.PatientId == patientId && c.EndTime == null);
                 }
@@ -70,14 +70,14 @@ namespace UserService.DAOs
             Chat updateChat = new Chat();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var chatCheck = context.Chats.FirstOrDefault(c => c.ChatId == chatId);
                     if (chatCheck != null)
                     {
                         updateChat = chatCheck;
                         updateChat.EndTime = DateTime.Now;
-                        TimeSpan timeDifference = updateChat.EndTime - updateChat.StartTime;
+                        TimeSpan timeDifference = (TimeSpan)(updateChat.EndTime - updateChat.StartTime);
                         updateChat.TotalTime = timeDifference.ToString();
                         context.Entry(chatCheck).CurrentValues.SetValues(updateChat);
                         context.SaveChanges();
