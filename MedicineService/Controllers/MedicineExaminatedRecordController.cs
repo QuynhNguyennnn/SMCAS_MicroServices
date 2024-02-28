@@ -104,6 +104,15 @@ namespace MedicineService.Controllers
                 response.Status = 400;
                 response.Message = "Create examinated record failed. RecordId or MedicineId not found.";
                 response.TotalDataList = 0;
+                return BadRequest(response);
+            }
+            else if (medicineIdCheck.Quantity < request.Quantity)
+            {
+                response.Data = null;
+                response.Status = 400;
+                response.Message = "Failed. The number of " + medicineIdCheck.MedicineName + " in the drug warehouse is not enough.";
+                response.TotalDataList = 0;
+                return BadRequest(response);
             }
             else
             {
@@ -131,6 +140,14 @@ namespace MedicineService.Controllers
                 response.Message = "Updated examinated record failed. RecordId or MedicineId not found.";
                 response.TotalDataList = 0;
             }
+            else if (medicineIdCheck.Quantity < request.Quantity)
+            {
+                response.Data = null;
+                response.Status = 400;
+                response.Message = "Failed. The number of " + medicineIdCheck.MedicineName + " in the drug warehouse is not enough.";
+                response.TotalDataList = 0;
+                return BadRequest(response);
+            }
             else
             {
                 var updatedRecord = recordService.UpdateRecord(recordMap);
@@ -147,6 +164,7 @@ namespace MedicineService.Controllers
                     response.Status = 404;
                     response.Message = "Record not found.";
                     response.TotalDataList = 0;
+                    return BadRequest(response);
                 }
             }
             return response;
@@ -164,6 +182,7 @@ namespace MedicineService.Controllers
                 response.Status = 200;
                 response.Message = "Delete record successful.";
                 response.TotalDataList = 1;
+                return response;
             }
             else
             {
@@ -171,8 +190,8 @@ namespace MedicineService.Controllers
                 response.Status = 404;
                 response.Message = "Record not found.";
                 response.TotalDataList = 0;
+                return BadRequest(response);
             }
-            return response;
         }
 
         [HttpGet("SearchAdmin/id")]
@@ -241,7 +260,7 @@ namespace MedicineService.Controllers
         public ActionResult<ServiceResponse<ListMedicine>> CreateListMedicine(ListMedicine listMedicine)
         {
             var response = new ServiceResponse<ListMedicine>();
-
+            var message = new List<string>();
             var list = new ListMedicine();
             foreach (var me in listMedicine.medicineCreatedLists)
             {
@@ -251,7 +270,7 @@ namespace MedicineService.Controllers
                     response.Status = 400;
                     response.Message = "List medicine is null.";
                     response.TotalDataList = 0;
-                    return response;
+                    return BadRequest(response);
                 }
                 else
                 {
@@ -263,6 +282,12 @@ namespace MedicineService.Controllers
                         response.Status = 400;
                         response.Message = "Create examinated record failed. RecordId or MedicineId not found.";
                         response.TotalDataList = 0;
+                        return BadRequest(response);
+                    }
+                    else if (medicineIdCheck.Quantity < me.Quantity)
+                    {
+                        response.Status = 400;
+                        message.Add(medicineIdCheck.MedicineName);
                     }
                     else
                     {
@@ -270,13 +295,111 @@ namespace MedicineService.Controllers
                         tempME.RecordId = listMedicine.RecordId;
                         tempME.MedicineId = me.MedicineId;
                         tempME.Quantity = me.Quantity;
-                        var createdRecord = recordService.CreateRecord(tempME);
+                        recordService.CreateRecord(tempME);
                     }
                 }
+            }
+            if (message.Count == 1)
+            {
+                response.Data = null;
+                response.Status = 400;
+                response.Message = "The number of " + message[0] + " in the drug warehouse is not enough.";
+                response.TotalDataList = 0;
+                return BadRequest(response);
+            }
+            if (message.Count > 1)
+            {
+                response.Data = null;
+                response.Status = 400;
+                response.Message = "The number of ";
+                foreach (var mess in message)
+                {
+                    response.Message += mess + " and ";
+                }
+                response.Message += "in the drug warehouse are not enough.";
+                response.TotalDataList = 0;
+                return BadRequest(response);
             }
             response.Data = listMedicine;
             response.Status = 200;
             response.Message = "Create list medicine successful.";
+            response.TotalDataList = 0;
+            return response;
+        }
+
+        [HttpPut("UpdateList")]
+        [Authorize(Policy = "ExaminatedRecordFullAccess")]
+        public ActionResult<ServiceResponse<ListUpdateMedicine>> UpdateListMedicine(ListUpdateMedicine listMedicine)
+        {
+            var response = new ServiceResponse<ListUpdateMedicine>();
+            var message = new List<string>();
+            var list = new ListMedicine();
+            foreach (var me in listMedicine.medicineUpdatedList)
+            {
+                if (me.Quantity == 0)
+                {
+                    response.Data = null;
+                    response.Status = 400;
+                    response.Message = "List medicine is null.";
+                    response.TotalDataList = 0;
+                    return BadRequest(response);
+                }
+                else
+                {
+                    var recordIdCheck = examinatedService.GetRecordById(listMedicine.RecordId);
+                    var medicineIdCheck = medicineService.GetMedicineById(me.MedicineId);
+                    if (recordIdCheck == null || medicineIdCheck == null)
+                    {
+                        response.Data = null;
+                        response.Status = 400;
+                        response.Message = "Update examinated record failed. RecordId or MedicineId not found.";
+                        response.TotalDataList = 0;
+                        return BadRequest(response);
+                    }
+                    else if (medicineIdCheck.Quantity < me.Quantity)
+                    {
+                        response.Status = 400;
+                        message.Add(medicineIdCheck.MedicineName);
+                    }
+                    else if (!me.IsActive)
+                    {
+                        recordService.DeleteRecord(me.Meid);
+                    }
+                    else
+                    {
+                        var tempME = new MedicineExaminatedRecord();
+                        tempME.Meid = me.Meid;
+                        tempME.RecordId = listMedicine.RecordId;
+                        tempME.MedicineId = me.MedicineId;
+                        tempME.Quantity = me.Quantity;
+                        recordService.UpdateRecord(tempME);
+                    }
+                }
+            }
+            if (message.Count == 1)
+            {
+                response.Data = null;
+                response.Status = 400;
+                response.Message = "The number of " + message[0] + " in the drug warehouse is not enough.";
+                response.TotalDataList = 0;
+                return BadRequest(response);
+            }
+            if (message.Count > 1)
+            {
+                response.Data = null;
+                response.Status = 400;
+                response.Message = "The number of ";
+                foreach (var mess in message)
+                {
+                    response.Message += mess + " and ";
+                }
+                response.Message += "in the drug warehouse are not enough.";
+                response.TotalDataList = 0;
+                return BadRequest(response);
+            }
+            response.Data = listMedicine;
+            response.Status = 200;
+            response.Message = "Update list medicine successful.";
             response.TotalDataList = 0;
             return response;
         }
