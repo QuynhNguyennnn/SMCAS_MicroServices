@@ -1,0 +1,145 @@
+{
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5204"
+  },
+  "Routes": [
+    //Blog
+    //GetBlogList
+    {
+      "DownstreamPathTemplate": "/api/Blogs",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5120
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Blogs",
+      "UpstreamHttpMethod": [ "GET", "POST" ]
+    },
+    //ListAdmin
+    {
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5120
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Blogs/ListAdmin",
+      "DownstreamScheme": "http",
+      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamPathTemplate": "/gateway/Blogs/ListAdmin"
+    },
+    //GetById
+    {
+      "DownstreamPathTemplate": "/api/Blogs/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5120
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Blogs/{id}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    //GetBlogByIdAdmin
+    {
+      "DownstreamPathTemplate": "/api/Blogs/DetailAdmin/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5120
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Blogs/DetailAdmin/{id}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    //CreateBlog
+    {
+      "DownstreamPathTemplate": "/api/Blogs/Create",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5120
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Blogs/Create",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    //UpdateBlog
+    {
+      "DownstreamPathTemplate": "/api/Blogs/Update",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5120
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Blogs/Update",
+      "UpstreamHttpMethod": [ "PUT" ]
+    },
+    //DeleteBlog
+    {
+      "DownstreamPathTemplate": "/api/Blogs/Delete?id={id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5120
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Blogs/Delete?id={id}",
+      "UpstreamHttpMethod": [ "PUT" ]
+    },
+    //SearchBlogByTitle
+    {
+      "DownstreamPathTemplate": "/api/Blogs/Search/{title}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5120
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Blogs/Search/{title}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    //SearchBlogForAdminByTitle
+    {
+      "DownstreamPathTemplate": "/api/Blogs/SearchForAdmin/{title}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5120
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Blogs/SearchForAdmin/{title}",
+      "UpstreamHttpMethod": [ "GET" ]
+    }
+
+
+
+    //Authenication
+    //Login
+    //{
+    //  "DownstreamPathTemplate": "/api/Auth/login",
+    //  "DownstreamScheme": "http",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "localhost",
+    //      "Port": 7111
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/apigateway/Auth/login",
+    //  "UpstreamHttpMethod": [ "GET", "POST" ]
+    //}
+    //{
+
+    //}
+  ]
+}
