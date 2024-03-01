@@ -1,6 +1,6 @@
 {
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:5204"
+    "BaseUrl": "https://localhost:5204"
   },
   "Routes": [
     //Blog
@@ -120,8 +120,413 @@
       ],
       "UpstreamPathTemplate": "/gateway/Blogs/SearchForAdmin/{title}",
       "UpstreamHttpMethod": [ "GET" ]
+    },
+    //ExaminatedRecord
+    //GetAll
+    {
+      "DownstreamPathTemplate": "/api/ExaminatedRecord/ListAdmin",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/ExaminatedRecord/ListAdmin",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    //GetAllActive
+    {
+      "DownstreamPathTemplate": "/api/ExaminatedRecord",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/ExaminatedRecord",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    //GetRecordById
+    {
+      "DownstreamPathTemplate": "/api/ExaminatedRecord/id?id={id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/ExaminatedRecord/id?id={id}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    //CreateExaminatedRecord
+    {
+      "DownstreamPathTemplate": "/api/ExaminatedRecord",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/ExaminatedRecord",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    //UpdateExaminatedRecord
+    {
+      "DownstreamPathTemplate": "/api/ExaminatedRecord/Update",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/ExaminatedRecord/Update",
+      "UpstreamHttpMethod": [ "GET", "PUT" ]
+    },
+    //DeleteExaminatedRecord
+    {
+      "DownstreamPathTemplate": "/api/ExaminatedRecord/Delete?id={id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/ExaminatedRecord/Delete?id={id}",
+      "UpstreamHttpMethod": [ "GET", "PUT" ]
+    },
+    //SearchRecordByPeopleId
+    {
+      "DownstreamPathTemplate": "/api/ExaminatedRecord/SearchIdAdmin/id?id={id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/ExaminatedRecord/SearchIdAdmin/id?id={id}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    //SearchRecordActiveByPeopleId
+    {
+      "DownstreamPathTemplate": "/api/ExaminatedRecord/Search/id?id={id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/ExaminatedRecord/Search/id?id={id}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    //SearchRecordByName
+    {
+      "DownstreamPathTemplate": "/api/ExaminatedRecord/SearchNameAdmin/name?name={name}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/ExaminatedRecord/SearchNameAdmin/name?name={name}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    //SearchRecordActiveByName
+    {
+      "DownstreamPathTemplate": "/api/ExaminatedRecord/SearchAdmin/name?name={name}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/ExaminatedRecord/SearchAdmin/name?name={name}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    //StatisticRecordUsingDoctorId
+    {
+      "DownstreamPathTemplate": "/api/ExaminatedRecord/Statistic",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/ExaminatedRecord/Statistic",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    //MedicineCode
+    //GetAll
+    {
+      "DownstreamPathTemplate": "/api/MedicineCode",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/MedicineCode",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    //GetAllCodeAdmin
+    {
+      "DownstreamPathTemplate": "/api/MedicineCode/ListAdmin",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/MedicineCode/ListAdmin",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    //GetCodeById
+    {
+      "DownstreamPathTemplate": "/api/MedicineCode/id?id={id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/MedicineCode/id?id={id}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    //GetCodeByIdAdmin
+    {
+      "DownstreamPathTemplate": "/api/MedicineCode/DetailAdmin/id?id={id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/MedicineCode/DetailAdmin/id?id={id}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    //CreateMedicineCode
+    {
+      "DownstreamPathTemplate": "/api/MedicineCode/Create",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/MedicineCode/Create",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    //UpdateMedicineCode
+    {
+      "DownstreamPathTemplate": "/api/MedicineCode/Update",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/MedicineCode/Update",
+      "UpstreamHttpMethod": [ "PUT" ]
+    },
+    //DeleteMedicineCode
+    {
+      "DownstreamPathTemplate": "/api/MedicineCode/Delete",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/MedicineCode/Delete",
+      "UpstreamHttpMethod": [ "PUT" ]
+    },
+    //SearchByName
+    {
+      "DownstreamPathTemplate": "/api/MedicineCode/Search/name?name={name}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/MedicineCode/Search/name?name={name}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    //SearchByNameAdmin
+    {
+      "DownstreamPathTemplate": "/api/MedicineCode/SearchAdmin/name?name={name}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/MedicineCode/SearchAdmin/name?name={name}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    //Medicine
+    //GetAll
+    {
+      "DownstreamPathTemplate": "/api/Medicine",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Medicine",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    //GetAllAdmin
+    {
+      "DownstreamPathTemplate": "/api/Medicine/ListAdmin",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Medicine/ListAdmin",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    //GetById
+    {
+      "DownstreamPathTemplate": "/api/Medicine/id?id={id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Medicine/id?id={id}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    //GetByIdAdmin
+    {
+      "DownstreamPathTemplate": "/api/Medicine/DetailAdmin/id?id={id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Medicine/DetailAdmin/id?id={id}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    //Create
+    {
+      "DownstreamPathTemplate": "/api/Medicine/Create",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Medicine/Create",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    //Update
+    {
+      "DownstreamPathTemplate": "/api/Medicine/Update",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Medicine/Update",
+      "UpstreamHttpMethod": [ "PUT" ]
+    },
+    //Delete
+    {
+      "DownstreamPathTemplate": "/api/Medicine/Delete?id={id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Medicine/Delete?id={id}",
+      "UpstreamHttpMethod": [ "PUT" ]
+    },
+    //SearchName
+    {
+      "DownstreamPathTemplate": "/api/Medicine/Search/name?name={name}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Medicine/Search/name?name={name}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    //SearchAdmin
+    {
+      "DownstreamPathTemplate": "/api/Medicine/SearchAdmin/name?name={name}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Medicine/SearchAdmin/name?name={name}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    //CountActive
+    {
+      "DownstreamPathTemplate": "/api/Medicine/CountActiveMedicine",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Medicine/CountActiveMedicine",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    //CountInactive
+    {
+      "DownstreamPathTemplate": "/api/Medicine/CountInActiveMedicine",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Medicine/CountInActiveMedicine",
+      "UpstreamHttpMethod": [ "GET" ]
     }
-
 
 
     //Authenication
