@@ -2,6 +2,7 @@
 using MedicineService.DTOs;
 using MedicineService.Models;
 using MedicineService.Services;
+using MedicineService.Services.ExaminatedRecordFolder;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,7 @@ namespace MedicineService.Controllers
         private IMedicineService medicineService = new Services.MedicineService();
         private IUnitService unitService = new Services.UnitService();
         private IMedicineCodeService medicineCodeService = new Services.MedicineCodeService();
+        private IExaminatedRecordService recordService = new ExaminatedRecordService();
 
         public readonly IMapper _mapper;
         public readonly IConfiguration _configuration;
@@ -38,6 +40,8 @@ namespace MedicineService.Controllers
                 medicineResponse.UnitName = unit.UnitName;
                 var code = medicineCodeService.GetMedicineCodeById(medicineResponse.CodeId);
                 medicineResponse.CodeName = code.CodeName;
+                var user = recordService.GetPeopleInfo(medicineResponse.UserId);
+                medicineResponse.UserFullName = user.FirstName + " " + user.LastName;
                 medicineList.Add(medicineResponse);
             }
             response.Data = medicineList;
@@ -61,6 +65,8 @@ namespace MedicineService.Controllers
                 medicineResponse.UnitName = unit.UnitName;
                 var code = medicineCodeService.GetMedicineCodeById(medicineResponse.CodeId);
                 medicineResponse.CodeName = code.CodeName;
+                var user = recordService.GetPeopleInfo(medicineResponse.UserId);
+                medicineResponse.UserFullName = user.FirstName + " " + user.LastName;
                 medicineList.Add(medicineResponse);
             }
             response.Data = medicineList;
@@ -90,6 +96,8 @@ namespace MedicineService.Controllers
                 medicineResponse.UnitName = unit.UnitName;
                 var code = medicineCodeService.GetMedicineCodeById(medicineResponse.CodeId);
                 medicineResponse.CodeName = code.CodeName;
+                var user = recordService.GetPeopleInfo(medicineResponse.UserId);
+                medicineResponse.UserFullName = user.FirstName + " " + user.LastName;
                 response.Data = medicineResponse;
                 response.Status = 200;
                 response.Message = "Get Medicine By Id = " + id;
@@ -119,6 +127,8 @@ namespace MedicineService.Controllers
                 medicineResponse.UnitName = unit.UnitName;
                 var code = medicineCodeService.GetMedicineCodeById(medicineResponse.CodeId);
                 medicineResponse.CodeName = code.CodeName;
+                var user = recordService.GetPeopleInfo(medicineResponse.UserId);
+                medicineResponse.UserFullName = user.FirstName + " " + user.LastName;
                 response.Data = medicineResponse;
                 response.Status = 200;
                 response.Message = "Get Medicine By Id = " + id + " By Admin";
@@ -206,8 +216,14 @@ namespace MedicineService.Controllers
             var medicineList = medicineService.GetMedicinesByname(name);
             foreach (var medicine in medicineList)
             {
-                MedicineResponse blogResponse = _mapper.Map<MedicineResponse>(medicine);
-                medicineResponseList.Add(blogResponse);
+                var medicineResponse = _mapper.Map<MedicineResponse>(medicine);
+                var unit = unitService.GetUnitById(medicineResponse.UnitId);
+                medicineResponse.UnitName = unit.UnitName;
+                var code = medicineCodeService.GetMedicineCodeById(medicineResponse.CodeId);
+                medicineResponse.CodeName = code.CodeName;
+                var user = recordService.GetPeopleInfo(medicineResponse.UserId);
+                medicineResponse.UserFullName = user.FirstName + " " + user.LastName;
+                medicineResponseList.Add(medicineResponse);
             }
 
             response.Data = medicineResponseList;
@@ -226,8 +242,14 @@ namespace MedicineService.Controllers
             var medicineList = medicineService.GetMedicinesBynameAdmin(name);
             foreach (var medicine in medicineList)
             {
-                MedicineResponse blogResponse = _mapper.Map<MedicineResponse>(medicine);
-                medicineResponseList.Add(blogResponse);
+                var medicineResponse = _mapper.Map<MedicineResponse>(medicine);
+                var unit = unitService.GetUnitById(medicineResponse.UnitId);
+                medicineResponse.UnitName = unit.UnitName;
+                var code = medicineCodeService.GetMedicineCodeById(medicineResponse.CodeId);
+                medicineResponse.CodeName = code.CodeName;
+                var user = recordService.GetPeopleInfo(medicineResponse.UserId);
+                medicineResponse.UserFullName = user.FirstName + " " + user.LastName;
+                medicineResponseList.Add(medicineResponse);
             }
 
             response.Data = medicineResponseList;
