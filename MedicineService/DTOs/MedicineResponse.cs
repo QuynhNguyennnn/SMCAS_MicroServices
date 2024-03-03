@@ -7,8 +7,10 @@
         public int UserId { get; set; }
 
         public int UnitId { get; set; }
+        public string UnitName { get; set; }
 
         public int CodeId { get; set; }
+        public string CodeName { get; set; }
 
         public string MedicineName { get; set; } = null!;
 
