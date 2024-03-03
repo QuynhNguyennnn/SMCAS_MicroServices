@@ -75,7 +75,7 @@ namespace UserService.Controllers
             return response;
         }
 
-        [HttpGet("DetailAdmin")]
+        [HttpGet("DetailAdmin/id")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<ServiceResponse<FeedbackResponse>>> GetFeedbackByIdAdmin(int id)
         {

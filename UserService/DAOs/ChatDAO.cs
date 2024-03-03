@@ -34,7 +34,7 @@ namespace UserService.DAOs
                 {
                     chat.IsActive = true;
                     chat.ChatDate = DateTime.Now;
-                    chat.ChatDate = DateTime.Now;
+                    chat.StartTime = DateTime.Now;
 
                     context.Chats.Add(chat);
                     context.SaveChanges();
@@ -77,8 +77,8 @@ namespace UserService.DAOs
                     {
                         updateChat = chatCheck;
                         updateChat.EndTime = DateTime.Now;
-                        //TimeSpan timeDifference = updateChat.EndTime - updateChat.StartTime;
-                       // updateChat.TotalTime = timeDifference.ToString();
+                        TimeSpan timeDifference = (TimeSpan)(updateChat.EndTime - updateChat.StartTime);
+                        updateChat.TotalTime = timeDifference.ToString();
                         context.Entry(chatCheck).CurrentValues.SetValues(updateChat);
                         context.SaveChanges();
                     }

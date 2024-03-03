@@ -74,7 +74,7 @@ namespace ScheduleService.Controllers
             return response;
         }
 
-        [HttpGet("DetailAdmin")]
+        [HttpGet("DetailAdmin/id")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<ServiceResponse<ScheduleResponse>>> GetScheduleByIdAdmin(int id)
         {

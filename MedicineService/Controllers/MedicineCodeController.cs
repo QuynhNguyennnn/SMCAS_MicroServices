@@ -83,7 +83,7 @@ namespace MedicineService.Controllers
             }
         }
 
-        [HttpGet("DetailAdmin")]
+        [HttpGet("DetailAdmin/id")]
         [Authorize(Roles = "Admin")]
         public ActionResult<ServiceResponse<MedicineCodeResponse>> GetCodeByIdAdmin(int id)
         {
