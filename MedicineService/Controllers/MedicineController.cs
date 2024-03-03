@@ -119,7 +119,7 @@ namespace MedicineService.Controllers
                 medicineResponse.UnitName = unit.UnitName;
                 var code = medicineCodeService.GetMedicineCodeById(medicineResponse.CodeId);
                 medicineResponse.CodeName = code.CodeName;
-                response.Data = MedicineResponse;
+                response.Data = medicineResponse;
                 response.Status = 200;
                 response.Message = "Get Medicine By Id = " + id + " By Admin";
                 response.TotalDataList = 1;
