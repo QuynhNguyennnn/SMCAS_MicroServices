@@ -11,6 +11,7 @@ using UserService.Models;
 using UserService.Services;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using System.Reflection.Metadata.Ecma335;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace UserService.Controllers
 {
@@ -419,7 +420,7 @@ namespace UserService.Controllers
             return response;
         }
 
-        [HttpGet("SearchDoctor/name")]
+        [HttpGet("SearchAdminDoctor/name")]
         [Authorize(Policy = "UserFullAccess")]
         public ActionResult<ServiceResponse<List<UserResponse>>> SearchDoctorByName(string name)
         {
@@ -444,7 +445,35 @@ namespace UserService.Controllers
             return response;
         }
 
-        [HttpGet("SearchStaff/name")]
+        [HttpGet("SearchDoctor/name")]
+        [Authorize(Policy = "UserFullAccess")]
+        public ActionResult<ServiceResponse<List<UserResponse>>> SearchDoctorActiveByName(string name)
+        {
+            var response = new ServiceResponse<List<UserResponse>>();
+            var userResponseList = new List<UserResponse>();
+            var userList = userService.SearchUserByNameRole(name, 1);
+            foreach (var user in userList)
+            {
+                if (user.IsActive)
+                {
+                    userResponseList.Add(_mapper.Map<UserResponse>(user));
+                }
+            }
+            response.Data = userResponseList;
+            response.Message = "List doctor have name contain: " + name;
+            response.Status = 200;
+            response.TotalDataList = userResponseList.Count;
+            if (userResponseList.Count == 0)
+            {
+                response.Data = userResponseList;
+                response.Message = "There is no doctor name: " + name;
+                response.Status = 404;
+                response.TotalDataList = userResponseList.Count;
+            }
+            return response;
+        }
+
+        [HttpGet("SearchAdminStaff/name")]
         [Authorize(Policy = "UserFullAccess")]
         public ActionResult<ServiceResponse<List<UserResponse>>> SearchStaffByName(string name)
         {
@@ -474,7 +503,43 @@ namespace UserService.Controllers
             return response;
         }
 
-        [HttpGet("SearchStudent/name")]
+        [HttpGet("SearchStaff/name")]
+        [Authorize(Policy = "UserFullAccess")]
+        public ActionResult<ServiceResponse<List<UserResponse>>> SearchStaffActiveByName(string name)
+        {
+            var response = new ServiceResponse<List<UserResponse>>();
+            var userResponseList = new List<UserResponse>();
+            var staffList = userService.SearchUserByNameRole(name, 3);
+            var medicalStaffList = userService.SearchUserByNameRole(name, 4);
+            foreach (var user in staffList)
+            {
+                if (user.IsActive)
+                {
+                    userResponseList.Add(_mapper.Map<UserResponse>(user));
+                }
+            }
+            foreach (var user in medicalStaffList)
+            {
+                if (user.IsActive)
+                {
+                    userResponseList.Add(_mapper.Map<UserResponse>(user));
+                }
+            }
+            response.Data = userResponseList;
+            response.Message = "List staff have name contain: " + name;
+            response.Status = 200;
+            response.TotalDataList = userResponseList.Count;
+            if (userResponseList.Count == 0)
+            {
+                response.Data = userResponseList;
+                response.Message = "There is no staff name: " + name;
+                response.Status = 404;
+                response.TotalDataList = userResponseList.Count;
+            }
+            return response;
+        }
+
+        [HttpGet("SearchAdminStudent/name")]
         [Authorize(Policy = "UserFullAccess")]
         public ActionResult<ServiceResponse<List<UserResponse>>> SearchStudentByName(string name)
         {
@@ -484,6 +549,34 @@ namespace UserService.Controllers
             foreach (var user in userList)
             {
                 userResponseList.Add(_mapper.Map<UserResponse>(user));
+            }
+            response.Data = userResponseList;
+            response.Message = "List student have name contain: " + name;
+            response.Status = 200;
+            response.TotalDataList = userResponseList.Count;
+            if (userResponseList.Count == 0)
+            {
+                response.Data = userResponseList;
+                response.Message = "There is no student name: " + name;
+                response.Status = 404;
+                response.TotalDataList = userResponseList.Count;
+            }
+            return response;
+        }
+
+        [HttpGet("SearchStudent/name")]
+        [Authorize(Policy = "UserFullAccess")]
+        public ActionResult<ServiceResponse<List<UserResponse>>> SearchStudentActiveByName(string name)
+        {
+            var response = new ServiceResponse<List<UserResponse>>();
+            var userResponseList = new List<UserResponse>();
+            var userList = userService.SearchUserByNameRole(name, 2);
+            foreach (var user in userList)
+            {
+                if (user.IsActive)
+                {
+                    userResponseList.Add(_mapper.Map<UserResponse>(user));
+                }
             }
             response.Data = userResponseList;
             response.Message = "List student have name contain: " + name;
