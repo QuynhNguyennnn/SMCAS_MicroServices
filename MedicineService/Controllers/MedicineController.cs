@@ -206,8 +206,12 @@ namespace MedicineService.Controllers
             var medicineList = medicineService.GetMedicinesByname(name);
             foreach (var medicine in medicineList)
             {
-                MedicineResponse blogResponse = _mapper.Map<MedicineResponse>(medicine);
-                medicineResponseList.Add(blogResponse);
+                var medicineResponse = _mapper.Map<MedicineResponse>(medicine);
+                var unit = unitService.GetUnitById(medicineResponse.UnitId);
+                medicineResponse.UnitName = unit.UnitName;
+                var code = medicineCodeService.GetMedicineCodeById(medicineResponse.CodeId);
+                medicineResponse.CodeName = code.CodeName;
+                medicineResponseList.Add(medicineResponse);
             }
 
             response.Data = medicineResponseList;
@@ -226,8 +230,12 @@ namespace MedicineService.Controllers
             var medicineList = medicineService.GetMedicinesBynameAdmin(name);
             foreach (var medicine in medicineList)
             {
-                MedicineResponse blogResponse = _mapper.Map<MedicineResponse>(medicine);
-                medicineResponseList.Add(blogResponse);
+                var medicineResponse = _mapper.Map<MedicineResponse>(medicine);
+                var unit = unitService.GetUnitById(medicineResponse.UnitId);
+                medicineResponse.UnitName = unit.UnitName;
+                var code = medicineCodeService.GetMedicineCodeById(medicineResponse.CodeId);
+                medicineResponse.CodeName = code.CodeName;
+                medicineResponseList.Add(medicineResponse);
             }
 
             response.Data = medicineResponseList;
