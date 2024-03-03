@@ -605,6 +605,7 @@ namespace UserService.Controllers
                 if (user.IsActive)
                 {
                     var userRe = _mapper.Map<DoctorResponse>(user);
+                    userRe.Fullname = user.FirstName + " " + user.LastName;
                     userRe.Key = r;
                     userResponseList.Add(userRe);
                     r++;
@@ -628,6 +629,8 @@ namespace UserService.Controllers
             foreach (var user in userList)
             {
                 var userRe = _mapper.Map<DoctorResponse>(user);
+                userRe.Fullname = user.FirstName + " " + user.LastName;
+
                 userRe.Key = r;
                 userResponseList.Add(userRe);
                 r++;
@@ -650,6 +653,8 @@ namespace UserService.Controllers
             foreach (var user in userList)
             {
                 var userRe = _mapper.Map<StudentResponse>(user);
+                userRe.Fullname = user.FirstName + " " + user.LastName;
+
                 userRe.Key = r;
                 userResponseList.Add(userRe);
                 r++;
@@ -674,6 +679,8 @@ namespace UserService.Controllers
                 if (user.IsActive)
                 {
                     var userRe = _mapper.Map<StudentResponse>(user);
+                    userRe.Fullname = user.FirstName + " " + user.LastName;
+
                     userRe.Key = r;
                     userResponseList.Add(userRe);
                     r++;
@@ -709,6 +716,7 @@ namespace UserService.Controllers
                     }
                 }
                 userResponseList.Add(userRe);
+                userRe.Fullname = user.FirstName + " " + user.LastName;
                 r++;
             }
             response.Data = userResponseList;
@@ -742,6 +750,7 @@ namespace UserService.Controllers
                     }
                 }
                 userResponseList.Add(userRe);
+                userRe.Fullname = user.FirstName + " " + user.LastName;
                 r++;
             }
             response.Data = userResponseList;
@@ -777,6 +786,7 @@ namespace UserService.Controllers
                         }
                     }
                     userResponseList.Add(userRe);
+                    userRe.Fullname = user.FirstName + " " + user.LastName;
                     r++;
                 }
             }
@@ -810,6 +820,7 @@ namespace UserService.Controllers
                         break;
                     }
                 }
+                userRe.Fullname = user.FirstName + " " + user.LastName;
                 userResponseList.Add(userRe);
                 r++;
             }
@@ -846,6 +857,7 @@ namespace UserService.Controllers
                         }
                     }
                     userResponseList.Add(userRe);
+                    userRe.Fullname = user.FirstName + " " + user.LastName;
                     r++;
                 }
             }
@@ -913,7 +925,9 @@ namespace UserService.Controllers
             var patientsList = userService.GetPatientList();
             foreach ( var patient in patientsList )
             {
-                userResponseList.Add(_mapper.Map<UserResponse>(patient));
+                var user = _mapper.Map<UserResponse>(patient);
+                user.Fullname = patient.FirstName + " " + patient.LastName;
+                userResponseList.Add(user);
 
             }
             if (userResponseList.Count > 0)

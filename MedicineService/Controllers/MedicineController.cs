@@ -13,6 +13,8 @@ namespace MedicineService.Controllers
     public class MedicineController : ControllerBase
     {
         private IMedicineService medicineService = new Services.MedicineService();
+        private IUnitService unitService = new Services.UnitService();
+        private IMedicineCodeService medicineCodeService = new Services.MedicineCodeService();
 
         public readonly IMapper _mapper;
         public readonly IConfiguration _configuration;
@@ -31,8 +33,12 @@ namespace MedicineService.Controllers
             var medicines = medicineService.GetMedicines();
             foreach (var medicine in medicines)
             {
-                MedicineResponse MedicineResponse = _mapper.Map<MedicineResponse>(medicine);
-                medicineList.Add(MedicineResponse);
+                MedicineResponse medicineResponse = _mapper.Map<MedicineResponse>(medicine);
+                var unit = unitService.GetUnitById(medicineResponse.UnitId);
+                medicineResponse.UnitName = unit.UnitName;
+                var code = medicineCodeService.GetMedicineCodeById(medicineResponse.CodeId);
+                medicineResponse.CodeName = code.CodeName;
+                medicineList.Add(medicineResponse);
             }
             response.Data = medicineList;
             response.Status = 200;
@@ -50,8 +56,12 @@ namespace MedicineService.Controllers
             var medicines = medicineService.GetMedicinesAdmin();
             foreach (var medicine in medicines)
             {
-                MedicineResponse MedicineResponse = _mapper.Map<MedicineResponse>(medicine);
-                medicineList.Add(MedicineResponse);
+                MedicineResponse medicineResponse = _mapper.Map<MedicineResponse>(medicine);
+                var unit = unitService.GetUnitById(medicineResponse.UnitId);
+                medicineResponse.UnitName = unit.UnitName;
+                var code = medicineCodeService.GetMedicineCodeById(medicineResponse.CodeId);
+                medicineResponse.CodeName = code.CodeName;
+                medicineList.Add(medicineResponse);
             }
             response.Data = medicineList;
             response.Status = 200;
@@ -75,8 +85,12 @@ namespace MedicineService.Controllers
             }
             else
             {
-                var MedicineResponse = _mapper.Map<MedicineResponse>(medicine);
-                response.Data = MedicineResponse;
+                var medicineResponse = _mapper.Map<MedicineResponse>(medicine);
+                var unit = unitService.GetUnitById(medicineResponse.UnitId);
+                medicineResponse.UnitName = unit.UnitName;
+                var code = medicineCodeService.GetMedicineCodeById(medicineResponse.CodeId);
+                medicineResponse.CodeName = code.CodeName;
+                response.Data = medicineResponse;
                 response.Status = 200;
                 response.Message = "Get Medicine By Id = " + id;
                 response.TotalDataList = 1;
@@ -100,7 +114,11 @@ namespace MedicineService.Controllers
             }
             else
             {
-                var MedicineResponse = _mapper.Map<MedicineResponse>(medicine);
+                var medicineResponse = _mapper.Map<MedicineResponse>(medicine);
+                var unit = unitService.GetUnitById(medicineResponse.UnitId);
+                medicineResponse.UnitName = unit.UnitName;
+                var code = medicineCodeService.GetMedicineCodeById(medicineResponse.CodeId);
+                medicineResponse.CodeName = code.CodeName;
                 response.Data = MedicineResponse;
                 response.Status = 200;
                 response.Message = "Get Medicine By Id = " + id + " By Admin";
