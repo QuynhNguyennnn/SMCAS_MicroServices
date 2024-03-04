@@ -10,7 +10,7 @@ namespace MedicineService.DAOs
             List<Medicine> medicines = new List<Medicine>();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var medicineList = context.Medicines.ToList();
                     foreach (var medicine in medicineList)
@@ -26,12 +26,46 @@ namespace MedicineService.DAOs
             }
         }
 
+        public static List<Medicine> GetMedicinesAdmin()
+        {
+            List<Medicine> medicines = new List<Medicine>();
+            try
+            {
+                using (var context = new SepprojectDbV7Context())
+                {
+                    var medicineList = context.Medicines.ToList();
+                    return medicines;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public static Medicine GetMedicineById(int id)
         {
             var medicine = new Medicine();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
+                {
+                    medicine = context.Medicines.FirstOrDefault(m => m.MedicineId == id && m.IsActive == true);
+                }
+                return medicine;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public static Medicine GetMedicineByIdAdmin(int id)
+        {
+            var medicine = new Medicine();
+            try
+            {
+                using (var context = new SepprojectDbV7Context())
                 {
                     medicine = context.Medicines.FirstOrDefault(m => m.MedicineId == id);
                 }
@@ -48,7 +82,7 @@ namespace MedicineService.DAOs
             var createMedicine = new Medicine();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var medicineCheck = context.Medicines.FirstOrDefault(m => m.MedicineName == medicine.MedicineName);
                     if (medicineCheck != null)
@@ -76,7 +110,7 @@ namespace MedicineService.DAOs
             var updatedMedicine = new Medicine();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var medicineCheck = context.Medicines.FirstOrDefault(m => m.MedicineId == medicine.MedicineId);
                     if (medicineCheck != null)
@@ -105,7 +139,7 @@ namespace MedicineService.DAOs
             var deletedMedicine = new Medicine();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var medicineCheck = context.Medicines.FirstOrDefault(m => m.MedicineId == id);
                     if (medicineCheck != null)
@@ -133,7 +167,7 @@ namespace MedicineService.DAOs
             List<Medicine> medicines = new List<Medicine>();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     medicines = context.Medicines
                         .Where(m =>
@@ -148,6 +182,61 @@ namespace MedicineService.DAOs
                 throw new Exception(ex.Message);
             }
             return medicines;
+        }
+
+        public static List<Medicine> SearchMedicineByNameAdmin(string name)
+        {
+            List<Medicine> medicines = new List<Medicine>();
+            try
+            {
+                using (var context = new SepprojectDbV7Context())
+                {
+                    medicines = context.Medicines
+                        .Where(m =>
+                            (m.MedicineName.Contains(name)
+                            ))
+                        .ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return medicines;
+        }
+
+        public static int CountActiveMedicine()
+        {
+            int count = 0;
+            try
+            {
+                using (var context = new SepprojectDbV7Context())
+                {
+                    count = context.Medicines.Where(m => m.IsActive).ToList().Count;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return count;
+        }
+
+        public static int CountInActiveMedicine()
+        {
+            int count = 0;
+            try
+            {
+                using (var context = new SepprojectDbV7Context())
+                {
+                    count = context.Medicines.Where(m => !m.IsActive).ToList().Count;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return count;
         }
     }
 }

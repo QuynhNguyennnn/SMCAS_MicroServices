@@ -3,6 +3,7 @@
     public class StudentResponse
     {
         public int Key { get; set; }
+        public string Fullname { get; set; }
         public int UserId { get; set; }
         public string Username { get; set; } = null!;
         public string? Course { get; set; }

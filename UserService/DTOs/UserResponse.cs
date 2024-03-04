@@ -12,6 +12,8 @@
 
         public string LastName { get; set; } = null!;
 
+        public string Fullname { get; set; } = null!;
+
         public DateTime Birthday { get; set; }
 
         public string Address { get; set; } = null!;
@@ -22,7 +24,7 @@
 
         public string Username { get; set; } = null!;
 
-        public string Password { get; set; } = null!;
+        //public string Password { get; set; } = null!;
 
         public string? Major { get; set; }
 

@@ -2,6 +2,7 @@
 using MedicineService.DTOs;
 using MedicineService.Models;
 using MedicineService.Services;
+using MedicineService.Services.ExaminatedRecordFolder;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,9 @@ namespace MedicineService.Controllers
     public class MedicineController : ControllerBase
     {
         private IMedicineService medicineService = new Services.MedicineService();
+        private IUnitService unitService = new Services.UnitService();
+        private IMedicineCodeService medicineCodeService = new Services.MedicineCodeService();
+        private IExaminatedRecordService recordService = new ExaminatedRecordService();
 
         public readonly IMapper _mapper;
         public readonly IConfiguration _configuration;
@@ -31,12 +35,43 @@ namespace MedicineService.Controllers
             var medicines = medicineService.GetMedicines();
             foreach (var medicine in medicines)
             {
-                MedicineResponse MedicineResponse = _mapper.Map<MedicineResponse>(medicine);
-                medicineList.Add(MedicineResponse);
+                MedicineResponse medicineResponse = _mapper.Map<MedicineResponse>(medicine);
+                var unit = unitService.GetUnitById(medicineResponse.UnitId);
+                medicineResponse.UnitName = unit.UnitName;
+                var code = medicineCodeService.GetMedicineCodeById(medicineResponse.CodeId);
+                medicineResponse.CodeName = code.CodeName;
+                var user = recordService.GetPeopleInfo(medicineResponse.UserId);
+                medicineResponse.UserFullName = user.FirstName + " " + user.LastName;
+                medicineList.Add(medicineResponse);
             }
             response.Data = medicineList;
             response.Status = 200;
             response.Message = "Get All Medicines";
+            response.TotalDataList = medicineList.Count;
+            return response;
+        }
+
+        [HttpGet("ListAdmin")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<List<MedicineResponse>>> GetAllMedicinesAdmin()
+        {
+            var response = new ServiceResponse<List<MedicineResponse>>();
+            var medicineList = new List<MedicineResponse>();
+            var medicines = medicineService.GetMedicinesAdmin();
+            foreach (var medicine in medicines)
+            {
+                MedicineResponse medicineResponse = _mapper.Map<MedicineResponse>(medicine);
+                var unit = unitService.GetUnitById(medicineResponse.UnitId);
+                medicineResponse.UnitName = unit.UnitName;
+                var code = medicineCodeService.GetMedicineCodeById(medicineResponse.CodeId);
+                medicineResponse.CodeName = code.CodeName;
+                var user = recordService.GetPeopleInfo(medicineResponse.UserId);
+                medicineResponse.UserFullName = user.FirstName + " " + user.LastName;
+                medicineList.Add(medicineResponse);
+            }
+            response.Data = medicineList;
+            response.Status = 200;
+            response.Message = "Get All Medicines By Admin";
             response.TotalDataList = medicineList.Count;
             return response;
         }
@@ -56,10 +91,47 @@ namespace MedicineService.Controllers
             }
             else
             {
-                var MedicineResponse = _mapper.Map<MedicineResponse>(medicine);
-                response.Data = MedicineResponse;
+                var medicineResponse = _mapper.Map<MedicineResponse>(medicine);
+                var unit = unitService.GetUnitById(medicineResponse.UnitId);
+                medicineResponse.UnitName = unit.UnitName;
+                var code = medicineCodeService.GetMedicineCodeById(medicineResponse.CodeId);
+                medicineResponse.CodeName = code.CodeName;
+                var user = recordService.GetPeopleInfo(medicineResponse.UserId);
+                medicineResponse.UserFullName = user.FirstName + " " + user.LastName;
+                response.Data = medicineResponse;
                 response.Status = 200;
                 response.Message = "Get Medicine By Id = " + id;
+                response.TotalDataList = 1;
+                return Ok(response);
+            }
+        }
+
+        [HttpGet("DetailAdmin/id")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<MedicineResponse>> GetMedicineByIdAdmin(int id)
+        {
+            var response = new ServiceResponse<MedicineResponse>();
+            var medicine = medicineService.GetMedicineByIdAdmin(id);
+            if (medicine == null)
+            {
+                response.Data = null;
+                response.Status = 404;
+                response.Message = "Medicine not found.";
+                response.TotalDataList = 0;
+                return BadRequest(response);
+            }
+            else
+            {
+                var medicineResponse = _mapper.Map<MedicineResponse>(medicine);
+                var unit = unitService.GetUnitById(medicineResponse.UnitId);
+                medicineResponse.UnitName = unit.UnitName;
+                var code = medicineCodeService.GetMedicineCodeById(medicineResponse.CodeId);
+                medicineResponse.CodeName = code.CodeName;
+                var user = recordService.GetPeopleInfo(medicineResponse.UserId);
+                medicineResponse.UserFullName = user.FirstName + " " + user.LastName;
+                response.Data = medicineResponse;
+                response.Status = 200;
+                response.Message = "Get Medicine By Id = " + id + " By Admin";
                 response.TotalDataList = 1;
                 return Ok(response);
             }
@@ -144,14 +216,72 @@ namespace MedicineService.Controllers
             var medicineList = medicineService.GetMedicinesByname(name);
             foreach (var medicine in medicineList)
             {
-                MedicineResponse blogResponse = _mapper.Map<MedicineResponse>(medicine);
-                medicineResponseList.Add(blogResponse);
+                var medicineResponse = _mapper.Map<MedicineResponse>(medicine);
+                var unit = unitService.GetUnitById(medicineResponse.UnitId);
+                medicineResponse.UnitName = unit.UnitName;
+                var code = medicineCodeService.GetMedicineCodeById(medicineResponse.CodeId);
+                medicineResponse.CodeName = code.CodeName;
+                var user = recordService.GetPeopleInfo(medicineResponse.UserId);
+                medicineResponse.UserFullName = user.FirstName + " " + user.LastName;
+                medicineResponseList.Add(medicineResponse);
             }
 
             response.Data = medicineResponseList;
             response.Message = "Search Medicine By Name";
             response.Status = 200;
             response.TotalDataList = medicineResponseList.Count;
+            return response;
+        }
+
+        [HttpGet("SearchAdmin/name")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<List<MedicineResponse>>> SearchMedicinesByNameAdmin(string name)
+        {
+            var response = new ServiceResponse<List<MedicineResponse>>();
+            var medicineResponseList = new List<MedicineResponse>();
+            var medicineList = medicineService.GetMedicinesBynameAdmin(name);
+            foreach (var medicine in medicineList)
+            {
+                var medicineResponse = _mapper.Map<MedicineResponse>(medicine);
+                var unit = unitService.GetUnitById(medicineResponse.UnitId);
+                medicineResponse.UnitName = unit.UnitName;
+                var code = medicineCodeService.GetMedicineCodeById(medicineResponse.CodeId);
+                medicineResponse.CodeName = code.CodeName;
+                var user = recordService.GetPeopleInfo(medicineResponse.UserId);
+                medicineResponse.UserFullName = user.FirstName + " " + user.LastName;
+                medicineResponseList.Add(medicineResponse);
+            }
+
+            response.Data = medicineResponseList;
+            response.Message = "Search Medicine By Name By Admin";
+            response.Status = 200;
+            response.TotalDataList = medicineResponseList.Count;
+            return response;
+        }
+
+        [HttpGet("CountActiveMedicine")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<int>> CountActiveMedince()
+        {
+            var response = new ServiceResponse<int>();
+            var count = medicineService.CountActiveMedicine();
+            response.Data = count;
+            response.Message = ("Count Number Of Active Medicine");
+            response.Status = 200;
+            response.TotalDataList = 1;
+            return response;
+        }
+
+        [HttpGet("CountInActiveMedicine")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<int>> CountInActiveMedince()
+        {
+            var response = new ServiceResponse<int>();
+            var count = medicineService.CountInActiveMedicine();
+            response.Data = count;
+            response.Message = ("Count Number Of InActive Medicine");
+            response.Status = 200;
+            response.TotalDataList = 1;
             return response;
         }
     }

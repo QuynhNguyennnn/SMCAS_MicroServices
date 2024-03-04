@@ -9,7 +9,7 @@ namespace UserService.DAOs
             List<Feedback> feedbacks = new List<Feedback>();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var feedbackList = context.Feedbacks.ToList();
                     foreach (var feedback in feedbackList)
@@ -29,14 +29,49 @@ namespace UserService.DAOs
             return feedbacks;
         }
 
+        public static List<Feedback> GetFeedBackListAdmin()
+        {
+            List<Feedback> feedbacks = new List<Feedback>();
+            try
+            {
+                using (var context = new SepprojectDbV7Context())
+                {
+                    var feedbackList = context.Feedbacks.ToList();
+                    return feedbackList;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        
+        }
+
         public static Feedback GetFeedbackById(int id)
         {
             Feedback feedback = new Feedback();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     feedback = context.Feedbacks.SingleOrDefault(f => (f.FeedbackId == id) && f.IsActive);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return feedback;
+        }
+
+        public static Feedback GetFeedbackByIdAdmin(int id)
+        {
+            Feedback feedback = new Feedback();
+            try
+            {
+                using (var context = new SepprojectDbV7Context())
+                {
+                    feedback = context.Feedbacks.SingleOrDefault(f => (f.FeedbackId == id));
                 }
             }
             catch (Exception ex)
@@ -51,7 +86,7 @@ namespace UserService.DAOs
             List<Feedback> feedbacks = new List<Feedback>();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var feedbackList = context.Feedbacks.Where(f => (f.DoctorId == id) && f.IsActive).ToList();
                     foreach (var feedback in feedbackList)
@@ -76,7 +111,7 @@ namespace UserService.DAOs
             List<Feedback> feedbacks = new List<Feedback>();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var feedbackList = context.Feedbacks.Where(f => (f.PatientId == id) && f.IsActive).ToList();
                     foreach (var feedback in feedbackList)
@@ -100,7 +135,7 @@ namespace UserService.DAOs
         {
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     feedback.IsActive = true;
                     feedback.FeedbackDate = DateTime.Now;
@@ -122,16 +157,11 @@ namespace UserService.DAOs
             Feedback updateFeedback = new Feedback();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var feedbackCheck = context.Feedbacks.FirstOrDefault(f => f.FeedbackId == feedback.FeedbackId && f.IsActive);
                     if (feedbackCheck != null)
                     {
-                        if (feedback.PatientId != feedbackCheck.PatientId)
-                        {
-                            throw new Exception("You cannot update this feedback");
-                        }
-
                         updateFeedback = feedback;
                         updateFeedback.FeedbackDate = feedbackCheck.FeedbackDate;
                         updateFeedback.DoctorId = feedbackCheck.DoctorId;
@@ -157,7 +187,7 @@ namespace UserService.DAOs
         {
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var _feedback = context.Feedbacks.SingleOrDefault(f => f.FeedbackId == feedback.FeedbackId && f.IsActive);
                     if (_feedback != null)
@@ -192,7 +222,7 @@ namespace UserService.DAOs
             float avg = 0;
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var feedbackList = context.Feedbacks.ToList();
                     foreach (var feedback in feedbackList)

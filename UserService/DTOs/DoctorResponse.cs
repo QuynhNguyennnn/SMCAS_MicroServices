@@ -3,6 +3,7 @@
     public class DoctorResponse
     {
         public int UserId { get; set; }
+        public string Fullname { get; set; }
 
         public int Key {  get; set; }
 

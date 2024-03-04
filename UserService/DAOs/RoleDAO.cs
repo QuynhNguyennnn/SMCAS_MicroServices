@@ -10,7 +10,7 @@ namespace UserService.DAOs
             Role role = new Role();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     role = context.Roles.FirstOrDefault(r => r.RoleId == id);
                     if (role != null)
@@ -34,7 +34,7 @@ namespace UserService.DAOs
             Role newRole = new Role();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var roleCheck = context.Roles.FirstOrDefault(r => r.RoleName.ToLower() == role.RoleName.ToLower());
                     if (roleCheck != null)
@@ -43,6 +43,7 @@ namespace UserService.DAOs
                     }
                     else
                     {
+                        newRole = role;
                         newRole.RoleName = role.RoleName;
                         newRole.IsActive = true;
                         context.Roles.Add(newRole);
@@ -62,12 +63,12 @@ namespace UserService.DAOs
             List<Role> roles = new List<Role>();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var roleList = context.Roles.ToList();
-                    foreach (var movie in roleList)
+                    foreach (var role in roleList)
                     {
-                        roles.Add(movie);
+                        roles.Add(role);
                     }
                 }
                 return roles;
@@ -83,11 +84,12 @@ namespace UserService.DAOs
             Role updatedRole = new Role();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var roleCheck = context.Roles.FirstOrDefault(r => r.RoleId == role.RoleId && r.IsActive);
                     if (roleCheck != null)
                     {
+                        updatedRole = role;
                         updatedRole.RoleId = roleCheck.RoleId;
                         updatedRole.RoleName = role.RoleName;
                         updatedRole.IsActive = role.IsActive;
@@ -111,9 +113,9 @@ namespace UserService.DAOs
         {
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
-                    var role = context.Roles.FirstOrDefault(r => r.RoleId == roleId);
+                    var role = context.Roles.FirstOrDefault(r => r.RoleId == roleId && r.IsActive);
                     if (role == null)
                     {
                         return null;
@@ -138,9 +140,9 @@ namespace UserService.DAOs
             var roleList = new List<Role>();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
-                    var roleCheck = context.Roles.Where(r => r.RoleName.ToLower().Contains(roleName.ToLower()) && r.IsActive).ToList();
+                    var roleCheck = context.Roles.Where(r => r.RoleName.ToLower().Contains(roleName.ToLower())).ToList();
                     if (roleCheck != null)
                     {
                         foreach (var item in roleCheck)
@@ -166,7 +168,7 @@ namespace UserService.DAOs
             var roleList = new List<Role>();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var list = context.Roles.ToList();
                     var staff = "Staff";

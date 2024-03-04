@@ -40,6 +40,25 @@ namespace MedicineService.Controllers
             return response;
         }
 
+        [HttpGet("ListAdmin")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<List<MedicineCodeResponse>>> GetAllCodesAdmin()
+        {
+            var response = new ServiceResponse<List<MedicineCodeResponse>>();
+            var codeList = new List<MedicineCodeResponse>();
+            var codes = medicineCodeService.GetMedicineCodesAdmin();
+            foreach (var code in codes)
+            {
+                MedicineCodeResponse MedicineCodeResponse = _mapper.Map<MedicineCodeResponse>(code);
+                codeList.Add(MedicineCodeResponse);
+            }
+            response.Data = codeList;
+            response.Status = 200;
+            response.Message = "Get All Medicine Codes By Admin";
+            response.TotalDataList = codeList.Count;
+            return response;
+        }
+
         [HttpGet("id")]
         public ActionResult<ServiceResponse<MedicineCodeResponse>> GetCodeById(int id)
         {
@@ -59,6 +78,31 @@ namespace MedicineService.Controllers
                 response.Data = MedicineCodeResponse;
                 response.Status = 200;
                 response.Message = "Get Medicine Code By Id = " + id;
+                response.TotalDataList = 1;
+                return Ok(response);
+            }
+        }
+
+        [HttpGet("DetailAdmin/id")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<MedicineCodeResponse>> GetCodeByIdAdmin(int id)
+        {
+            var response = new ServiceResponse<MedicineCodeResponse>();
+            var code = medicineCodeService.GetMedicineCodeByIdAdmin(id);
+            if (code == null)
+            {
+                response.Data = null;
+                response.Status = 404;
+                response.Message = "Medicine Code not found.";
+                response.TotalDataList = 0;
+                return BadRequest(response);
+            }
+            else
+            {
+                var MedicineCodeResponse = _mapper.Map<MedicineCodeResponse>(code);
+                response.Data = MedicineCodeResponse;
+                response.Status = 200;
+                response.Message = "Get Medicine Code By Id = " + id + " By Admin";
                 response.TotalDataList = 1;
                 return Ok(response);
             }
@@ -149,6 +193,26 @@ namespace MedicineService.Controllers
 
             response.Data = medicineCodeResponseList;
             response.Message = "Search Medicine Code By Name";
+            response.Status = 200;
+            response.TotalDataList = medicineCodeResponseList.Count;
+            return response;
+        }
+
+        [HttpGet("SearchAdmin/name")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<List<MedicineCodeResponse>>> SearchMedicineCodesByNameAdmin(string name)
+        {
+            var response = new ServiceResponse<List<MedicineCodeResponse>>();
+            var medicineCodeResponseList = new List<MedicineCodeResponse>();
+            var medicineCodeList = medicineCodeService.GetMedicineCodesByNameAdmin(name);
+            foreach (var medicineCode in medicineCodeList)
+            {
+                MedicineCodeResponse blogResponse = _mapper.Map<MedicineCodeResponse>(medicineCode);
+                medicineCodeResponseList.Add(blogResponse);
+            }
+
+            response.Data = medicineCodeResponseList;
+            response.Message = "Search Medicine Code By Name By Admin";
             response.Status = 200;
             response.TotalDataList = medicineCodeResponseList.Count;
             return response;
