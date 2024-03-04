@@ -8,5 +8,6 @@ namespace UserService.Services
         Chat CreateChatRoom(int patientId, int doctorId);
         Chat GetChat(int patientId, int doctorId);
         Chat EndChat(int chatId);
+        ChatHistory SaveChat(ChatHistory chatHistory);
     }
 }

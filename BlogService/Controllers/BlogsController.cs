@@ -81,7 +81,7 @@ namespace BlogService.Controllers
             return response;
         }
 
-        [HttpGet("DetailAdmin")]
+        [HttpGet("DetailAdmin/id")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<ServiceResponse<BlogResponse>>> GetBlogByIdAdmin(int id)
         {

@@ -77,8 +77,8 @@ namespace UserService.DAOs
                     {
                         updateChat = chatCheck;
                         updateChat.EndTime = DateTime.Now;
-                        //TimeSpan timeDifference = updateChat.EndTime - updateChat.StartTime;
-                       // updateChat.TotalTime = timeDifference.ToString();
+                        TimeSpan timeDifference = (TimeSpan)(updateChat.EndTime - updateChat.StartTime);
+                        updateChat.TotalTime = timeDifference.ToString();
                         context.Entry(chatCheck).CurrentValues.SetValues(updateChat);
                         context.SaveChanges();
                     }
@@ -91,6 +91,23 @@ namespace UserService.DAOs
                 }
             }
             catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public static ChatHistory SaveChat(ChatHistory chatHistory)
+        {
+            try
+            {
+                using (var context = new SepprojectDbV7Context())
+                {
+                    chatHistory.IsActive = true;
+                    context.ChatHistories.Add(chatHistory);
+                    context.SaveChanges();
+                    return chatHistory;
+                }
+            } catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }

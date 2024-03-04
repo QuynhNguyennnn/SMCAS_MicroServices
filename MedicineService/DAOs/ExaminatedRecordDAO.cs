@@ -104,7 +104,7 @@ namespace MedicineService.DAOs
             {
                 using (var context = new SepprojectDbV7Context())
                 {
-                    var recordCheck = context.ExaminatedRecords.FirstOrDefault(r => r.RecordId == id);
+                    var recordCheck = context.ExaminatedRecords.FirstOrDefault(r => r.RecordId == id && r.IsActive);
                     if (recordCheck == null)
                     {
                         return null;

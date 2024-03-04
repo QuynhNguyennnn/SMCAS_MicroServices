@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogService", "BlogService\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScheduleService", "ScheduleService\ScheduleService.csproj", "{2F793A25-3814-44A7-8C4C-1A7A154023FE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIGateWay", "APIGateWay\APIGateWay.csproj", "{5A7A22ED-A6F1-4DB7-B085-F4686835ADCA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{2F793A25-3814-44A7-8C4C-1A7A154023FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F793A25-3814-44A7-8C4C-1A7A154023FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F793A25-3814-44A7-8C4C-1A7A154023FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A7A22ED-A6F1-4DB7-B085-F4686835ADCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A7A22ED-A6F1-4DB7-B085-F4686835ADCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A7A22ED-A6F1-4DB7-B085-F4686835ADCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A7A22ED-A6F1-4DB7-B085-F4686835ADCA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -203,6 +203,10 @@ namespace MedicineService.Controllers
             foreach (var record in records)
             {
                 ExaminatedRecordResponse examinatedRecord = _mapper.Map<ExaminatedRecordResponse>(record);
+                examinatedRecord.DoctorName = recordService.GetPeopleInfo(record.DoctorId).FirstName +
+                                              " " + recordService.GetPeopleInfo(record.DoctorId).LastName;
+                examinatedRecord.PatientName = recordService.GetPeopleInfo(record.PatientId).FirstName +
+                                              " " + recordService.GetPeopleInfo(record.PatientId).LastName;
                 recordList.Add(examinatedRecord);
             }
             response.Data = recordList;
@@ -224,6 +228,10 @@ namespace MedicineService.Controllers
                 if (record.IsActive)
                 {
                     ExaminatedRecordResponse examinatedRecord = _mapper.Map<ExaminatedRecordResponse>(record);
+                    examinatedRecord.DoctorName = recordService.GetPeopleInfo(record.DoctorId).FirstName +
+                                              " " + recordService.GetPeopleInfo(record.DoctorId).LastName;
+                    examinatedRecord.PatientName = recordService.GetPeopleInfo(record.PatientId).FirstName +
+                                                  " " + recordService.GetPeopleInfo(record.PatientId).LastName;
                     recordList.Add(examinatedRecord);
                 }
             }
@@ -239,17 +247,21 @@ namespace MedicineService.Controllers
         public ActionResult<ServiceResponse<List<ExaminatedRecordResponse>>> SearchRecordByName(string name)
         {
             var response = new ServiceResponse<List<ExaminatedRecordResponse>>();
-            var codeList = new List<ExaminatedRecordResponse>();
-            var codes = recordService.SearchRecordByName(name);
-            foreach (var code in codes)
+            var recordList = new List<ExaminatedRecordResponse>();
+            var records = recordService.SearchRecordByName(name);
+            foreach (var record in records)
             {
-                ExaminatedRecordResponse examinatedRecord = _mapper.Map<ExaminatedRecordResponse>(code);
-                codeList.Add(examinatedRecord);
+                ExaminatedRecordResponse examinatedRecord = _mapper.Map<ExaminatedRecordResponse>(record);
+                examinatedRecord.DoctorName = recordService.GetPeopleInfo(record.DoctorId).FirstName +
+                                              " " + recordService.GetPeopleInfo(record.DoctorId).LastName;
+                examinatedRecord.PatientName = recordService.GetPeopleInfo(record.PatientId).FirstName +
+                                              " " + recordService.GetPeopleInfo(record.PatientId).LastName;
+                recordList.Add(examinatedRecord);
             }
-            response.Data = codeList;
+            response.Data = recordList;
             response.Status = 200;
             response.Message = "Search record by name: " + name;
-            response.TotalDataList = codeList.Count;
+            response.TotalDataList = recordList.Count;
             return response;
         }
 
@@ -259,12 +271,16 @@ namespace MedicineService.Controllers
         {
             var response = new ServiceResponse<List<ExaminatedRecordResponse>>();
             var recordList = new List<ExaminatedRecordResponse>();
-            var codes = recordService.SearchRecordByName(name);
-            foreach (var code in codes)
+            var records = recordService.SearchRecordByName(name);
+            foreach (var record in records)
             {
-                if (code.IsActive)
+                if (record.IsActive)
                 {
-                    ExaminatedRecordResponse examinatedRecord = _mapper.Map<ExaminatedRecordResponse>(code);
+                    ExaminatedRecordResponse examinatedRecord = _mapper.Map<ExaminatedRecordResponse>(record);
+                    examinatedRecord.DoctorName = recordService.GetPeopleInfo(record.DoctorId).FirstName +
+                                              " " + recordService.GetPeopleInfo(record.DoctorId).LastName;
+                    examinatedRecord.PatientName = recordService.GetPeopleInfo(record.PatientId).FirstName +
+                                                  " " + recordService.GetPeopleInfo(record.PatientId).LastName;
                     recordList.Add(examinatedRecord);
                 }
             }
