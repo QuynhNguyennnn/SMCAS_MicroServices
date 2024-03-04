@@ -44,6 +44,8 @@ namespace UserService
 
             CreateMap<Chat,ChatResponse>();
             CreateMap<ChatResponse, Chat>();
+            CreateMap<ChatHistory, SaveChatRequest>();
+            CreateMap<SaveChatRequest, ChatHistory>();
         }
     }
 }
