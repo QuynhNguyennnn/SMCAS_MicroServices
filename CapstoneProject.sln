@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService", "UserService\UserService.csproj", "{62705E1C-9807-4029-AC75-3475F1FA91AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserService", "UserService\UserService.csproj", "{62705E1C-9807-4029-AC75-3475F1FA91AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicineService", "MedicineService\MedicineService.csproj", "{60F6F553-AB28-4C62-B265-48EBE64B6C5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicineService", "MedicineService\MedicineService.csproj", "{60F6F553-AB28-4C62-B265-48EBE64B6C5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogService", "BlogService\BlogService.csproj", "{9FF5C804-BA21-437B-87A9-55E6C4532F3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogService", "BlogService\BlogService.csproj", "{9FF5C804-BA21-437B-87A9-55E6C4532F3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleService", "ScheduleService\ScheduleService.csproj", "{2F793A25-3814-44A7-8C4C-1A7A154023FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScheduleService", "ScheduleService\ScheduleService.csproj", "{2F793A25-3814-44A7-8C4C-1A7A154023FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

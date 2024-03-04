@@ -34,7 +34,7 @@ namespace UserService.DAOs
                 {
                     chat.IsActive = true;
                     chat.ChatDate = DateTime.Now;
-                    chat.ChatDate = DateTime.Now;
+                    chat.StartTime = DateTime.Now;
 
                     context.Chats.Add(chat);
                     context.SaveChanges();
