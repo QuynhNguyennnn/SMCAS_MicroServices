@@ -95,5 +95,22 @@ namespace UserService.DAOs
                 throw new Exception(ex.Message);
             }
         }
+
+        public static ChatHistory SaveChat(ChatHistory chatHistory)
+        {
+            try
+            {
+                using (var context = new SepprojectDbV7Context())
+                {
+                    chatHistory.IsActive = true;
+                    context.ChatHistories.Add(chatHistory);
+                    context.SaveChanges();
+                    return chatHistory;
+                }
+            } catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
