@@ -9,5 +9,7 @@ namespace UserService.Services
         public Chat CreateChatRoom(int patientId, int doctorId) => ChatDAO.CreateChatRoom(patientId,doctorId);
         public Chat GetChat(int patientId, int doctorId) => ChatDAO.GetChat(patientId,doctorId);
         public Chat EndChat(int chatId) => ChatDAO.EndChat(chatId);
+
+        public ChatHistory SaveChat(ChatHistory chatHistory) => ChatDAO.SaveChat(chatHistory);
     }
 }

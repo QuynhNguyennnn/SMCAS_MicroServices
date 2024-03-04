@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Runtime.InteropServices;
 using UserService.DTOs;
 using UserService.Models;
 using UserService.Services;
@@ -62,6 +63,33 @@ namespace UserService.Controllers
             response.Data = chat;
             response.Message = "End Chat";
             response.Status = 200;
+            response.TotalDataList = 1;
+            return response;
+        }
+
+        [HttpPost("Save")]
+        public ActionResult<ServiceResponse<ChatHistory>> SaveChat(SaveChatRequest request)
+        {
+            var response = new ServiceResponse<ChatHistory>();
+            request.SendingTime = DateTime.Now;
+            var chat = new ChatHistory();
+            chat.ChatId = request.ChatId;
+            chat.ReceiverId = request.ReceiverId;
+            chat.SenderId = request.SenderId;
+            chat.Message = request.Message;
+            chat.SendingTime = DateTime.Now;
+            var history = service.SaveChat(chat);
+            if (history == null)
+            {
+                response.Data = history;
+                response.Status = 200;
+                response.Message = "Save chat failed.";
+                response.TotalDataList = 1;
+                return BadRequest(response);
+            }
+            response.Data = history;
+            response.Status = 200;
+            response.Message = "Save chat successful.";
             response.TotalDataList = 1;
             return response;
         }
