@@ -47,6 +47,26 @@ namespace BlogService.Controllers
             return response;
         }
 
+        [HttpGet("ListAdmin")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<List<BlogResponse>>> GetBlogListAdmin()
+        {
+            var response = new ServiceResponse<List<BlogResponse>>();
+            var blogResponseList = new List<BlogResponse>();
+            var blogList = service.GetBlogListAdmin();
+            foreach (var blog in blogList)
+            {
+                BlogResponse blogResponse = _mapper.Map<BlogResponse>(blog);
+                blogResponseList.Add(blogResponse);
+            }
+
+            response.Data = blogResponseList;
+            response.Message = "Get Blog List";
+            response.Status = 200;
+            response.TotalDataList = blogResponseList.Count;
+            return response;
+        }
+
         [HttpGet("id")]
         public async Task<ActionResult<ServiceResponse<BlogResponse>>> GetBlogById(int id)
         {
@@ -61,8 +81,23 @@ namespace BlogService.Controllers
             return response;
         }
 
+        [HttpGet("DetailAdmin/id")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ServiceResponse<BlogResponse>>> GetBlogByIdAdmin(int id)
+        {
+            var blog = service.GetBlogByIdAdmin(id);
+            var blogResponse = _mapper.Map<BlogResponse>(blog);
+
+            var response = new ServiceResponse<BlogResponse>();
+            response.Data = blogResponse;
+            response.Message = "Get Blog Detail By Admin";
+            response.Status = 200;
+            response.TotalDataList = 1;
+            return response;
+        }
+
         [HttpPost("Create")]
-        [Authorize(Roles = "Medical Staff, Admin")]
+        [Authorize(Policy = "BlogFullAccess")]
         public ActionResult<ServiceResponse<BlogResponse>> CreateBlog(AddBlogRequest addBlog)
         {
             Blog blog = _mapper.Map<Blog>(addBlog);
@@ -70,13 +105,13 @@ namespace BlogService.Controllers
             var blogResponse = _mapper.Map<BlogResponse>(blog);
             var response = new ServiceResponse<BlogResponse>();
             response.Data = blogResponse;
-            response.Message = "Create Blog";
+            response.Message = "Create Successful";
             response.Status = 200;
             return response;
         }
 
         [HttpPut("Update")]
-        [Authorize(Roles = "Medical Staff, Admin")]
+        [Authorize(Policy = "BlogFullAccess")]
         public ActionResult<ServiceResponse<BlogResponse>> UpdateBlog(UpdateBlogResquest updateBlog)
         {
             Blog blog = _mapper.Map<Blog>(updateBlog);
@@ -85,20 +120,20 @@ namespace BlogService.Controllers
             var blogResponse = _mapper.Map<BlogResponse>(blog);
             var response = new ServiceResponse<BlogResponse>();
             response.Data = blogResponse;
-            response.Message = "Update Blog";
+            response.Message = "Update Successful";
             response.Status = 200;
             return response;
         }
 
         [HttpPut("Delete")]
-        [Authorize(Roles = "Medical Staff, Admin")]
+        [Authorize(Policy = "BlogFullAccess")]
         public ActionResult<ServiceResponse<BlogResponse>> DeleteBlog(int id)
         {
             Blog blog = service.DeleteBlog(id);
             var blogResponse = _mapper.Map<BlogResponse>(blog);
             var response = new ServiceResponse<BlogResponse>();
             response.Data = blogResponse;
-            response.Message = "Delete Blog";
+            response.Message = "Delete Successful";
             response.Status = 200;
             return response;
         }
@@ -117,6 +152,26 @@ namespace BlogService.Controllers
 
             response.Data = blogResponseList;
             response.Message = "Search Blog By Title";
+            response.Status = 200;
+            response.TotalDataList = blogResponseList.Count;
+            return response;
+        }
+
+        [HttpGet("SearchForAdmin/title")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<List<BlogResponse>>> SearchBlogForAdminByTitle(string? title)
+        {
+            var response = new ServiceResponse<List<BlogResponse>>();
+            var blogResponseList = new List<BlogResponse>();
+            var blogList = service.GetBlogsByTitleAdmin(title);
+            foreach (var blog in blogList)
+            {
+                BlogResponse blogResponse = _mapper.Map<BlogResponse>(blog);
+                blogResponseList.Add(blogResponse);
+            }
+
+            response.Data = blogResponseList;
+            response.Message = "Search Blog By Title Admin";
             response.Status = 200;
             response.TotalDataList = blogResponseList.Count;
             return response;

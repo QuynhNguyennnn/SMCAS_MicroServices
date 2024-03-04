@@ -15,9 +15,9 @@ public partial class Chat
 
     public DateTime StartTime { get; set; }
 
-    public DateTime EndTime { get; set; }
+    public DateTime? EndTime { get; set; }
 
-    public string TotalTime { get; set; } = null!;
+    public string? TotalTime { get; set; }
 
     public bool IsActive { get; set; }
 

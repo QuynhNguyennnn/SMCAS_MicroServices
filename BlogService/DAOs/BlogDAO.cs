@@ -10,7 +10,7 @@ namespace BlogService.DAOs
             List<Blog> blogs = new List<Blog>();
             try
             {
-                using (var context = new SepprojectDbV4Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var blogList = context.Blogs.ToList();
                     foreach (var blog in blogList)
@@ -29,14 +29,48 @@ namespace BlogService.DAOs
             return blogs;
         }
 
+        public static List<Blog> GetBlogListAdmin()
+        {
+            List<Blog> blogs = new List<Blog>();
+            try
+            {
+                using (var context = new SepprojectDbV7Context())
+                {
+                    var blogList = context.Blogs.ToList();
+                    return blogList;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public static Blog GetBlogById(int id)
         {
             Blog blog = new Blog();
             try
             {
-                using (var context = new SepprojectDbV4Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     blog = context.Blogs.SingleOrDefault(b => (b.BlogId == id) && b.IsActive);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return blog;
+        }
+
+        public static Blog GetBlogByIdAdmin(int id)
+        {
+            Blog blog = new Blog();
+            try
+            {
+                using (var context = new SepprojectDbV7Context())
+                {
+                    blog = context.Blogs.SingleOrDefault(b => b.BlogId == id);
                 }
             }
             catch (Exception ex)
@@ -50,7 +84,7 @@ namespace BlogService.DAOs
         {
             try
             {
-                using (var context = new SepprojectDbV4Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     blog.IsActive = true;
 
@@ -71,12 +105,14 @@ namespace BlogService.DAOs
             Blog updateBlog = new Blog();
             try
             {
-                using (var context = new SepprojectDbV4Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var blogCheck = context.Blogs.FirstOrDefault(r => r.BlogId == blog.BlogId && r.IsActive);
                     if (blogCheck != null)
                     {
                         updateBlog = blog;
+                        updateBlog.WritingDate = blogCheck.WritingDate;
+                        updateBlog.PublishedDate = blogCheck.PublishedDate;
                         updateBlog.UserId = blogCheck.UserId;
                         updateBlog.IsActive = blogCheck.IsActive;
                         context.Entry(blogCheck).CurrentValues.SetValues(updateBlog);
@@ -99,7 +135,7 @@ namespace BlogService.DAOs
         {
             try
             {
-                using (var context = new SepprojectDbV4Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var _blog = context.Blogs.SingleOrDefault(b => b.BlogId == id && b.IsActive);
                     if (_blog != null)
@@ -129,11 +165,32 @@ namespace BlogService.DAOs
             List<Blog> blogs = new List<Blog>();
             try
             {
-                using (var context = new SepprojectDbV4Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     blogs = context.Blogs
                         .Where(blog =>
                             blog.IsActive &&
+                            (blog.Title.Contains(title)
+                            ))
+                        .ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return blogs;
+        }
+
+        public static List<Blog> SearchBlogByTitleAdmin(string title)
+        {
+            List<Blog> blogs = new List<Blog>();
+            try
+            {
+                using (var context = new SepprojectDbV7Context())
+                {
+                    blogs = context.Blogs
+                        .Where(blog =>
                             (blog.Title.Contains(title)
                             ))
                         .ToList();

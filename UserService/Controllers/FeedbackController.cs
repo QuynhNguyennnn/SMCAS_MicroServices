@@ -41,10 +41,45 @@ namespace UserService.Controllers
             return response;
         }
 
+        [HttpGet("ListAdmin")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<List<FeedbackResponse>>> GetFeedbackListAdmin()
+        {
+            var response = new ServiceResponse<List<FeedbackResponse>>();
+            var feedbackResponseList = new List<FeedbackResponse>();
+            var feedbackList = service.GetFeedbacksAdmin();
+            foreach (var feedback in feedbackList)
+            {
+                FeedbackResponse feedbackResponse = _mapper.Map<FeedbackResponse>(feedback);
+                feedbackResponseList.Add(feedbackResponse);
+            }
+
+            response.Data = feedbackResponseList;
+            response.Message = "Get Feedback List By Admin";
+            response.Status = 200;
+            response.TotalDataList = feedbackResponseList.Count;
+            return response;
+        }
+
         [HttpGet("id")]
         public async Task<ActionResult<ServiceResponse<FeedbackResponse>>> GetFeedbackById(int id)
         {
             var feedback = service.GetFeedbackById(id);
+            var feedbackResponse = _mapper.Map<FeedbackResponse>(feedback);
+
+            var response = new ServiceResponse<FeedbackResponse>();
+            response.Data = feedbackResponse;
+            response.Message = "Get Feedback Detail";
+            response.Status = 200;
+            response.TotalDataList = 1;
+            return response;
+        }
+
+        [HttpGet("DetailAdmin/id")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ServiceResponse<FeedbackResponse>>> GetFeedbackByIdAdmin(int id)
+        {
+            var feedback = service.GetFeedbackByIdAdmin(id);
             var feedbackResponse = _mapper.Map<FeedbackResponse>(feedback);
 
             var response = new ServiceResponse<FeedbackResponse>();
@@ -75,7 +110,7 @@ namespace UserService.Controllers
         }
 
         [HttpGet("patient/id")]
-        [Authorize(Roles = "Admin, Staff, Student")]
+        [Authorize(Policy = "FeedBackView,CreateOrFullAccess")]
         public async Task<ActionResult<ServiceResponse<List<FeedbackResponse>>>> GetFeedbackByPatientId(int id)
         {
             var response = new ServiceResponse<List<FeedbackResponse>>();
@@ -95,7 +130,7 @@ namespace UserService.Controllers
         }
 
         [HttpPost("Create")]
-        [Authorize(Roles = "Admin, Staff, Student")]
+        [Authorize(Policy = "FeedBackCreateOrFullAccess")]
         public ActionResult<ServiceResponse<FeedbackResponse>> CreateFeedback(AddFeedbackRequest addFeedback)
         {
             Feedback feedback = _mapper.Map<Feedback>(addFeedback);
@@ -109,7 +144,7 @@ namespace UserService.Controllers
         }
 
         [HttpPut("Update")]
-        [Authorize(Roles = "Admin, Staff, Student")]
+        [Authorize(Policy = "FeedBackCreateOrFullAccess")]
         public ActionResult<ServiceResponse<FeedbackResponse>> UpdateFeedback(UpdateFeedbackRequest updateFeedback)
         {
             Feedback feedback = _mapper.Map<Feedback>(updateFeedback);
@@ -124,7 +159,7 @@ namespace UserService.Controllers
         }
 
         [HttpPut("Delete")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "FeedBackFullAccess")]
         public ActionResult<ServiceResponse<FeedbackResponse>> DeleteFeedback(DeleteFeedbackRequest deleteFeedback)
         {
             Feedback feedback = _mapper.Map<Feedback>(deleteFeedback);
