@@ -296,7 +296,8 @@ namespace MedicineService.Controllers
         public ActionResult<ServiceResponse<List<StatisticResponse>>> StatisticRecordUsingDoctorId()
         {
             var response = new ServiceResponse<List<StatisticResponse>>();
-            var recordList = new List<StatisticResponse>();
+            var temp = new List<User>();
+            var tempR = new List<ExaminatedRecord>();
             var listFinal = new List<StatisticResponse>();
             var doctors = recordService.GetDoctorList();
             var records = recordService.GetAll();
@@ -309,26 +310,29 @@ namespace MedicineService.Controllers
             }
             else
             {
-                foreach (var item in records)
+                foreach (var user in doctors)
                 {
-                    var statistic = new StatisticResponse();
-                    var doctor = recordService.GetPeopleInfo(item.DoctorId);
-                    if (doctor == null)
+                    if (user.IsActive)
                     {
-                        continue;
-                    }
-                    else
-                    {
-                        recordList.Add(statistic);
+                        temp.Add(user);
                     }
                 }
+                doctors = temp;
+                foreach (var record in records)
+                {
+                    if (record.IsActive)
+                    {
+                        tempR.Add(record);
+                    }
+                }
+                records = tempR;
                 for (int i = 0; i <= doctors.Count; i++)
                 {
                     while (i < doctors.Count)
                     {
                         int recordCount = 0;
                         var statistic = new StatisticResponse();
-                        for (int j = 0; j < recordList.Count; j++)
+                        for (int j = 0; j < records.Count; j++)
                         {
                             if (records[j].DoctorId == doctors[i].UserId)
                             {
@@ -356,6 +360,81 @@ namespace MedicineService.Controllers
                 response.TotalDataList = listFinal.Count;
                 return response;
             }
+        }
+
+        [HttpGet("SurvivalRate")]
+        [Authorize(Policy = "ExaminatedRecordFullAccess")]
+        public ActionResult<ServiceResponse<List<SurvivalRateResponse>>> AverageSurvivalRate()
+        {
+            var response = new ServiceResponse<List<SurvivalRateResponse>>();
+            var averageList = new List<SurvivalRateResponse>();
+            var records = recordService.GetAll();
+            var tempList = new List<ExaminatedRecord>();
+            foreach (var record in records)
+            {
+                if (record.IsActive)
+                {
+                    tempList.Add(record);
+                }
+            }
+            records = tempList;
+            int i = 1;
+            while(i < 5)
+            {
+                var rate = new SurvivalRateResponse();
+                int count = 0;
+                decimal? total = 0;
+                if (i == 1)
+                {
+                    rate.RateName = "Respiration Rate";
+                    foreach (var record in records)
+                    {
+                        count++;
+                        total += record.RespirationRate;
+                    }
+                    rate.RateAverage = (float)total / count;
+                    averageList.Add(rate);
+                }
+                else if (i == 2)
+                {
+                    rate.RateName = "Temperature";
+                    foreach (var record in records)
+                    {
+                        count++;
+                        total += record.Temperature;
+                    }
+                    rate.RateAverage = (float)total / count;
+                    averageList.Add(rate);
+                }
+                else if (i == 3)
+                {
+                    rate.RateName = "Blood Pressure";
+                    foreach (var record in records)
+                    {
+                        count++;
+                        total += record.BloodPressure;
+                    }
+                    rate.RateAverage = (float)total / count;
+                    averageList.Add(rate);
+                }
+                else if (i == 4)
+                {
+                    rate.RateName = "SpO2";
+                    foreach (var record in records)
+                    {
+                        count++;
+                        total += record.SpO2;
+                    }
+                    rate.RateAverage = (float)total / count;
+                    averageList.Add(rate);
+                }
+                i++;
+            }
+            response.Data = averageList;
+            response.Status = 200;
+            response.Message = "Caculate average of survival rate";
+            response.TotalDataList = averageList.Count;
+            return response;
         }
     }
 }
