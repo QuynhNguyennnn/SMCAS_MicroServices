@@ -975,5 +975,76 @@ namespace UserService.Controllers
             }
             return response;
         }
+
+        [HttpGet("StatisticRole")]
+        [Authorize(Policy = "UserViewOrFullAccess")]
+        public ActionResult<ServiceResponse<List<UserStatisticResponse>>> StatisticUserByRole()
+        {
+            var response = new ServiceResponse<List<UserStatisticResponse>>();
+            var userTempList = new List<User>();
+            var roleTempList = new List<Role>();
+            var finalList = new List<UserStatisticResponse>();
+            var userList = userService.GetUsers();
+            var roleList = roleService.GetRoles();
+            if (userList == null)
+            {
+                response.Data = null;
+                response.Message = "No user created.";
+                response.Status = 200;
+                return response;
+            }
+            else
+            {
+                foreach (var user in userList)
+                {
+                    if (user.IsActive)
+                    {
+                        userTempList.Add(user);
+                    }
+                }
+                userList = userTempList;
+                foreach (var role in roleList)
+                {
+                    if (role.IsActive)
+                    {
+                        roleTempList.Add(role);
+                    }
+                }
+                roleList = roleTempList;
+                for (int i = 0; i <= roleList.Count; i++)
+                {
+                    while (i < roleList.Count)
+                    {
+                        int recordCount = 0;
+                        var statistic = new UserStatisticResponse();
+                        for (int j = 0; j < userList.Count; j++)
+                        {
+                            if (roleList[i].RoleId == userList[j].RoleId)
+                            {
+                                recordCount++;
+                            }
+                        }
+                        if (recordCount > 0)
+                        {
+                            statistic.RoleId = roleList[i].RoleId;
+                            statistic.RoleName = roleService.GetRoleById(roleList[i].RoleId).RoleName;
+                            statistic.NumberOfUser = recordCount;
+                            statistic.Percentage = (float) recordCount/userList.Count;
+                            finalList.Add(statistic);
+                            i++;
+                        }
+                        else
+                        {
+                            i++;
+                        }
+                    }
+                }
+                response.Data = finalList;
+                response.Message = "Statistic user by role.";
+                response.Status = 200;
+                response.TotalDataList = finalList.Count;
+                return response;
+            }
+        }
     }
 }

@@ -90,6 +90,43 @@ namespace MedicineService.Controllers
             return response;
         }
 
+        [HttpGet("GetList/id")]
+        [Authorize(Policy = "ExaminatedRecordViewOrFullAccess")]
+        public ActionResult<ServiceResponse<ListUpdateMedicine>> GetListMedicineByRecordId(int id)
+        {
+            var response = new ServiceResponse<ListUpdateMedicine>();
+            var recordList = new ListUpdateMedicine();
+            var list = new List<UpdateMedicine>();
+            var records = recordService.SearchByRecordId(id);
+            foreach (var record in records)
+            {
+                var medicine = new UpdateMedicine();
+                recordList.RecordId = record.RecordId;
+                medicine.Meid = record.Meid;
+                medicine.MedicineId = record.MedicineId;
+                medicine.Quantity = record.Quantity;
+                medicine.IsActive = record.IsActive;
+                list.Add(medicine);
+            }
+            recordList.medicineUpdatedList = list;
+            if (recordList.medicineUpdatedList.Count > 0)
+            {
+                response.Data = recordList;
+                response.Status = 200;
+                response.Message = "Get list medicine by record id: " + id;
+                response.TotalDataList = recordList.medicineUpdatedList.Count;
+                return response;
+            }
+            else
+            {
+                response.Data = null;
+                response.Status = 400;
+                response.Message = "Get list medicine by record id: " + id;
+                response.TotalDataList = 0;
+                return response;
+            }
+        }
+
         [HttpPost]
         [Authorize(Policy = "ExaminatedRecordFullAccess")]
         public ActionResult<ServiceResponse<MedicineExaminatedRecordResponse>> CreateMedicineExaminatedRecord(CreateMedicineExaminatedRecordRequest request)
