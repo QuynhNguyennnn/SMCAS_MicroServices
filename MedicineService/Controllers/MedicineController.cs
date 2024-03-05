@@ -14,9 +14,10 @@ namespace MedicineService.Controllers
     public class MedicineController : ControllerBase
     {
         private IMedicineService medicineService = new Services.MedicineService();
-        private IUnitService unitService = new Services.UnitService();
-        private IMedicineCodeService medicineCodeService = new Services.MedicineCodeService();
+        private IUnitService unitService = new UnitService();
+        private IMedicineCodeService medicineCodeService = new MedicineCodeService();
         private IExaminatedRecordService recordService = new ExaminatedRecordService();
+        private IMedicineCodeService codeService = new MedicineCodeService();
 
         public readonly IMapper _mapper;
         public readonly IConfiguration _configuration;
@@ -283,6 +284,75 @@ namespace MedicineService.Controllers
             response.Status = 200;
             response.TotalDataList = 1;
             return response;
+        }
+
+        [HttpGet("Statistic")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<List<MedicineStatisticResponse>>> StatisticMedicineByCode()
+        {
+            var response = new ServiceResponse<List<MedicineStatisticResponse>>();
+            var medicineTemp = new List<Medicine>();
+            var codeTemp = new List<MedicineCode>();
+            var finalList = new List<MedicineStatisticResponse>();
+            var codeList = codeService.GetMedicineCodes();
+            var medicineList = medicineService.GetMedicines();
+            if (medicineList == null)
+            {
+                response.Data = null;
+                response.Message = "No medicine created.";
+                response.Status = 200;
+                return response;
+            }
+            else
+            {
+                foreach (var medicine in medicineList)
+                {
+                    if (medicine.IsActive)
+                    {
+                        medicineTemp.Add(medicine);
+                    }
+                }
+                medicineList = medicineTemp;
+                foreach (var code in codeList)
+                {
+                    if (code.IsActive)
+                    {
+                        codeTemp.Add(code);
+                    }
+                }
+                codeList = codeTemp;
+                for (int i = 0; i <= codeList.Count; i++)
+                {
+                    while (i < codeList.Count)
+                    {
+                        int recordCount = 0;
+                        var statistic = new MedicineStatisticResponse();
+                        for (int j = 0; j < medicineList.Count; j++)
+                        {
+                            if (codeList[i].CodeId == medicineList[j].CodeId)
+                            {
+                                recordCount++;
+                            }
+                        }
+                        if (recordCount > 0)
+                        {
+                            statistic.CodeName = codeService.GetMedicineCodeById(codeList[i].CodeId).CodeName;
+                            statistic.Average = (float) recordCount/medicineList.Count;
+                            finalList.Add(statistic);
+                            i++;
+                        }
+                        else
+                        {
+                            i++;
+                        }
+                    }
+                }
+                response.Data = finalList;
+                response.Message = "Statistic medicine by medicine code.";
+                response.Status = 200;
+                response.TotalDataList = finalList.Count;
+                return response;
+            }
         }
     }
 }
