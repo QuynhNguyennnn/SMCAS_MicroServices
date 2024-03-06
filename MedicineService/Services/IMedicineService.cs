@@ -1,4 +1,5 @@
-﻿using MedicineService.Models;
+﻿using MedicineService.DTOs;
+using MedicineService.Models;
 
 namespace MedicineService.Services
 {
@@ -15,5 +16,6 @@ namespace MedicineService.Services
         List<Medicine> GetMedicinesBynameAdmin(string name);
         int CountActiveMedicine();
         int CountInActiveMedicine();
+        List<StatisticNumberOfMedicine> StatisticNumberOfMedicine();
     }
 }

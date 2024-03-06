@@ -1,4 +1,5 @@
-﻿using MedicineService.Models;
+﻿using MedicineService.DTOs;
+using MedicineService.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace MedicineService.DAOs
@@ -237,6 +238,20 @@ namespace MedicineService.DAOs
                 throw new Exception(ex.Message);
             }
             return count;
+        }
+
+        public static List<StatisticNumberOfMedicine> StatisticNumberOfMedicine()
+        {
+            List<StatisticNumberOfMedicine> listResponse = new List<StatisticNumberOfMedicine>();
+            var listMedicine = GetMedicines();
+            foreach (var medicine in listMedicine)
+            {
+                StatisticNumberOfMedicine statistic = new StatisticNumberOfMedicine();
+                statistic.MedicineName = medicine.MedicineName;
+                statistic.Quantity = medicine.Quantity;
+                listResponse.Add(statistic);
+            }
+            return listResponse;
         }
     }
 }

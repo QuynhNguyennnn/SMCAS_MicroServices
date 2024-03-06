@@ -1,4 +1,5 @@
 ﻿using MedicineService.DAOs;
+using MedicineService.DTOs;
 using MedicineService.Models;
 
 namespace MedicineService.Services
@@ -26,5 +27,7 @@ namespace MedicineService.Services
         public int CountActiveMedicine() => MedicineDAO.CountActiveMedicine();
         
         public int CountInActiveMedicine()=> MedicineDAO.CountInActiveMedicine();
+
+        public List<StatisticNumberOfMedicine> StatisticNumberOfMedicine() => MedicineDAO.StatisticNumberOfMedicine();
     }
 }

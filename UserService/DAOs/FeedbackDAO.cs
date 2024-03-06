@@ -1,5 +1,8 @@
 ﻿using UserService.Models;
 using System.Linq;
+using UserService.DTOs;
+using System.Runtime.Intrinsics.X86;
+
 namespace UserService.DAOs
 {
     public class FeedbackDAO
@@ -224,12 +227,15 @@ namespace UserService.DAOs
             {
                 using (var context = new SepprojectDbV7Context())
                 {
-                    var feedbackList = context.Feedbacks.ToList();
-                    foreach (var feedback in feedbackList)
+                    var feedbackList = context.Feedbacks.Where(f => f.DoctorId == doctorId).ToList();
+                    if (feedbackList.Any())
                     {
-                        avg += feedback.Rating;
+                        foreach (var feedback in feedbackList)
+                        {
+                            avg += feedback.Rating;
+                        }
+                        avg = avg / feedbackList.Count;
                     }
-                    avg = avg / feedbackList.Count;
                 }
             }
             catch (Exception ex)
@@ -237,6 +243,33 @@ namespace UserService.DAOs
                 throw new Exception(ex.Message);
             }
             return avg;
+        }
+
+        public static List<StatisticFeedbackOfDoctor> Statistic()
+        {
+            List<StatisticFeedbackOfDoctor> listResponse = new List<StatisticFeedbackOfDoctor>();
+            List<User> listDoctor = UserDAO.GetDoctors();
+            try
+            {
+                foreach (var doctor in listDoctor)
+                {
+                    using (var context = new SepprojectDbV7Context())
+                    {
+                        int totalFeedback = context.Feedbacks.Where(f => f.DoctorId == doctor.UserId).ToList().Count;
+                        float avg = GetAvgOfDoctor(doctor.UserId);
+                        StatisticFeedbackOfDoctor statistic = new StatisticFeedbackOfDoctor();
+                        statistic.TotalFeedback = totalFeedback;
+                        statistic.Avg = avg;
+                        statistic.DoctorName = doctor.FirstName + " " + doctor.LastName;
+                        listResponse.Add(statistic);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return listResponse;
         }
     }
 }

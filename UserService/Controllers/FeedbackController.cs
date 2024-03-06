@@ -183,5 +183,17 @@ namespace UserService.Controllers
             response.Status = 200;
             return response;
         }
+
+        [HttpGet("StatisticFeedbackOfDoctor")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<List<StatisticFeedbackOfDoctor>>> Statistic()
+        {
+            var response = new ServiceResponse<List<StatisticFeedbackOfDoctor>>();
+            var statistic = service.Statistic();
+            response.Data = statistic;
+            response.Message = "Statistic Number Feeback Of Doctor";
+            response.Status = 200;
+            return response;
+        }
     }
 }
