@@ -540,6 +540,19 @@
       "UpstreamPathTemplate": "/gateway/Medicine/Statistic",
       "UpstreamHttpMethod": [ "GET" ]
     },
+    //StatisticNumberOfMedicine
+    {
+      "DownstreamPathTemplate": "/api/Medicine/StatisticNumberOfMedicine",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Medicine/StatisticNumberOfMedicine",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
     //MedicineExaminatedrecord
     //getAll
     {
@@ -1518,6 +1531,19 @@
         }
       ],
       "UpstreamPathTemplate": "/gateway/Feedback/avg/doctorId?id={id}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    //Statistic
+    {
+      "DownstreamPathTemplate": "/api/Feedback/StatisticFeedbackOfDoctor",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5207
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Feedback/StatisticFeedbackOfDoctor",
       "UpstreamHttpMethod": [ "GET" ]
     },
     //Role
