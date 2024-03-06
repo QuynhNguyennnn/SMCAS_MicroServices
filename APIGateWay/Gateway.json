@@ -527,6 +527,19 @@
       "UpstreamPathTemplate": "/gateway/Medicine/CountInActiveMedicine",
       "UpstreamHttpMethod": [ "GET" ]
     },
+    //StatisticMedicineByCode
+    {
+      "DownstreamPathTemplate": "/api/Medicine/Statistic",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Medicine/Statistic",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
     //MedicineExaminatedrecord
     //getAll
     {
@@ -657,6 +670,19 @@
       ],
       "UpstreamPathTemplate": "/gateway/MedicineExaminatedRecord/UpdateList",
       "UpstreamHttpMethod": [ "PUT" ]
+    },
+    //GetListMedicineByRecordId
+    {
+      "DownstreamPathTemplate": "/api/MedicineExaminatedRecord/GetList/id?id={id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/MedicineExaminatedRecord/GetList/id?id={id}",
+      "UpstreamHttpMethod": [ "GET" ]
     },
     //Unit
     //GetAllUnit
@@ -1350,6 +1376,19 @@
       "UpstreamPathTemplate": "/gateway/Authentication/Create",
       "UpstreamHttpMethod": [ "POST" ]
     },
+    //StatisticUserByRole
+    {
+      "DownstreamPathTemplate": "/api/Authentication/StatisticRole",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5207
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Authentication/StatisticRole",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
     //Feedback
     //GetList
     {
@@ -1572,6 +1611,72 @@
       ],
       "UpstreamPathTemplate": "/gateway/Role/Staff",
       "UpstreamHttpMethod": [ "GET" ]
+    },
+    //Chat
+    //CheckExist
+    {
+      "DownstreamPathTemplate": "/api/Chat/CheckExist",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5207
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Chat/CheckExist",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    //CreateChatRoom
+    {
+      "DownstreamPathTemplate": "/api/Chat/CreateChatRoom",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5207
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Chat/CreateChatRoom",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    //GetChat
+    {
+      "DownstreamPathTemplate": "/api/Chat/GetChat",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5207
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Chat/GetChat",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    //EndChat
+    {
+      "DownstreamPathTemplate": "/api/Chat/EndChat",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5207
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Chat/EndChat",
+      "UpstreamHttpMethod": [ "PUT" ]
+    },
+    //SaveChat
+    {
+      "DownstreamPathTemplate": "/api/Chat/Save",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5207
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Chat/Save",
+      "UpstreamHttpMethod": [ "POST" ]
     }
   ]
 }
