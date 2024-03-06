@@ -1,4 +1,5 @@
 ﻿using UserService.DAOs;
+using UserService.DTOs;
 using UserService.Models;
 
 namespace UserService.Services
@@ -15,5 +16,6 @@ namespace UserService.Services
         public Feedback UpdateFeedback(Feedback feedback) => FeedbackDAO.UpdateFeedback(feedback);
         public Feedback DeleteFeedback(Feedback feedback) => FeedbackDAO.DeleteFeedback(feedback);
         public float GetAvgOfDoctor(int id) => FeedbackDAO.GetAvgOfDoctor(id);
+        public List<StatisticFeedbackOfDoctor> Statistic() => FeedbackDAO.Statistic();
     }
 }

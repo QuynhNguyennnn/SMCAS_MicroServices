@@ -1,4 +1,5 @@
-﻿using UserService.Models;
+﻿using UserService.DTOs;
+using UserService.Models;
 
 namespace UserService.Services
 {
@@ -14,5 +15,6 @@ namespace UserService.Services
         Feedback UpdateFeedback(Feedback feedback);
         Feedback DeleteFeedback(Feedback feedback);
         float GetAvgOfDoctor(int doctorId);
+        List<StatisticFeedbackOfDoctor> Statistic();
     }
 }
