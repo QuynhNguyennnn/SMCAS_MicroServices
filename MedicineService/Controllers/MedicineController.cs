@@ -354,5 +354,18 @@ namespace MedicineService.Controllers
                 return response;
             }
         }
+
+        [HttpGet("StatisticNumberOfMedicine")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<List<StatisticNumberOfMedicine>>> StatisticNumberOfMedicine()
+        {
+            var response = new ServiceResponse<List<StatisticNumberOfMedicine>>();
+            var statistic = medicineService.StatisticNumberOfMedicine();
+            response.Data = statistic;
+            response.Message = ("Statistic Number Of Medicine");
+            response.Status = 200;
+            response.TotalDataList = 1;
+            return response;
+        }
     }
 }
