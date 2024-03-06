@@ -28,7 +28,7 @@ namespace UserService.Controllers
             return response;
         }
 
-        [HttpPut("CreateChatRoom")]
+        [HttpPost("CreateChatRoom")]
         public ActionResult<ServiceResponse<Chat>> CreateChatRoom(int patientId, int doctorId)
         {
             var response = new ServiceResponse<Chat>();
