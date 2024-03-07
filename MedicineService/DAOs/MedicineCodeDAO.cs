@@ -52,7 +52,7 @@ namespace MedicineService.DAOs
             {
                 using (var context = new SepprojectDbV7Context())
                 {
-                    medicineCode = context.MedicineCodes.FirstOrDefault(m => m.CodeId == id && m.IsActive == true);
+                    medicineCode = context.MedicineCodes.FirstOrDefault(m => m.CodeId == id);
                 }
                 return medicineCode;
             }
