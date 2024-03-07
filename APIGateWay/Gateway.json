@@ -265,6 +265,19 @@
       "UpstreamPathTemplate": "/gateway/ExaminatedRecord/Statistic",
       "UpstreamHttpMethod": [ "GET" ]
     },
+    //AverageSurvivalRate
+    {
+      "DownstreamPathTemplate": "/api/ExaminatedRecord/SurvivalRate",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5276
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/ExaminatedRecord/SurvivalRate",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
     //MedicineCode
     //GetAll
     {
