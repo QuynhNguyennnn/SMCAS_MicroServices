@@ -375,5 +375,22 @@ namespace ScheduleService.DAOs
             }
             return schedules;
         }
+
+        public static List<MedicalExaminationSchedule> GetAcceptSchedule()
+        {
+            List<MedicalExaminationSchedule> schedules = new List<MedicalExaminationSchedule>();
+            try
+            {
+                using (var context = new SepprojectDbV7Context())
+                {
+                    schedules = context.MedicalExaminationSchedules.Where(s => s.IsAccepted == true && s.IsActive == true).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return schedules;
+        }
     }
 }

@@ -355,5 +355,25 @@ namespace ScheduleService.Controllers
             response.TotalDataList = scheduleResponseList.Count;
             return response;
         }
+
+        [HttpGet("GetAcceptSchedule")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<List<ScheduleResponse>>> GetAcceptSchedule()
+        {
+            var response = new ServiceResponse<List<ScheduleResponse>>();
+            var scheduleResponseList = new List<ScheduleResponse>();
+            var scheduleList = service.GetAcceptSchedule();
+            foreach (var schedule in scheduleList)
+            {
+                ScheduleResponse feedbackResponse = _mapper.Map<ScheduleResponse>(schedule);
+                scheduleResponseList.Add(feedbackResponse);
+            }
+
+            response.Data = scheduleResponseList;
+            response.Message = "Get Accept Schedule";
+            response.Status = 200;
+            response.TotalDataList = scheduleResponseList.Count;
+            return response;
+        }
     }
 }
