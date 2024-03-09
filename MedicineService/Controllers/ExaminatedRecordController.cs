@@ -49,7 +49,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpGet]
-        [Authorize(Policy = "ExaminatedRecordFullAccess")]
+        [Authorize(Policy = "ExaminatedRecordViewOrFullAccess")]
         public ActionResult<ServiceResponse<List<ExaminatedRecordResponse>>> GetAllActive()
         {
             var response = new ServiceResponse<List<ExaminatedRecordResponse>>();
@@ -217,7 +217,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpGet("Search/id")]
-        [Authorize(Policy = "ExaminatedRecordFullAccess")]
+        [Authorize(Policy = "ExaminatedRecordViewOrFullAccess")]
         public ActionResult<ServiceResponse<List<ExaminatedRecordResponse>>> SearchRecordActiveByPeopleId(int id)
         {
             var response = new ServiceResponse<List<ExaminatedRecordResponse>>();
