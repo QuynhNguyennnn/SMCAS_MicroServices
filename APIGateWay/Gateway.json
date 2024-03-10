@@ -1024,6 +1024,19 @@
       "UpstreamPathTemplate": "/gateway/Schedule/GetEmptySchedule",
       "UpstreamHttpMethod": [ "GET" ]
     },
+    //GetAcceptSchedule
+    {
+      "DownstreamPathTemplate": "/api/Schedule/GetAcceptSchedule",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5137
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Schedule/GetAcceptSchedule",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
     //Authenication
     //Register
     {
