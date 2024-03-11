@@ -35,6 +35,7 @@ namespace MedicineService.Controllers
             foreach (var record in records)
             {
                 MedicineExaminatedRecordResponse examinatedRecord = _mapper.Map<MedicineExaminatedRecordResponse>(record);
+                examinatedRecord.MedicineName = medicineService.GetMedicineById(examinatedRecord.MedicineId).MedicineName;
                 recordList.Add(examinatedRecord);
             }
             response.Data = recordList;
@@ -45,7 +46,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpGet]
-        [Authorize(Policy = "ExaminatedRecordViewOrFullAccess")]
+       // [Authorize(Policy = "ExaminatedRecordViewOrFullAccess")]
         public ActionResult<ServiceResponse<List<MedicineExaminatedRecordResponse>>> GetAllActive()
         {
             var response = new ServiceResponse<List<MedicineExaminatedRecordResponse>>();
@@ -56,6 +57,7 @@ namespace MedicineService.Controllers
                 if (record.IsActive)
                 {
                     MedicineExaminatedRecordResponse examinatedRecord = _mapper.Map<MedicineExaminatedRecordResponse>(record);
+                    examinatedRecord.MedicineName = medicineService.GetMedicineById(examinatedRecord.MedicineId).MedicineName;
                     recordList.Add(examinatedRecord);
                 }
             }
