@@ -46,7 +46,7 @@ namespace MedicineService.Controllers
         }
 
         [HttpGet]
-       // [Authorize(Policy = "ExaminatedRecordViewOrFullAccess")]
+        [Authorize(Policy = "ExaminatedRecordViewOrFullAccess")]
         public ActionResult<ServiceResponse<List<MedicineExaminatedRecordResponse>>> GetAllActive()
         {
             var response = new ServiceResponse<List<MedicineExaminatedRecordResponse>>();
