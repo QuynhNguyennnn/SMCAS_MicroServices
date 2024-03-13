@@ -1627,7 +1627,7 @@
     },
     //Delete
     {
-      "DownstreamPathTemplate": "/api/Role/Delete",
+      "DownstreamPathTemplate": "/api/Role/Delete/id?id={id}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -1635,7 +1635,7 @@
           "Port": 5207
         }
       ],
-      "UpstreamPathTemplate": "/gateway/Role/Delete",
+      "UpstreamPathTemplate": "/gateway/Role/Delete/id?id={id}",
       "UpstreamHttpMethod": [ "PUT" ]
     },
     //Search
