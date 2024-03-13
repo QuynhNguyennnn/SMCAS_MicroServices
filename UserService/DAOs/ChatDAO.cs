@@ -1,4 +1,5 @@
-﻿using UserService.Models;
+﻿using System.Diagnostics;
+using UserService.Models;
 
 namespace UserService.DAOs
 {
@@ -14,7 +15,8 @@ namespace UserService.DAOs
                     if (chats.Count > 0)
                     {
                         return true;
-                    } else return false;
+                    }
+                    else return false;
                 }
             }
             catch (Exception ex)
@@ -48,7 +50,7 @@ namespace UserService.DAOs
             }
         }
 
-        public static Chat GetChat(int patientId, int doctorId) 
+        public static Chat GetChat(int patientId, int doctorId)
         {
             Chat chat = new Chat();
             try
@@ -107,10 +109,45 @@ namespace UserService.DAOs
                     context.SaveChanges();
                     return chatHistory;
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public static List<Chat> GetAllChat()
+        {
+            var list = new List<Chat>();
+            try
+            {
+                using (var context = new SepprojectDbV7Context())
+                {
+                    list = context.Chats.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return list;
+        }
+
+        public static List<ChatHistory> GetAllChatHistory()
+        {
+            var list = new List<ChatHistory>();
+            try
+            {
+                using (var context = new SepprojectDbV7Context())
+                {
+                    list = context.ChatHistories.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return list;
         }
     }
 }

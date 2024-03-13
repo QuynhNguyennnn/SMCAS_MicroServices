@@ -11,5 +11,9 @@ namespace UserService.Services
         public Chat EndChat(int chatId) => ChatDAO.EndChat(chatId);
 
         public ChatHistory SaveChat(ChatHistory chatHistory) => ChatDAO.SaveChat(chatHistory);
+
+        public List<Chat> GetAllChat() => ChatDAO.GetAllChat();
+
+        public List<ChatHistory> GetAllChatHistory() => ChatDAO.GetAllChatHistory();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.InteropServices;
@@ -90,6 +91,21 @@ namespace UserService.Controllers
             response.Data = history;
             response.Status = 200;
             response.Message = "Save chat successful.";
+            response.TotalDataList = 1;
+            return response;
+        }
+
+        [HttpGet("Statistic")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<ChatStatisticResponse>> Statistic()
+        {
+            var response = new ServiceResponse<ChatStatisticResponse>();
+            var statistic = new ChatStatisticResponse();
+            statistic.NumberOfRoom = service.GetAllChat().Count;
+            statistic.NumberOfMessages = service.GetAllChatHistory().Count;
+            response.Data = statistic;
+            response.Status = 200;
+            response.Message = "Statistic number of chat room and messages";
             response.TotalDataList = 1;
             return response;
         }

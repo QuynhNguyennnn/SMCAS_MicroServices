@@ -1729,6 +1729,19 @@
       ],
       "UpstreamPathTemplate": "/gateway/Chat/Save",
       "UpstreamHttpMethod": [ "POST" ]
+    },
+    //Statistic
+    {
+      "DownstreamPathTemplate": "/api/Chat/Statistic",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5207
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Chat/Statistic",
+      "UpstreamHttpMethod": [ "GET" ]
     }
   ]
 }
