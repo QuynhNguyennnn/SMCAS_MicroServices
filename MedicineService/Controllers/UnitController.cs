@@ -139,7 +139,7 @@ namespace MedicineService.Controllers
             return Ok(response);
         }
 
-        [HttpDelete("id")]
+        [HttpPut("id")]
         [Authorize(Policy = "MedicineFullAccess")]
         public ActionResult<ServiceResponse<UnitResponse>> DeleteUnit(int id)
         {
