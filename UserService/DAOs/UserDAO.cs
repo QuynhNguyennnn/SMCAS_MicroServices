@@ -222,7 +222,7 @@ namespace UserService.DAOs
             }
         }
 
-        public static User UpdatePasswored(string username, string password)
+        public static User UpdatePassword(string username, string password)
         {
             var user = new User();
             try
