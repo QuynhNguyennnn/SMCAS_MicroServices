@@ -10,7 +10,7 @@ namespace ScheduleService.DAOs
             List<MedicalExaminationSchedule> schedules = new List<MedicalExaminationSchedule>();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var scheduleList = context.MedicalExaminationSchedules.ToList();
                     DateTime now = DateTime.Now;
@@ -31,14 +31,49 @@ namespace ScheduleService.DAOs
             return schedules;
         }
 
+        public static List<MedicalExaminationSchedule> GetScheduleListAdmin()
+        {
+            List<MedicalExaminationSchedule> schedules = new List<MedicalExaminationSchedule>();
+            try
+            {
+                using (var context = new SepprojectDbV7Context())
+                {
+                    var scheduleList = context.MedicalExaminationSchedules.ToList();
+                    return scheduleList;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            
+        }
+
         public static MedicalExaminationSchedule GetScheduleById(int id)
         {
             MedicalExaminationSchedule schedule = new MedicalExaminationSchedule();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     schedule = context.MedicalExaminationSchedules.SingleOrDefault(s => (s.ScheduleId == id) && s.IsActive);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return schedule;
+        }
+
+        public static MedicalExaminationSchedule GetScheduleByIdAdmin(int id)
+        {
+            MedicalExaminationSchedule schedule = new MedicalExaminationSchedule();
+            try
+            {
+                using (var context = new SepprojectDbV7Context())
+                {
+                    schedule = context.MedicalExaminationSchedules.SingleOrDefault(s => (s.ScheduleId == id));
                 }
             }
             catch (Exception ex)
@@ -53,7 +88,7 @@ namespace ScheduleService.DAOs
             List<MedicalExaminationSchedule> schedules = new List<MedicalExaminationSchedule>();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     schedules = context.MedicalExaminationSchedules.Where(s => s.DoctorId == id && s.Date.Date >= DateTime.Now.Date && s.IsActive).ToList();
                 }
@@ -70,7 +105,7 @@ namespace ScheduleService.DAOs
             List<MedicalExaminationSchedule> schedules = new List<MedicalExaminationSchedule>();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     schedules = context.MedicalExaminationSchedules.Where(s => s.PatientId == null && s.Date.Date >= DateTime.Now.Date && s.IsActive).ToList();
                 }
@@ -87,7 +122,7 @@ namespace ScheduleService.DAOs
             List<MedicalExaminationSchedule> schedules = new List<MedicalExaminationSchedule>();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     schedules = context.MedicalExaminationSchedules.Where(s => s.PatientId != null && s.IsActive && !s.IsAccepted && s.DoctorId == id).ToList();
                 }
@@ -104,7 +139,7 @@ namespace ScheduleService.DAOs
             List<MedicalExaminationSchedule> schedules = new List<MedicalExaminationSchedule>();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     schedules = context.MedicalExaminationSchedules.Where(s => s.PatientId == id && s.IsActive && !s.IsAccepted).ToList();
                 }
@@ -120,7 +155,7 @@ namespace ScheduleService.DAOs
         {
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     schedule.IsActive = true;
                     schedule.IsAccepted = false;
@@ -142,7 +177,7 @@ namespace ScheduleService.DAOs
             MedicalExaminationSchedule updateSchedule = new MedicalExaminationSchedule();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var scheduleCheck = context.MedicalExaminationSchedules.FirstOrDefault(s => s.ScheduleId == schedule.ScheduleId && s.IsActive && s.PatientId == null);
                     if (scheduleCheck != null)
@@ -172,7 +207,7 @@ namespace ScheduleService.DAOs
             MedicalExaminationSchedule updateSchedule = new MedicalExaminationSchedule();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var scheduleCheck = context.MedicalExaminationSchedules.FirstOrDefault(s => s.ScheduleId == schedule.ScheduleId && s.IsActive && s.PatientId == null);
                     if (scheduleCheck != null)
@@ -202,7 +237,7 @@ namespace ScheduleService.DAOs
             MedicalExaminationSchedule updateSchedule = new MedicalExaminationSchedule();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var scheduleCheck = context.MedicalExaminationSchedules.FirstOrDefault(s => s.ScheduleId == id && s.IsActive && s.PatientId != null && !s.IsAccepted);
                     if (scheduleCheck != null)
@@ -232,7 +267,7 @@ namespace ScheduleService.DAOs
             MedicalExaminationSchedule updateSchedule = new MedicalExaminationSchedule();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var scheduleCheck = context.MedicalExaminationSchedules.FirstOrDefault(s => s.ScheduleId == id && s.IsActive && s.PatientId != null && !s.IsAccepted);
                     if (scheduleCheck != null)
@@ -261,7 +296,7 @@ namespace ScheduleService.DAOs
         {
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var _schedule = context.MedicalExaminationSchedules.SingleOrDefault(s => s.ScheduleId == id && s.IsActive);
                     if (_schedule != null)
@@ -295,9 +330,9 @@ namespace ScheduleService.DAOs
             List<MedicalExaminationSchedule> schedules = new List<MedicalExaminationSchedule>();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
-                    schedules = context.MedicalExaminationSchedules.Where(s => s.Date.Date >= dateStart.Date && s.Date.Date >= dateEnd.Date && s.IsActive && s.PatientId == null).ToList();
+                    schedules = context.MedicalExaminationSchedules.Where(s => s.Date.Date >= dateStart.Date && s.Date.Date <= dateEnd.Date && s.IsActive).ToList();
                 }
             }
             catch (Exception ex)
@@ -305,6 +340,80 @@ namespace ScheduleService.DAOs
                 throw new Exception(ex.Message);
             }
             return schedules;
+        }
+
+        public static List<MedicalExaminationSchedule> GetEmptySchedule()
+        {
+            List<MedicalExaminationSchedule> schedules = new List<MedicalExaminationSchedule>();
+            try
+            {
+                using (var context = new SepprojectDbV7Context())
+                {
+                    schedules = context.MedicalExaminationSchedules.Where(s =>s.PatientId == null && s.IsAccepted == false && s.IsActive == true).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return schedules;
+        }
+
+        public static List<MedicalExaminationSchedule> SearchScheduleByDateAdmin(DateTime dateStart, DateTime dateEnd)
+        {
+            List<MedicalExaminationSchedule> schedules = new List<MedicalExaminationSchedule>();
+            try
+            {
+                using (var context = new SepprojectDbV7Context())
+                {
+                    schedules = context.MedicalExaminationSchedules.Where(s => s.Date.Date >= dateStart.Date && s.Date.Date <= dateEnd.Date).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return schedules;
+        }
+
+        public static List<MedicalExaminationSchedule> GetAcceptSchedule()
+        {
+            List<MedicalExaminationSchedule> schedules = new List<MedicalExaminationSchedule>();
+            try
+            {
+                using (var context = new SepprojectDbV7Context())
+                {
+                    schedules = context.MedicalExaminationSchedules.Where(s => s.IsAccepted == true && s.IsActive == true).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return schedules;
+        }
+        public static User GetPeopleInfo(int? id)
+        {
+            var user = new User();
+            try
+            {
+                using (var context = new SepprojectDbV7Context())
+                {
+                    user = context.Users.FirstOrDefault(user => (user.UserId == id));
+                    if (user != null)
+                    {
+                        return user;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
     }
 }

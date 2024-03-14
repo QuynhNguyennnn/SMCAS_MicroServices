@@ -1,4 +1,5 @@
 ﻿using MedicineService.Models;
+using System.Net.WebSockets;
 
 namespace MedicineService.DAOs
 {
@@ -9,9 +10,9 @@ namespace MedicineService.DAOs
             List<MedicineExaminatedRecord> examinatedRecords = new List<MedicineExaminatedRecord>();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
-                    var records = context.MedicineExaminatedRecords.ToList().Where(r => r.IsActive);
+                    var records = context.MedicineExaminatedRecords.ToList();
                     foreach (var record in records)
                     {
                         examinatedRecords.Add(record);
@@ -30,9 +31,9 @@ namespace MedicineService.DAOs
             var record = new MedicineExaminatedRecord();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
-                    var recordCheck = context.MedicineExaminatedRecords.FirstOrDefault(r => r.Meid == id && r.IsActive);
+                    var recordCheck = context.MedicineExaminatedRecords.FirstOrDefault(r => r.Meid == id);
                     if (recordCheck != null)
                     {
                         record = recordCheck;
@@ -53,12 +54,24 @@ namespace MedicineService.DAOs
             var createdRecord = new MedicineExaminatedRecord();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
-                    createdRecord = record;
-                    createdRecord.IsActive = true;
-                    context.MedicineExaminatedRecords.Add(createdRecord);
-                    context.SaveChanges();
+                    var quantity = record.Quantity;
+                    var medicine = context.Medicines.FirstOrDefault(r => r.MedicineId == record.MedicineId);
+                    if (medicine.Quantity < quantity)
+                    {
+                        return null;
+                    } else
+                    {
+                        var medicineNew = new Medicine();
+                        createdRecord = record;
+                        createdRecord.IsActive = true;
+                        context.MedicineExaminatedRecords.Add(createdRecord);
+                        medicineNew = medicine;
+                        medicineNew.Quantity -= quantity;
+                        context.Entry(medicine).CurrentValues.SetValues(medicineNew);
+                        context.SaveChanges();
+                    }
                 }
                 return createdRecord;
             } catch (Exception ex)
@@ -72,13 +85,18 @@ namespace MedicineService.DAOs
             var updatedRecord = new MedicineExaminatedRecord();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var recordCheck = context.MedicineExaminatedRecords.FirstOrDefault(r => r.Meid == record.Meid);
+                    var medicine = context.Medicines.FirstOrDefault(r => r.MedicineId == record.MedicineId);
                     if (recordCheck != null)
                     {
                         updatedRecord = record;
                         context.Entry(recordCheck).CurrentValues.SetValues(updatedRecord);
+                        var medicineUpdated = new Medicine();
+                        medicineUpdated = medicine;
+                        medicineUpdated.Quantity -= record.Quantity;
+                        context.Entry(medicine).CurrentValues.SetValues(medicineUpdated);
                         context.SaveChanges();
                     } else
                     {
@@ -97,7 +115,7 @@ namespace MedicineService.DAOs
             var deletedRecord = new MedicineExaminatedRecord();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
                     var recordCheck = context.MedicineExaminatedRecords.FirstOrDefault(r => r.Meid == id && r.IsActive);
                     if (recordCheck != null)
@@ -120,23 +138,20 @@ namespace MedicineService.DAOs
             }
         }
 
-        public static MedicineExaminatedRecord SearchByRecordId(int id)
+        public static List<MedicineExaminatedRecord> SearchByRecordId(int id)
         {
-            var record = new MedicineExaminatedRecord();
+            var records = new List<MedicineExaminatedRecord>();
             try
             {
-                using (var context = new SepprojectDbV5Context())
+                using (var context = new SepprojectDbV7Context())
                 {
-                    var recordCheck = context.MedicineExaminatedRecords.FirstOrDefault(r => r.RecordId == id && r.IsActive);
-                    if (recordCheck != null)
+                    var recordCheck = context.MedicineExaminatedRecords.Where(r => r.RecordId == id);
+                    foreach (var record in recordCheck)
                     {
-                        record = recordCheck;
-                    } else
-                    {
-                        return null;
+                        records.Add(record);
                     }
                 }
-                return record;
+                return records;
             } catch (Exception ex)
             {
                 throw new Exception(ex.Message);

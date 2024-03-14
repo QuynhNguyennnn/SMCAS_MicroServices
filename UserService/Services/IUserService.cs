@@ -12,10 +12,14 @@ namespace UserService.Services
         User DeleteUser(int id);
         User UpdateUser(User user);
         List<User> SearchUserByName(string name);
+        List<User> SearchUserByNameRole(string name, int roleId);
         List<User> GetDoctors();
         List<User> GetStudents();
         List<User> GetStaffs();
+        List<User> GetMedicalStaffs();
         User CreateUser(User user);
         List<User> GetPatientList();
+        List<User> GetListOfVisitor();
+        User UpdatePassword(string username, string password);
     }
 }

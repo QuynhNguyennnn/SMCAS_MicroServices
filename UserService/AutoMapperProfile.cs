@@ -41,6 +41,11 @@ namespace UserService
             CreateMap<UpdateFeedbackRequest, Feedback>();
             CreateMap<Feedback, DeleteFeedbackRequest>();
             CreateMap<DeleteFeedbackRequest, Feedback>();
+
+            CreateMap<Chat,ChatResponse>();
+            CreateMap<ChatResponse, Chat>();
+            CreateMap<ChatHistory, SaveChatRequest>();
+            CreateMap<SaveChatRequest, ChatHistory>();
         }
     }
 }

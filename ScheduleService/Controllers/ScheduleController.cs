@@ -1,12 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ScheduleService.DAOs;
 using ScheduleService.DTOs;
 using ScheduleService.Models;
 using ScheduleService.Services;
-using System;
 
 namespace ScheduleService.Controllers
 {
@@ -33,11 +30,34 @@ namespace ScheduleService.Controllers
             foreach (var schedule in scheduleList)
             {
                 ScheduleResponse feedbackResponse = _mapper.Map<ScheduleResponse>(schedule);
+                feedbackResponse.DoctorName = service.GetPeopleInfo(feedbackResponse.DoctorId).FirstName +
+                                              service.GetPeopleInfo(feedbackResponse.DoctorId).LastName;
+                feedbackResponse.PatientName = service.GetPeopleInfo(feedbackResponse.PatientId).FirstName +
+                                              service.GetPeopleInfo(feedbackResponse.PatientId).LastName;
+                scheduleResponseList.Add(feedbackResponse);
+            }
+            response.Data = scheduleResponseList;
+            response.Message = "Get Schedule List";
+            response.Status = 200;
+            response.TotalDataList = scheduleResponseList.Count;
+            return response;
+        }
+
+        [HttpGet("ListAdmin")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<List<ScheduleResponse>>> GetScheduleListByAdmin()
+        {
+            var response = new ServiceResponse<List<ScheduleResponse>>();
+            var scheduleResponseList = new List<ScheduleResponse>();
+            var scheduleList = service.GetScheduleListAdmin();
+            foreach (var schedule in scheduleList)
+            {
+                ScheduleResponse feedbackResponse = _mapper.Map<ScheduleResponse>(schedule);
                 scheduleResponseList.Add(feedbackResponse);
             }
 
             response.Data = scheduleResponseList;
-            response.Message = "Get Schedule List";
+            response.Message = "Get Schedule List By Admin";
             response.Status = 200;
             response.TotalDataList = scheduleResponseList.Count;
             return response;
@@ -52,6 +72,21 @@ namespace ScheduleService.Controllers
             var response = new ServiceResponse<ScheduleResponse>();
             response.Data = scheduleResponse;
             response.Message = "Get Schedule Detail";
+            response.Status = 200;
+            response.TotalDataList = 1;
+            return response;
+        }
+
+        [HttpGet("DetailAdmin/id")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ServiceResponse<ScheduleResponse>>> GetScheduleByIdAdmin(int id)
+        {
+            var schedule = service.GetScheduleByIdAdmin(id);
+            var scheduleResponse = _mapper.Map<ScheduleResponse>(schedule);
+
+            var response = new ServiceResponse<ScheduleResponse>();
+            response.Data = scheduleResponse;
+            response.Message = "Get Schedule Detail By Admin";
             response.Status = 200;
             response.TotalDataList = 1;
             return response;
@@ -86,6 +121,10 @@ namespace ScheduleService.Controllers
             foreach (var schedule in scheduleList)
             {
                 ScheduleResponse feedbackResponse = _mapper.Map<ScheduleResponse>(schedule);
+                feedbackResponse.DoctorName = service.GetPeopleInfo(feedbackResponse.DoctorId).FirstName +
+                                              service.GetPeopleInfo(feedbackResponse.DoctorId).LastName;
+                feedbackResponse.PatientName = service.GetPeopleInfo(feedbackResponse.PatientId).FirstName +
+                                              service.GetPeopleInfo(feedbackResponse.PatientId).LastName;
                 scheduleResponseList.Add(feedbackResponse);
             }
 
@@ -106,6 +145,10 @@ namespace ScheduleService.Controllers
             foreach (var schedule in scheduleList)
             {
                 ScheduleResponse feedbackResponse = _mapper.Map<ScheduleResponse>(schedule);
+                feedbackResponse.DoctorName = service.GetPeopleInfo(feedbackResponse.DoctorId).FirstName +
+                                              service.GetPeopleInfo(feedbackResponse.DoctorId).LastName;
+                feedbackResponse.PatientName = service.GetPeopleInfo(feedbackResponse.PatientId).FirstName +
+                                              service.GetPeopleInfo(feedbackResponse.PatientId).LastName;
                 scheduleResponseList.Add(feedbackResponse);
             }
 
@@ -124,16 +167,20 @@ namespace ScheduleService.Controllers
             {
                 throw new Exception("End shift must be greater than start shift");
             }
+            else if (addSchedule.Date.Date < DateTime.Today)
+            {
+                throw new Exception("Examination date cannot be before today.");
+            }
             List<MedicalExaminationSchedule> scheduleList = service.GetScheduleListByDoctorId(addSchedule.DoctorId);
 
-            foreach(var s in scheduleList)
+            foreach (var s in scheduleList)
             {
                 if (!(s.EndShift < addSchedule.StartShift || addSchedule.EndShift < s.StartShift) &&
                        s.Date.ToString("yyyy-MM-dd") == addSchedule.Date.ToString("yyyy-MM-dd"))
                 {
                     var response1 = new ServiceResponse<ScheduleResponse>();
                     response1.Data = null;
-                    response1.Message = "There is an appointment scheduled for the period from "+ addSchedule.StartShift + " to "+addSchedule.EndShift+"";
+                    response1.Message = "There is an appointment scheduled for the period from " + addSchedule.StartShift + " to " + addSchedule.EndShift + "";
                     response1.Status = 404;
                     return response1;
                 }
@@ -143,7 +190,7 @@ namespace ScheduleService.Controllers
             var scheduleResponse = _mapper.Map<ScheduleResponse>(schedule);
             var response = new ServiceResponse<ScheduleResponse>();
             response.Data = scheduleResponse;
-            response.Message = "Create Schedule";
+            response.Message = "Create Successful";
             response.Status = 200;
             return response;
         }
@@ -154,7 +201,19 @@ namespace ScheduleService.Controllers
         {
             if (updateSchedule.StartShift.TotalSeconds > updateSchedule.EndShift.TotalSeconds)
             {
-                throw new Exception("End shift must be greater than start shift");
+                var response1 = new ServiceResponse<ScheduleResponse>();
+                response1.Data = null;
+                response1.Message = "End shift must be greater than start shift";
+                response1.Status = 404;
+                return response1;
+            }
+            else if (updateSchedule.Date.Date < DateTime.Today)
+            {
+                var response1 = new ServiceResponse<ScheduleResponse>();
+                response1.Data = null;
+                response1.Message = "Examination date cannot be before today.";
+                response1.Status = 404;
+                return response1;
             }
 
             var scheduleCheck = service.GetScheduleById(updateSchedule.ScheduleId);
@@ -180,7 +239,7 @@ namespace ScheduleService.Controllers
             var scheduleResponse = _mapper.Map<ScheduleResponse>(schedule);
             var response = new ServiceResponse<ScheduleResponse>();
             response.Data = scheduleResponse;
-            response.Message = "Update Schedule";
+            response.Message = "Update Successful";
             response.Status = 200;
             return response;
         }
@@ -195,7 +254,7 @@ namespace ScheduleService.Controllers
             var scheduleResponse = _mapper.Map<ScheduleResponse>(schedule);
             var response = new ServiceResponse<ScheduleResponse>();
             response.Data = scheduleResponse;
-            response.Message = "Register Schedule";
+            response.Message = "Register Successful";
             response.Status = 200;
             return response;
         }
@@ -208,7 +267,7 @@ namespace ScheduleService.Controllers
             var scheduleResponse = _mapper.Map<ScheduleResponse>(schedule);
             var response = new ServiceResponse<ScheduleResponse>();
             response.Data = scheduleResponse;
-            response.Message = "Accept Schedule";
+            response.Message = "Accept Successful";
             response.Status = 200;
             return response;
         }
@@ -217,11 +276,22 @@ namespace ScheduleService.Controllers
         [Authorize(Policy = "ScheduleModifiedDoctorOrFullAccess")]
         public ActionResult<ServiceResponse<ScheduleResponse>> RejectSchedule(int id)
         {
+            DateTime now = DateTime.Now;
+            var response = new ServiceResponse<ScheduleResponse>();
+            var scheduleCheck = service.GetScheduleById(id);
+            var startDate = scheduleCheck.Date + scheduleCheck.StartShift;
+            var timeCheck = startDate - TimeSpan.FromHours(7);
+            if (now > timeCheck)
+            {
+                response.Data = null;
+                response.Message = "Reject Schedule Failed.";
+                response.Status = 400;
+                return response;
+            }
             var schedule = service.RejectSchedule(id);
             var scheduleResponse = _mapper.Map<ScheduleResponse>(schedule);
-            var response = new ServiceResponse<ScheduleResponse>();
             response.Data = scheduleResponse;
-            response.Message = "Reject Schedule";
+            response.Message = "Reject Successful";
             response.Status = 200;
             return response;
         }
@@ -234,7 +304,7 @@ namespace ScheduleService.Controllers
             var scheduleResponse = _mapper.Map<ScheduleResponse>(schedule);
             var response = new ServiceResponse<ScheduleResponse>();
             response.Data = scheduleResponse;
-            response.Message = "Delete Schedule";
+            response.Message = "Delete Successful";
             response.Status = 200;
             return response;
         }
@@ -253,6 +323,65 @@ namespace ScheduleService.Controllers
 
             response.Data = scheduleResponseList;
             response.Message = "Search Schedule By Date";
+            response.Status = 200;
+            response.TotalDataList = scheduleResponseList.Count;
+            return response;
+        }
+
+        [HttpGet("SearchAdmin")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<List<ScheduleResponse>>> SearchScheduleByDateAdmin(DateTime dateStart, DateTime dateEnd)
+        {
+            var response = new ServiceResponse<List<ScheduleResponse>>();
+            var scheduleResponseList = new List<ScheduleResponse>();
+            var scheduleList = service.SearchScheduleByDateAdmin(dateStart, dateEnd);
+            foreach (var schedule in scheduleList)
+            {
+                ScheduleResponse feedbackResponse = _mapper.Map<ScheduleResponse>(schedule);
+                scheduleResponseList.Add(feedbackResponse);
+            }
+
+            response.Data = scheduleResponseList;
+            response.Message = "Search Schedule By Date By Admin";
+            response.Status = 200;
+            response.TotalDataList = scheduleResponseList.Count;
+            return response;
+        }
+
+        [HttpGet("GetEmptySchedule")]
+        public ActionResult<ServiceResponse<List<ScheduleResponse>>> GetEmptySchedule()
+        {
+            var response = new ServiceResponse<List<ScheduleResponse>>();
+            var scheduleResponseList = new List<ScheduleResponse>();
+            var scheduleList = service.GetEmptySchedule();
+            foreach (var schedule in scheduleList)
+            {
+                ScheduleResponse feedbackResponse = _mapper.Map<ScheduleResponse>(schedule);
+                scheduleResponseList.Add(feedbackResponse);
+            }
+
+            response.Data = scheduleResponseList;
+            response.Message = "Get empty schedule";
+            response.Status = 200;
+            response.TotalDataList = scheduleResponseList.Count;
+            return response;
+        }
+
+        [HttpGet("GetAcceptSchedule")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<ServiceResponse<List<ScheduleResponse>>> GetAcceptSchedule()
+        {
+            var response = new ServiceResponse<List<ScheduleResponse>>();
+            var scheduleResponseList = new List<ScheduleResponse>();
+            var scheduleList = service.GetAcceptSchedule();
+            foreach (var schedule in scheduleList)
+            {
+                ScheduleResponse feedbackResponse = _mapper.Map<ScheduleResponse>(schedule);
+                scheduleResponseList.Add(feedbackResponse);
+            }
+
+            response.Data = scheduleResponseList;
+            response.Message = "Get Accept Schedule";
             response.Status = 200;
             response.TotalDataList = scheduleResponseList.Count;
             return response;

@@ -24,7 +24,7 @@ namespace MedicineService.Controllers
             _configuration = configuration;
         }
 
-        [HttpGet]
+        [HttpGet("ListAdmin")]
         [Authorize(Policy = "MedicineFullAccess")]
         public ActionResult<ServiceResponse<List<UnitResponse>>> GetAllUnits()
         {
@@ -35,6 +35,28 @@ namespace MedicineService.Controllers
             {
                 UnitResponse unitResponse = _mapper.Map<UnitResponse>(unit);
                 unitList.Add(unitResponse);
+            }
+            response.Data = unitList;
+            response.Status = 200;
+            response.Message = "Get All Units";
+            response.TotalDataList = unitList.Count;
+            return response;
+        }
+
+        [HttpGet]
+        [Authorize(Policy = "MedicineFullAccess")]
+        public ActionResult<ServiceResponse<List<UnitResponse>>> GetAllUnitsActive()
+        {
+            var response = new ServiceResponse<List<UnitResponse>>();
+            var unitList = new List<UnitResponse>();
+            var units = unitService.GetUnits();
+            foreach (var unit in units)
+            {
+                if (unit.IsActive)
+                {
+                    UnitResponse unitResponse = _mapper.Map<UnitResponse>(unit);
+                    unitList.Add(unitResponse);
+                }
             }
             response.Data = unitList;
             response.Status = 200;
@@ -117,7 +139,7 @@ namespace MedicineService.Controllers
             return Ok(response);
         }
 
-        [HttpDelete("id")]
+        [HttpPut("id")]
         [Authorize(Policy = "MedicineFullAccess")]
         public ActionResult<ServiceResponse<UnitResponse>> DeleteUnit(int id)
         {
@@ -139,7 +161,7 @@ namespace MedicineService.Controllers
             return Ok(response);
         }
 
-        [HttpGet("Search/name")]
+        [HttpGet("SearchAdmin/name")]
         [Authorize(Policy = "MedicineFullAccess")]
         public ActionResult<ServiceResponse<List<UnitResponse>>> SearchUnitByName(string name)
         {
@@ -150,6 +172,35 @@ namespace MedicineService.Controllers
             {
                 UnitResponse unitResponse = _mapper.Map<UnitResponse>(unit);
                 unitList.Add(unitResponse);
+            }
+            response.Data = unitList;
+            response.Status = 200;
+            response.Message = "Search unit by name contain: " + name;
+            response.TotalDataList = unitList.Count;
+            if (unitList.Count == 0)
+            {
+                response.Data = unitList;
+                response.Status = 404;
+                response.Message = "There is no unit contains: " + name;
+                response.TotalDataList = unitList.Count;
+            }
+            return response;
+        }
+
+        [HttpGet("Search/name")]
+        [Authorize(Policy = "MedicineFullAccess")]
+        public ActionResult<ServiceResponse<List<UnitResponse>>> SearchUnitActiveByName(string name)
+        {
+            var response = new ServiceResponse<List<UnitResponse>>();
+            var unitList = new List<UnitResponse>();
+            var units = unitService.SearchUnitByName(name);
+            foreach (var unit in units)
+            {
+                if (unit.IsActive)
+                {
+                    UnitResponse unitResponse = _mapper.Map<UnitResponse>(unit);
+                    unitList.Add(unitResponse);
+                }
             }
             response.Data = unitList;
             response.Status = 200;

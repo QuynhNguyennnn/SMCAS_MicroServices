@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace UserService.Models;
 
-public partial class SepprojectDbV5Context : DbContext
+public partial class SepprojectDbV7Context : DbContext
 {
-    public SepprojectDbV5Context()
+    public SepprojectDbV7Context()
     {
     }
 
-    public SepprojectDbV5Context(DbContextOptions<SepprojectDbV5Context> options)
+    public SepprojectDbV7Context(DbContextOptions<SepprojectDbV7Context> options)
         : base(options)
     {
     }
@@ -41,7 +41,7 @@ public partial class SepprojectDbV5Context : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("server=MINHTAM; database = SEPProjectDB_v4;uid=sa;pwd=123456;TrustServerCertificate=true;");
+        => optionsBuilder.UseSqlServer("server=LAPOFQUYNH; database = SEPProjectDB_v7;uid=sa;pwd=123456;TrustServerCertificate=true;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

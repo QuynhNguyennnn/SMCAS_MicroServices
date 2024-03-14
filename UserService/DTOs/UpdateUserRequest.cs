@@ -20,7 +20,7 @@
 
         public string Username { get; set; } = null!;
 
-        public string Password { get; set; } = null!;
+        //public string Password { get; set; } = null!;
 
         public string? Major { get; set; }
 

@@ -9,7 +9,7 @@ namespace MedicineService.Services.MedicineExaminatedRecordFolder
         MedicineExaminatedRecord CreateRecord (MedicineExaminatedRecord record);
         MedicineExaminatedRecord UpdateRecord (MedicineExaminatedRecord record);
         MedicineExaminatedRecord DeleteRecord (int id);
-        MedicineExaminatedRecord SearchByRecordId(int id);
+        List<MedicineExaminatedRecord> SearchByRecordId(int id);
 
     }
 }
