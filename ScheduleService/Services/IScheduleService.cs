@@ -22,5 +22,6 @@ namespace ScheduleService.Services
         List<MedicalExaminationSchedule> SearchScheduleByDateAdmin(DateTime dateStart, DateTime dateEnd);
         List<MedicalExaminationSchedule> GetEmptySchedule();
         List<MedicalExaminationSchedule> GetAcceptSchedule();
+        User GetPeopleInfo(int? id);
     }
 }

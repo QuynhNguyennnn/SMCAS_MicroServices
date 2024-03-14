@@ -23,5 +23,7 @@ namespace ScheduleService.Services
         public List<MedicalExaminationSchedule> SearchScheduleByDateAdmin(DateTime dateStart, DateTime dateEnd) => ScheduleDAO.SearchScheduleByDateAdmin(dateStart, dateEnd);
         public List<MedicalExaminationSchedule> GetEmptySchedule() => ScheduleDAO.GetEmptySchedule();
         public List<MedicalExaminationSchedule> GetAcceptSchedule() => ScheduleDAO.GetAcceptSchedule();
+
+        public User GetPeopleInfo(int? id) => ScheduleDAO.GetPeopleInfo(id);
     }
 }

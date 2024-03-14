@@ -332,7 +332,7 @@ namespace ScheduleService.DAOs
             {
                 using (var context = new SepprojectDbV7Context())
                 {
-                    schedules = context.MedicalExaminationSchedules.Where(s => s.Date.Date >= dateStart.Date && s.Date.Date <= dateEnd.Date && s.IsActive && s.PatientId == null).ToList();
+                    schedules = context.MedicalExaminationSchedules.Where(s => s.Date.Date >= dateStart.Date && s.Date.Date <= dateEnd.Date && s.IsActive).ToList();
                 }
             }
             catch (Exception ex)
@@ -366,7 +366,7 @@ namespace ScheduleService.DAOs
             {
                 using (var context = new SepprojectDbV7Context())
                 {
-                    schedules = context.MedicalExaminationSchedules.Where(s => s.Date.Date >= dateStart.Date && s.Date.Date <= dateEnd.Date && s.PatientId == null).ToList();
+                    schedules = context.MedicalExaminationSchedules.Where(s => s.Date.Date >= dateStart.Date && s.Date.Date <= dateEnd.Date).ToList();
                 }
             }
             catch (Exception ex)
@@ -391,6 +391,29 @@ namespace ScheduleService.DAOs
                 throw new Exception(ex.Message);
             }
             return schedules;
+        }
+        public static User GetPeopleInfo(int? id)
+        {
+            var user = new User();
+            try
+            {
+                using (var context = new SepprojectDbV7Context())
+                {
+                    user = context.Users.FirstOrDefault(user => (user.UserId == id));
+                    if (user != null)
+                    {
+                        return user;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
     }
 }
