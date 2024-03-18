@@ -32,8 +32,15 @@ namespace ScheduleService.Controllers
                 ScheduleResponse feedbackResponse = _mapper.Map<ScheduleResponse>(schedule);
                 feedbackResponse.DoctorName = service.GetPeopleInfo(feedbackResponse.DoctorId).FirstName + " " +
                                               service.GetPeopleInfo(feedbackResponse.DoctorId).LastName;
-                feedbackResponse.PatientName = service.GetPeopleInfo(feedbackResponse.PatientId).FirstName + " " +
+                if (feedbackResponse.PatientId != null)
+                {
+                    feedbackResponse.PatientName = service.GetPeopleInfo(feedbackResponse.PatientId).FirstName + " " +
                                               service.GetPeopleInfo(feedbackResponse.PatientId).LastName;
+                }
+                else
+                {
+                    feedbackResponse.PatientName = null;
+                }
                 scheduleResponseList.Add(feedbackResponse);
             }
             response.Data = scheduleResponseList;
@@ -55,8 +62,15 @@ namespace ScheduleService.Controllers
                 ScheduleResponse feedbackResponse = _mapper.Map<ScheduleResponse>(schedule);
                 feedbackResponse.DoctorName = service.GetPeopleInfo(feedbackResponse.DoctorId).FirstName + " " +
                                               service.GetPeopleInfo(feedbackResponse.DoctorId).LastName;
-                feedbackResponse.PatientName = service.GetPeopleInfo(feedbackResponse.PatientId).FirstName + " " +
+                if (feedbackResponse.PatientId != null)
+                {
+                    feedbackResponse.PatientName = service.GetPeopleInfo(feedbackResponse.PatientId).FirstName + " " +
                                               service.GetPeopleInfo(feedbackResponse.PatientId).LastName;
+                }
+                else
+                {
+                    feedbackResponse.PatientName = null;
+                }
                 scheduleResponseList.Add(feedbackResponse);
             }
 
@@ -74,8 +88,15 @@ namespace ScheduleService.Controllers
             var scheduleResponse = _mapper.Map<ScheduleResponse>(schedule);
             scheduleResponse.DoctorName = service.GetPeopleInfo(scheduleResponse.DoctorId).FirstName + " " +
                                           service.GetPeopleInfo(scheduleResponse.DoctorId).LastName;
-            scheduleResponse.PatientName = service.GetPeopleInfo(scheduleResponse.PatientId).FirstName + " " +
+            if (scheduleResponse.PatientId != null)
+            {
+                scheduleResponse.PatientName = service.GetPeopleInfo(scheduleResponse.PatientId).FirstName + " " +
                                           service.GetPeopleInfo(scheduleResponse.PatientId).LastName;
+            }
+            else
+            {
+                scheduleResponse.PatientName = null;
+            }
             var response = new ServiceResponse<ScheduleResponse>();
             response.Data = scheduleResponse;
             response.Message = "Get Schedule Detail";
@@ -92,8 +113,15 @@ namespace ScheduleService.Controllers
             var scheduleResponse = _mapper.Map<ScheduleResponse>(schedule);
             scheduleResponse.DoctorName = service.GetPeopleInfo(scheduleResponse.DoctorId).FirstName + " " +
                                           service.GetPeopleInfo(scheduleResponse.DoctorId).LastName;
-            scheduleResponse.PatientName = service.GetPeopleInfo(scheduleResponse.PatientId).FirstName + " " +
+            if (scheduleResponse.PatientId != null)
+            {
+                scheduleResponse.PatientName = service.GetPeopleInfo(scheduleResponse.PatientId).FirstName + " " +
                                           service.GetPeopleInfo(scheduleResponse.PatientId).LastName;
+            }
+            else
+            {
+                scheduleResponse.PatientName = null;
+            }
             var response = new ServiceResponse<ScheduleResponse>();
             response.Data = scheduleResponse;
             response.Message = "Get Schedule Detail By Admin";
@@ -113,8 +141,15 @@ namespace ScheduleService.Controllers
                 ScheduleResponse feedbackResponse = _mapper.Map<ScheduleResponse>(schedule);
                 feedbackResponse.DoctorName = service.GetPeopleInfo(feedbackResponse.DoctorId).FirstName + " " +
                                               service.GetPeopleInfo(feedbackResponse.DoctorId).LastName;
-                feedbackResponse.PatientName = service.GetPeopleInfo(feedbackResponse.PatientId).FirstName + " " +
+                if (feedbackResponse.PatientId != null)
+                {
+                    feedbackResponse.PatientName = service.GetPeopleInfo(feedbackResponse.PatientId).FirstName + " " +
                                               service.GetPeopleInfo(feedbackResponse.PatientId).LastName;
+                }
+                else
+                {
+                    feedbackResponse.PatientName = null;
+                }
                 scheduleResponseList.Add(feedbackResponse);
             }
 
@@ -137,8 +172,15 @@ namespace ScheduleService.Controllers
                 ScheduleResponse feedbackResponse = _mapper.Map<ScheduleResponse>(schedule);
                 feedbackResponse.DoctorName = service.GetPeopleInfo(feedbackResponse.DoctorId).FirstName + " " +
                                               service.GetPeopleInfo(feedbackResponse.DoctorId).LastName;
-                feedbackResponse.PatientName = service.GetPeopleInfo(feedbackResponse.PatientId).FirstName + " " +
+                if (feedbackResponse.PatientId != null)
+                {
+                    feedbackResponse.PatientName = service.GetPeopleInfo(feedbackResponse.PatientId).FirstName + " " +
                                               service.GetPeopleInfo(feedbackResponse.PatientId).LastName;
+                }
+                else
+                {
+                    feedbackResponse.PatientName = null;
+                }
                 scheduleResponseList.Add(feedbackResponse);
             }
 
@@ -161,8 +203,15 @@ namespace ScheduleService.Controllers
                 ScheduleResponse feedbackResponse = _mapper.Map<ScheduleResponse>(schedule);
                 feedbackResponse.DoctorName = service.GetPeopleInfo(feedbackResponse.DoctorId).FirstName + " " +
                                               service.GetPeopleInfo(feedbackResponse.DoctorId).LastName;
-                feedbackResponse.PatientName = service.GetPeopleInfo(feedbackResponse.PatientId).FirstName + " " +
+                if (feedbackResponse.PatientId != null)
+                {
+                    feedbackResponse.PatientName = service.GetPeopleInfo(feedbackResponse.PatientId).FirstName + " " +
                                               service.GetPeopleInfo(feedbackResponse.PatientId).LastName;
+                }
+                else
+                {
+                    feedbackResponse.PatientName = null;
+                }
                 scheduleResponseList.Add(feedbackResponse);
             }
 
@@ -204,8 +253,14 @@ namespace ScheduleService.Controllers
             var scheduleResponse = _mapper.Map<ScheduleResponse>(schedule);
             scheduleResponse.DoctorName = service.GetPeopleInfo(scheduleResponse.DoctorId).FirstName + " " +
                                           service.GetPeopleInfo(scheduleResponse.DoctorId).LastName;
-            scheduleResponse.PatientName = service.GetPeopleInfo(scheduleResponse.PatientId).FirstName + " " +
+            if (scheduleResponse.PatientId != null)
+            {
+                scheduleResponse.PatientName = service.GetPeopleInfo(scheduleResponse.PatientId).FirstName + " " +
                                           service.GetPeopleInfo(scheduleResponse.PatientId).LastName;
+            } else
+            {
+                scheduleResponse.PatientName = null;
+            }
             var response = new ServiceResponse<ScheduleResponse>();
             response.Data = scheduleResponse;
             response.Message = "Create Successful";
@@ -272,8 +327,15 @@ namespace ScheduleService.Controllers
             var scheduleResponse = _mapper.Map<ScheduleResponse>(schedule);
             scheduleResponse.DoctorName = service.GetPeopleInfo(scheduleResponse.DoctorId).FirstName + " " +
                                           service.GetPeopleInfo(scheduleResponse.DoctorId).LastName;
-            scheduleResponse.PatientName = service.GetPeopleInfo(scheduleResponse.PatientId).FirstName + " " +
+            if (scheduleResponse.PatientId != null)
+            {
+                scheduleResponse.PatientName = service.GetPeopleInfo(scheduleResponse.PatientId).FirstName + " " +
                                           service.GetPeopleInfo(scheduleResponse.PatientId).LastName;
+            }
+            else
+            {
+                scheduleResponse.PatientName = null;
+            }
             var response = new ServiceResponse<ScheduleResponse>();
             response.Data = scheduleResponse;
             response.Message = "Register Successful";
@@ -289,8 +351,15 @@ namespace ScheduleService.Controllers
             var scheduleResponse = _mapper.Map<ScheduleResponse>(schedule);
             scheduleResponse.DoctorName = service.GetPeopleInfo(scheduleResponse.DoctorId).FirstName + " " +
                                           service.GetPeopleInfo(scheduleResponse.DoctorId).LastName;
-            scheduleResponse.PatientName = service.GetPeopleInfo(scheduleResponse.PatientId).FirstName + " " +
+            if (scheduleResponse.PatientId != null)
+            {
+                scheduleResponse.PatientName = service.GetPeopleInfo(scheduleResponse.PatientId).FirstName + " " +
                                           service.GetPeopleInfo(scheduleResponse.PatientId).LastName;
+            }
+            else
+            {
+                scheduleResponse.PatientName = null;
+            }
             var response = new ServiceResponse<ScheduleResponse>();
             response.Data = scheduleResponse;
             response.Message = "Accept Successful";
@@ -318,8 +387,15 @@ namespace ScheduleService.Controllers
             var scheduleResponse = _mapper.Map<ScheduleResponse>(schedule);
             scheduleResponse.DoctorName = service.GetPeopleInfo(scheduleResponse.DoctorId).FirstName + " " +
                                           service.GetPeopleInfo(scheduleResponse.DoctorId).LastName;
-            scheduleResponse.PatientName = service.GetPeopleInfo(scheduleResponse.PatientId).FirstName + " " +
+            if (scheduleResponse.PatientId != null)
+            {
+                scheduleResponse.PatientName = service.GetPeopleInfo(scheduleResponse.PatientId).FirstName + " " +
                                           service.GetPeopleInfo(scheduleResponse.PatientId).LastName;
+            }
+            else
+            {
+                scheduleResponse.PatientName = null;
+            }
             response.Data = scheduleResponse;
             response.Message = "Reject Successful";
             response.Status = 200;
@@ -350,8 +426,15 @@ namespace ScheduleService.Controllers
                 ScheduleResponse feedbackResponse = _mapper.Map<ScheduleResponse>(schedule);
                 feedbackResponse.DoctorName = service.GetPeopleInfo(feedbackResponse.DoctorId).FirstName + " " +
                               service.GetPeopleInfo(feedbackResponse.DoctorId).LastName;
-                feedbackResponse.PatientName = service.GetPeopleInfo(feedbackResponse.PatientId).FirstName + " " +
+                if (feedbackResponse.PatientId != null)
+                {
+                    feedbackResponse.PatientName = service.GetPeopleInfo(feedbackResponse.PatientId).FirstName + " " +
                                               service.GetPeopleInfo(feedbackResponse.PatientId).LastName;
+                }
+                else
+                {
+                    feedbackResponse.PatientName = null;
+                }
                 scheduleResponseList.Add(feedbackResponse);
             }
 
@@ -374,8 +457,15 @@ namespace ScheduleService.Controllers
                 ScheduleResponse feedbackResponse = _mapper.Map<ScheduleResponse>(schedule);
                 feedbackResponse.DoctorName = service.GetPeopleInfo(feedbackResponse.DoctorId).FirstName + " " +
                               service.GetPeopleInfo(feedbackResponse.DoctorId).LastName;
-                feedbackResponse.PatientName = service.GetPeopleInfo(feedbackResponse.PatientId).FirstName + " " +
+                if (feedbackResponse.PatientId != null)
+                {
+                    feedbackResponse.PatientName = service.GetPeopleInfo(feedbackResponse.PatientId).FirstName + " " +
                                               service.GetPeopleInfo(feedbackResponse.PatientId).LastName;
+                }
+                else
+                {
+                    feedbackResponse.PatientName = null;
+                }
                 scheduleResponseList.Add(feedbackResponse);
             }
 
@@ -397,8 +487,15 @@ namespace ScheduleService.Controllers
                 ScheduleResponse feedbackResponse = _mapper.Map<ScheduleResponse>(schedule);
                 feedbackResponse.DoctorName = service.GetPeopleInfo(feedbackResponse.DoctorId).FirstName + " " +
                               service.GetPeopleInfo(feedbackResponse.DoctorId).LastName;
-                feedbackResponse.PatientName = service.GetPeopleInfo(feedbackResponse.PatientId).FirstName + " " +
+                if (feedbackResponse.PatientId != null)
+                {
+                    feedbackResponse.PatientName = service.GetPeopleInfo(feedbackResponse.PatientId).FirstName + " " +
                                               service.GetPeopleInfo(feedbackResponse.PatientId).LastName;
+                }
+                else
+                {
+                    feedbackResponse.PatientName = null;
+                }
                 scheduleResponseList.Add(feedbackResponse);
             }
 
@@ -421,8 +518,15 @@ namespace ScheduleService.Controllers
                 ScheduleResponse feedbackResponse = _mapper.Map<ScheduleResponse>(schedule);
                 feedbackResponse.DoctorName = service.GetPeopleInfo(feedbackResponse.DoctorId).FirstName + " " +
                               service.GetPeopleInfo(feedbackResponse.DoctorId).LastName;
-                feedbackResponse.PatientName = service.GetPeopleInfo(feedbackResponse.PatientId).FirstName + " " +
+                if (feedbackResponse.PatientId != null)
+                {
+                    feedbackResponse.PatientName = service.GetPeopleInfo(feedbackResponse.PatientId).FirstName + " " +
                                               service.GetPeopleInfo(feedbackResponse.PatientId).LastName;
+                }
+                else
+                {
+                    feedbackResponse.PatientName = null;
+                }
                 scheduleResponseList.Add(feedbackResponse);
             }
 
