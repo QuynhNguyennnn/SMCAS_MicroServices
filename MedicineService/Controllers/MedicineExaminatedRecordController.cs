@@ -35,7 +35,14 @@ namespace MedicineService.Controllers
             foreach (var record in records)
             {
                 MedicineExaminatedRecordResponse examinatedRecord = _mapper.Map<MedicineExaminatedRecordResponse>(record);
-                examinatedRecord.MedicineName = medicineService.GetMedicineById(examinatedRecord.MedicineId).MedicineName;
+                if (examinatedRecord.MedicineId != null)
+                {
+                    examinatedRecord.MedicineName = medicineService.GetMedicineById(examinatedRecord.MedicineId).MedicineName;
+                }
+                else
+                {
+                    examinatedRecord.MedicineName = "None";
+                }
                 recordList.Add(examinatedRecord);
             }
             response.Data = recordList;
@@ -57,7 +64,13 @@ namespace MedicineService.Controllers
                 if (record.IsActive)
                 {
                     MedicineExaminatedRecordResponse examinatedRecord = _mapper.Map<MedicineExaminatedRecordResponse>(record);
-                    examinatedRecord.MedicineName = medicineService.GetMedicineById(examinatedRecord.MedicineId).MedicineName;
+                    if (examinatedRecord.MedicineId != null)
+                    {
+                        examinatedRecord.MedicineName = medicineService.GetMedicineById(examinatedRecord.MedicineId).MedicineName;
+                    } else
+                    {
+                        examinatedRecord.MedicineName = "None";
+                    }
                     recordList.Add(examinatedRecord);
                 }
             }
@@ -84,6 +97,14 @@ namespace MedicineService.Controllers
             else
             {
                 var recordResponse = _mapper.Map<MedicineExaminatedRecordResponse>(record);
+                if (recordResponse.MedicineId != null)
+                {
+                    recordResponse.MedicineName = medicineService.GetMedicineById(recordResponse.MedicineId).MedicineName;
+                }
+                else
+                {
+                    recordResponse.MedicineName = "None";
+                }
                 response.Data = recordResponse;
                 response.Status = 200;
                 response.Message = "Get examinated record by id = " + id;
@@ -242,7 +263,16 @@ namespace MedicineService.Controllers
             var records = recordService.SearchByRecordId(id);
             foreach (var record in records)
             {
-                recordList.Add(_mapper.Map<MedicineExaminatedRecordResponse>(record));
+                var recordMap = _mapper.Map<MedicineExaminatedRecordResponse>(record);
+                if (recordMap.MedicineId != null)
+                {
+                    recordMap.MedicineName = medicineService.GetMedicineById(recordMap.MedicineId).MedicineName;
+                }
+                else
+                {
+                    recordMap.MedicineName = "None";
+                }
+                recordList.Add(recordMap);
             }
             if (recordList.Count > 0)
             {
@@ -273,7 +303,16 @@ namespace MedicineService.Controllers
             {
                 if (record.IsActive)
                 {
-                    recordList.Add(_mapper.Map<MedicineExaminatedRecordResponse>(record));
+                    var recordMap = _mapper.Map<MedicineExaminatedRecordResponse>(record);
+                    if (recordMap.MedicineId != null)
+                    {
+                        recordMap.MedicineName = medicineService.GetMedicineById(recordMap.MedicineId).MedicineName;
+                    }
+                    else
+                    {
+                        recordMap.MedicineName = "None";
+                    }
+                    recordList.Add(recordMap);
                 }
             }
             if (recordList.Count > 0)
