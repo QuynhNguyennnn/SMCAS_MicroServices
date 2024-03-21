@@ -99,6 +99,7 @@ public partial class SepprojectDbV7Context : DbContext
             entity.ToTable("ExaminatedRecord");
 
             entity.Property(e => e.BloodPressure).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.RespirationRate).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.SpO2).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.Temperature).HasColumnType("decimal(18, 1)");
