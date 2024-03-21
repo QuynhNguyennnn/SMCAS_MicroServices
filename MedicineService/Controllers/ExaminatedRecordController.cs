@@ -109,6 +109,7 @@ namespace MedicineService.Controllers
         {
             var response = new ServiceResponse<ExaminatedRecordResponse>();
             var record = _mapper.Map<ExaminatedRecord>(request);
+            record.CreatedDate = DateTime.Now;
             if (record.DoctorId == record.PatientId)
             {
                 response.Data = null;
@@ -142,6 +143,7 @@ namespace MedicineService.Controllers
         {
             var response = new ServiceResponse<ExaminatedRecordResponse>();
             var recordMap = _mapper.Map<ExaminatedRecord>(request);
+            recordMap.CreatedDate = DateTime.Now;
             if (recordMap.DoctorId == recordMap.PatientId)
             {
                 response.Data = null;
