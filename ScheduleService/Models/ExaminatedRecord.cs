@@ -19,6 +19,8 @@ public partial class ExaminatedRecord
 
     public decimal? SpO2 { get; set; }
 
+    public DateTime? CreatedDate { get; set; }
+
     public string? Note { get; set; }
 
     public bool IsActive { get; set; }

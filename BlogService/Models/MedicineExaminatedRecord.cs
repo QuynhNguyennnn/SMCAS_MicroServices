@@ -13,6 +13,8 @@ public partial class MedicineExaminatedRecord
 
     public int Quantity { get; set; }
 
+    public string MedicationGuide { get; set; } = null!;
+
     public bool IsActive { get; set; }
 
     public virtual Medicine Medicine { get; set; } = null!;

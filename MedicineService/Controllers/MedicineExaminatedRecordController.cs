@@ -373,6 +373,7 @@ namespace MedicineService.Controllers
                         tempME.RecordId = listMedicine.RecordId;
                         tempME.MedicineId = me.MedicineId;
                         tempME.Quantity = me.Quantity;
+                        tempME.MedicationGuide = me.MedicationGuide;
                         recordService.CreateRecord(tempME);
                     }
                 }
@@ -450,6 +451,8 @@ namespace MedicineService.Controllers
                         tempME.RecordId = listMedicine.RecordId;
                         tempME.MedicineId = me.MedicineId;
                         tempME.Quantity = me.Quantity;
+                        tempME.MedicationGuide = me.MedicationGuide;
+                        tempME.IsActive = me.IsActive;
                         recordService.UpdateRecord(tempME);
                     }
                 }
