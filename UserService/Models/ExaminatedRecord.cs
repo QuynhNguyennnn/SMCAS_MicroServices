@@ -21,6 +21,8 @@ public partial class ExaminatedRecord
 
     public DateTime? CreatedDate { get; set; }
 
+    public string Symptoms { get; set; } = null!;
+
     public string? Note { get; set; }
 
     public bool IsActive { get; set; }

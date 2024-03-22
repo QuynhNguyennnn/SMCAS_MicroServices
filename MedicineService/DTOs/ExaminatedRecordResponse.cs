@@ -19,6 +19,8 @@
         public string? Note { get; set; }
         public DateTime? CreatedDate { get; set; }
 
+        public string Symptoms { get; set; } = null!;
+
         public bool IsActive { get; set; }
 
         public string DoctorName { get; set; }
