@@ -15,6 +15,7 @@
         public decimal? BloodPressure { get; set; }
 
         public decimal? SpO2 { get; set; }
+        public string Symptoms { get; set; }
 
         public string? Note { get; set; }
 
