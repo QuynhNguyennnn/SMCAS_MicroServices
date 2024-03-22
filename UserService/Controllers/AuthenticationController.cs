@@ -953,7 +953,7 @@ namespace UserService.Controllers
         {
             var response = new ServiceResponse<List<UserResponse>>();
             var userResponseList = new List<UserResponse>();
-            var visitorsList = userService.GetPatientList();
+            var visitorsList = userService.GetListOfVisitor();
             foreach (var visitor in visitorsList)
             {
                 userResponseList.Add(_mapper.Map<UserResponse>(visitor));
