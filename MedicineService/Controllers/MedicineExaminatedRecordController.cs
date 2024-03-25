@@ -128,6 +128,7 @@ namespace MedicineService.Controllers
                 medicine.Meid = record.Meid;
                 medicine.MedicineId = record.MedicineId;
                 medicine.Quantity = record.Quantity;
+                medicine.MedicationGuide = record.MedicationGuide;
                 medicine.IsActive = record.IsActive;
                 list.Add(medicine);
             }

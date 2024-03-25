@@ -77,7 +77,8 @@ namespace UserService.Controllers
                 response.Status = 400;
                 response.Message = "Role name can not contain special characters.";
                 response.TotalDataList = 0;
-            } else
+            }
+            else
             {
                 var role = roleService.CreateRole(roleMap);
                 if (role == null)
@@ -110,7 +111,7 @@ namespace UserService.Controllers
             {
                 response.Data = null;
                 response.Status = 404;
-                response.Message = "Role name does not exists.";
+                response.Message = "Role name has already exists.";
                 response.TotalDataList = 0;
             }
             else
