@@ -78,7 +78,8 @@ namespace MedicineService.DAOs
                 using (var context = new SepprojectDbV7Context())
                 {
                     var unitCheck = context.Units.FirstOrDefault(u => u.UnitId == unit.UnitId);
-                    if (unitCheck != null)
+                    var unitNameCheck = context.Units.FirstOrDefault(u => u.UnitName.ToLower() == unit.UnitName.ToLower());
+                    if (unitCheck != null && unitNameCheck == null)
                     {
                         updatedUnit = unit;
                         context.Entry(unitCheck).CurrentValues.SetValues(updatedUnit);

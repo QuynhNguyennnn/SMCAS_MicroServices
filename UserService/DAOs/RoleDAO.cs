@@ -29,6 +29,7 @@ namespace UserService.DAOs
             }
         }
 
+
         public static Role CreateRole(Role role)
         {
             Role newRole = new Role();
@@ -89,6 +90,11 @@ namespace UserService.DAOs
                     var roleCheck = context.Roles.FirstOrDefault(r => r.RoleId == role.RoleId && r.IsActive);
                     if (roleCheck != null)
                     {
+                        var rolenNameCheck = context.Roles.FirstOrDefault(r => r.RoleName == role.RoleName && r.IsActive);
+                        if (rolenNameCheck != null)
+                        {
+                            return null;
+                        }
                         updatedRole = role;
                         updatedRole.RoleId = roleCheck.RoleId;
                         updatedRole.RoleName = role.RoleName;

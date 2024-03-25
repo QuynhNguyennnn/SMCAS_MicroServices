@@ -46,7 +46,7 @@ namespace UserService.Controllers
             {
                 if (registerRequest.Password != null && registerRequest.Password == registerRequest.ConfirmPassword)
                 {
-                    var passwordHash = HashPassword(registerRequest.Password);  
+                    var passwordHash = HashPassword(registerRequest.Password);
                     var userMap = _mapper.Map<User>(registerRequest);
                     userMap.Password = passwordHash;
                     var user = userService.Register(userMap);
@@ -305,29 +305,37 @@ namespace UserService.Controllers
                 return NotFound(response);
             }
             var now = DateTime.Now.AddYears(-10);
-            if (updateRequest.Birthday >  DateTime.Now.AddYears(-10))
+            if (updateRequest.Birthday > DateTime.Now.AddYears(-10))
             {
                 response.Status = 400;
                 response.Message = "Birthday is not valid";
                 return BadRequest(response);
             }
-            var userMap = _mapper.Map<User>(updateRequest);
-            //userMap.Password = HashPassword(updateRequest.Password);
-            var user = userService.UpdateUser(userMap);
-            if (user == null)
+            else if (userService.GetUserByUsername(updateRequest.Username) != null)
             {
                 response.Status = 404;
-                response.Message = "User not exists.";
-                return NotFound(response);
-            }
-            else
+                response.Message = "Username already exist.";
+                return BadRequest(response);
+            } else
             {
-                var userUpdated = _mapper.Map<UserResponse>(user);
-                response.Status = 200;
-                response.Data = userUpdated;
-                response.Message = "Updated successful";
-                response.TotalDataList = 1;
-                return Ok(response);
+                var userMap = _mapper.Map<User>(updateRequest);
+                var user = userService.UpdateUser(userMap);
+                if (user == null)
+                {
+                    response.Status = 404;
+                    response.Message = "User not exists.";
+                    return NotFound(response);
+                }
+
+                else
+                {
+                    var userUpdated = _mapper.Map<UserResponse>(user);
+                    response.Status = 200;
+                    response.Data = userUpdated;
+                    response.Message = "Updated successful";
+                    response.TotalDataList = 1;
+                    return Ok(response);
+                }
             }
         }
 
@@ -354,7 +362,8 @@ namespace UserService.Controllers
                 response.Status = 400;
                 response.TotalDataList = 0;
                 return BadRequest(response);
-            } else
+            }
+            else
             {
                 var passwordUpdated = new PasswordResponse();
                 passwordUpdated.OldPassword = userValidate.Password;
@@ -923,7 +932,7 @@ namespace UserService.Controllers
             var response = new ServiceResponse<List<UserResponse>>();
             var userResponseList = new List<UserResponse>();
             var patientsList = userService.GetPatientList();
-            foreach ( var patient in patientsList )
+            foreach (var patient in patientsList)
             {
                 var user = _mapper.Map<UserResponse>(patient);
                 user.Fullname = patient.FirstName + " " + patient.LastName;
@@ -936,7 +945,8 @@ namespace UserService.Controllers
                 response.Status = 200;
                 response.Message = "Get Patients List";
                 response.TotalDataList = userResponseList.Count;
-            } else
+            }
+            else
             {
                 response.Data = null;
                 response.Status = 204;
@@ -1029,7 +1039,7 @@ namespace UserService.Controllers
                             statistic.RoleId = roleList[i].RoleId;
                             statistic.RoleName = roleService.GetRoleById(roleList[i].RoleId).RoleName;
                             statistic.NumberOfUser = recordCount;
-                            statistic.Percentage = (float) recordCount/userList.Count;
+                            statistic.Percentage = (float)recordCount / userList.Count;
                             finalList.Add(statistic);
                             i++;
                         }
