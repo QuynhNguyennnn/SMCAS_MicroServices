@@ -343,9 +343,9 @@ namespace MedicineService.Controllers
                         }
                         if (recordCount > 0)
                         {
-                            statistic.DoctorId = records[i].DoctorId;
-                            statistic.DoctorName = recordService.GetPeopleInfo(records[i].DoctorId).FirstName +
-                                                  " " + recordService.GetPeopleInfo(records[i].DoctorId).LastName;
+                            statistic.DoctorId = doctors[i].UserId;
+                            statistic.DoctorName = recordService.GetPeopleInfo(doctors[i].UserId).FirstName +
+                                                  " " + recordService.GetPeopleInfo(doctors[i].UserId).LastName;
                             statistic.TotalRecord = recordCount;
                             listFinal.Add(statistic);
                             i++;
