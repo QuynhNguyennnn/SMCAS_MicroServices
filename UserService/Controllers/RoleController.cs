@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection.Metadata.Ecma335;
 using System.Text.RegularExpressions;
 using UserService.DTOs;
 using UserService.Models;
@@ -77,6 +78,7 @@ namespace UserService.Controllers
                 response.Status = 400;
                 response.Message = "Role name can not contain special characters.";
                 response.TotalDataList = 0;
+                return BadRequest(response);
             }
             else
             {
@@ -87,6 +89,7 @@ namespace UserService.Controllers
                     response.Status = 400;
                     response.Message = "Role name has already exists.";
                     response.TotalDataList = 0;
+                    return BadRequest(response);
                 }
                 else
                 {
@@ -113,6 +116,7 @@ namespace UserService.Controllers
                 response.Status = 404;
                 response.Message = "Role name has already exists.";
                 response.TotalDataList = 0;
+                return BadRequest(response);
             }
             else
             {
@@ -137,6 +141,7 @@ namespace UserService.Controllers
                 response.Status = 404;
                 response.Message = "Role name does not exists.";
                 response.TotalDataList = 0;
+                return BadRequest(response);
             }
             else
             {
