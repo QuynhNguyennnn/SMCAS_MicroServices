@@ -298,6 +298,7 @@ namespace UserService.Controllers
         {
             var response = new ServiceResponse<UserResponse>();
             var userValidation = userService.GetUserById(updateRequest.UserId);
+            var userCheck = userService.GetUserByUsername(updateRequest.Username);
             if (userValidation == null)
             {
                 response.Status = 404;
@@ -311,12 +312,13 @@ namespace UserService.Controllers
                 response.Message = "Birthday is not valid";
                 return BadRequest(response);
             }
-            else if (userService.GetUserByUsername(updateRequest.Username) != null)
+            else if (userCheck != null && userCheck.UserId != updateRequest.UserId)
             {
                 response.Status = 404;
                 response.Message = "Username already exist.";
                 return BadRequest(response);
-            } else
+            }
+            else
             {
                 var userMap = _mapper.Map<User>(updateRequest);
                 var user = userService.UpdateUser(userMap);
