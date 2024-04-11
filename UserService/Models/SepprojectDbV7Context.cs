@@ -120,7 +120,6 @@ public partial class SepprojectDbV7Context : DbContext
             entity.ToTable("Feedback");
 
             entity.Property(e => e.FeedbackDate).HasColumnType("date");
-            entity.Property(e => e.Message).IsUnicode(false);
 
             entity.HasOne(d => d.Doctor).WithMany(p => p.FeedbackDoctors)
                 .HasForeignKey(d => d.DoctorId)
